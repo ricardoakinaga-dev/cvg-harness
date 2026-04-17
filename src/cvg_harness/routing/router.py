@@ -79,7 +79,17 @@ def route_request(text: str, has_active_run: bool = False) -> RoutedRequest:
     ):
         return RoutedRequest(RouteType.REASON, "reason", txt, {})
 
-    if _contains(txt, "resume", "retomar", "retome", "retomei", "recomeçar corrida", "recomece"):
+    if _contains(
+        txt,
+        "retome de onde parou",
+        "onde parou",
+        "retomar",
+        "retome",
+        "retomei",
+        "recomeçar corrida",
+        "recomece",
+        "retomar a corrida",
+    ):
         return RoutedRequest(RouteType.RESUME, "resume", txt, {})
 
     if _contains(txt, "status", "estado", "progresso"):

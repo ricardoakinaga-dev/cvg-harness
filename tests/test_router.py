@@ -7,6 +7,8 @@ def test_router_identifies_resume_intents() -> None:
     assert route_request("retome a demanda anterior").route == RouteType.RESUME
     assert route_request("retomar o ciclo agora").route == RouteType.RESUME
     assert route_request("quero retomar", has_active_run=True).route == RouteType.RESUME
+    assert route_request("retome de onde parou", has_active_run=True).route == RouteType.RESUME
+    assert route_request("onde parou", has_active_run=True).route == RouteType.RESUME
 
 
 def test_router_identifies_reason_questions() -> None:

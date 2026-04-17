@@ -168,3 +168,31 @@ def test_front_agent_full_loop_completes_and_summarizes(tmp_path: Path, monkeypa
     assert "Demanda não concluída ainda (active)." in output
     assert "Pendência: provide_execution_inputs" in output
     assert "Até mais." in output
+
+
+def test_front_agent_resume_aliases_continue_session(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    _seed_project(workspace)
+
+    inputs = _iter_inputs(
+        [
+            "criar módulo de permissões por setor",
+            "onde parou",
+            "sair",
+        ]
+    )
+    monkeypatch.setattr(builtins, "input", lambda _: next(inputs))
+
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.start()
+    output = capsys.readouterr().out
+
+    assert "Demanda recebida e roteada" in output
+    assert "Retoma da run" in output
+    assert "Demanda:" in output
