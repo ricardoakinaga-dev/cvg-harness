@@ -38,6 +38,8 @@ def _run_debug(args: list[str]) -> int:
 
 
 def main(argv: list[str] | None = None) -> None:
+    argv = list(sys.argv[1:] if argv is None else argv)
+    json_flag_requested = "--json" in argv
     parser = argparse.ArgumentParser(
         prog="harness",
         description="harness — agente terminal conversacional para operações com CVG",
@@ -74,6 +76,8 @@ def main(argv: list[str] | None = None) -> None:
     sub_debug.add_argument("legacy", nargs="*", help="Comando do modo técnico, ex.: status")
     parser.add_argument("--workspace", default=".", help="Diretório do projeto")
     args = parser.parse_args(argv)
+    if json_flag_requested:
+        args.json = True
 
     workspace = WorkspaceManager(args.workspace)
     agent = FrontAgent(

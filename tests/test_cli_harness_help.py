@@ -137,6 +137,60 @@ def test_harness_history_subcommand_json(tmp_path: Path, monkeypatch: pytest.Mon
     assert payload["count"] >= 1
 
 
+def test_harness_status_json_without_active_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "status", "--json"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    payload = json.loads(out)
+    assert payload["status"] == "no_active_run"
+    assert "Sem demanda ativa." in payload["message"]
+
+
+def test_harness_json_flag_before_subcommand(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    _ = agent._new_demand("módulo de permissões por perfil")
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "--json", "status"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    payload = json.loads(out)
+    assert payload["status"] == "ok"
+    assert payload["run_id"]
+    assert payload["demand"] == "módulo de permissões por perfil"
+
+
 def test_harness_status_subcommand_json(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     home = tmp_path / "home"
     monkeypatch.setenv("HOME", str(home))
