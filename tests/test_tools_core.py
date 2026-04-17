@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+import pytest
+
 from cvg_harness.tools import (
     ContextMemoryTool,
     FileSystemTool,
@@ -47,6 +49,14 @@ def test_shell_tool_runs_command_and_returns_output(tmp_path: Path) -> None:
     result = tool.run("echo ferramenta-shell", timeout=2)
     assert result.return_code == 0
     assert "ferramenta-shell" in result.stdout
+
+
+def test_shell_tool_respects_allow_and_deny_lists(tmp_path: Path) -> None:
+    tool = ShellTool(tmp_path, allowed_commands=["echo"], denied_commands=["rm"])
+    result = tool.run("echo permitido", timeout=2)
+    assert result.return_code == 0
+    with pytest.raises(PermissionError):
+        tool.run("rm -rf arquivo_inexistente", timeout=2)
 
 
 def test_planning_tool_persists_and_updates_steps(tmp_path: Path) -> None:

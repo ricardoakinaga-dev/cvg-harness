@@ -393,3 +393,53 @@ def test_harness_resume_subcommand_json(tmp_path: Path, monkeypatch: pytest.Monk
     payload = json.loads(out)
     assert payload["status"] == "ok"
     assert payload["action"] == "resume"
+
+
+def test_harness_adapters_subcommand_lists_adapters(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "adapters"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    assert "Adaptadores disponíveis" in out
+    assert "capabilities" in out
+
+
+def test_harness_adapters_subcommand_json_filters_by_capability(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "--json", "adapters", "ci"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    payload = json.loads(out)
+    assert payload["status"] == "ok"
+    assert payload["capability"] == "ci"
+    assert isinstance(payload["adapters"], list)

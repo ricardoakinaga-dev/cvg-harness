@@ -12,10 +12,13 @@ from cvg_harness.config import (
     GlobalHarnessConfig,
     ProviderConfig,
     LoadedConfig,
+    active_permission_profile,
     load_config,
+    load_permission_profiles,
     normalize_provider_defaults,
     save_project_config,
     save_global_config,
+    resolve_shell_permissions,
     validate_model_name,
 )
 from cvg_harness.operator.service import OperatorService, infer_dimensions_from_demand
@@ -62,6 +65,10 @@ class FrontAgent:
         self.explicit_provider = explicit_provider
         self.explicit_model = explicit_model
         self.explicit_api_key = explicit_api_key
+        self.permission_profiles: dict[str, Any] = {"activeProfile": "balanced", "profiles": {}}
+        self.permission_profile_name = "balanced"
+        self.permission_allow_commands: list[str] = []
+        self.permission_deny_commands: list[str] = []
         self.config: LoadedConfig | None = None
         self.provider: Provider | None = None
         self.service = OperatorService(self.workspace_mgr.path, state_dir_name=state_dir)
@@ -69,6 +76,14 @@ class FrontAgent:
         self._booted = False
         self._active_route: EngineRoute | None = None
         self._activity = ActivityRenderer()
+
+    def _permission_context(self) -> None:
+        self.permission_profiles = load_permission_profiles(self.workspace_mgr.path)
+        self.permission_profile_name = active_permission_profile(self.permission_profiles)
+        self.permission_allow_commands, self.permission_deny_commands = resolve_shell_permissions(
+            self.permission_profiles,
+            profile_name=self.permission_profile_name,
+        )
 
     def _run_with_activity(self, label: str, action, success_message: str, error_message: str | None = None):
         self._activity.start(label)
@@ -82,6 +97,7 @@ class FrontAgent:
             return f"{message}: {exc}"
 
     def boot(self, require_provider: bool = False) -> None:
+        self._permission_context()
         self.config = load_config(
             self.workspace_mgr.path,
             explicit_provider=self.explicit_provider,
@@ -173,7 +189,12 @@ class FrontAgent:
         event_log_path = run_workspace / "logs" / "tool-events.jsonl"
         return {
             "filesystem": FileSystemTool(self.workspace_mgr.path, event_log_path=event_log_path),
-            "shell": ShellTool(self.workspace_mgr.path, event_log_path=event_log_path),
+            "shell": ShellTool(
+                self.workspace_mgr.path,
+                event_log_path=event_log_path,
+                allowed_commands=self.permission_allow_commands,
+                denied_commands=self.permission_deny_commands,
+            ),
             "planning": PlanningTool(self.workspace_mgr.path),
             "subagent": SubagentTool(self.workspace_mgr.path),
             "context_memory": ContextMemoryTool(self.workspace_mgr.path, run_id=run_id),
@@ -282,6 +303,9 @@ class FrontAgent:
             return "Finalizando"
         return "Executando"
 
+    def _permission_label(self) -> str:
+        return self.permission_profile_name or "balanced"
+
     def _provider_label(self) -> str:
         if not self.config:
             return "minimax (pendente)"
@@ -353,6 +377,7 @@ class FrontAgent:
         print("Harness iniciado.")
         print(f"Workspace detectado: {self.workspace_mgr.path}")
         print(f"Provider: {self._provider_label()}")
+        print(f"Perfil de permissão: {self._permission_label()}")
         run_id = self.session.current().run_id
         if run_id:
             print(f"Run ativa: {run_id}")
@@ -470,6 +495,7 @@ class FrontAgent:
             f"Projeto: {payload['project']}\\n"
             f"Demanda: {payload['demand']}\\n"
             f"Provider: {provider_label}\\n"
+            f"Perfil de permissão: {self._permission_label()}\\n"
             f"Fase/Gate: {payload['current_phase']} / {payload['current_gate']}\\n"
             f"Status: {payload['operator_status']}\\n"
             f"Pendência humana: {payload['pending_human_action'] or '-'}\\n"
@@ -486,6 +512,7 @@ class FrontAgent:
         payload["request_provider"] = self.config.provider if self.config else "-"
         payload["request_model"] = self.config.model if self.config else "-"
         payload["workspace"] = str(self.workspace_mgr.path)
+        payload["permission_profile"] = self._permission_label()
         if self.last_model:
             payload["model_used"] = self.last_model
         if self.session.current().model:
@@ -552,6 +579,48 @@ class FrontAgent:
             "workspace": str(self.workspace_mgr.path),
             "run_id": self.session.current().run_id,
         }
+
+    def _adapters_payload(self, capability: str | None = None) -> dict[str, Any]:
+        if not self.config:
+            self.boot()
+        payload = self.service.list_adapters(capability=capability)
+        return {
+            "status": "ok",
+            "workspace": str(self.workspace_mgr.path),
+            "provider": self._run_context_summary(),
+            "capability": capability,
+            "count": len(payload),
+            "adapters": payload,
+        }
+
+    def _adapters(self, payload: dict[str, Any]) -> str:
+        if not payload.get("adapters"):
+            return "Nenhum adaptador encontrado para o filtro informado."
+        lines = [f"Adaptadores disponíveis ({payload['count']}):"]
+        for adapter in payload["adapters"]:
+            name = str(adapter.get("name", "-"))
+            transport = str(adapter.get("transport", "-"))
+            provider = adapter.get("provider", "")
+            desc = adapter.get("description") or ""
+            capabilities = adapter.get("capabilities", [])
+            policy_source = adapter.get("policy_source", "default")
+            suitability = adapter.get("suitability_score")
+            suitability_label = f" [{suitability}]" if suitability is not None else ""
+            header = f"- {name}{suitability_label} ({transport})"
+            if provider:
+                header += f" - provider={provider}"
+            if desc:
+                header += f" | {desc}"
+            lines.append(header)
+            if capabilities:
+                lines.append(f"  capabilities: {', '.join(capabilities)}")
+            if adapter.get("selection_reason"):
+                lines.append(f"  seleção: {adapter['selection_reason']}")
+            if adapter.get("policy_source"):
+                lines.append(f"  política: {policy_source}")
+            if adapter.get("active_policy"):
+                lines.append(f"  active_policy: {adapter['active_policy']}")
+        return "\n".join(lines)
 
     def _resume(self) -> str:
         if not self._active_run():

@@ -28,6 +28,7 @@ Comandos de produto:
 
 Comandos técnicos avançados:
   harness debug ...   # executa comandos técnicos antigos
+  harness adapters    # lista adaptadores disponíveis para execução externa
 
 Exemplos:
   harness
@@ -81,6 +82,8 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("help", help="exibir ajuda do produto no terminal")
     sub_debug = sub.add_parser("debug", help="modo técnico; proxy de comandos antigos")
     sub_debug.add_argument("legacy", nargs="*", help="Comando do modo técnico, ex.: status")
+    sub_adapters = sub.add_parser("adapters", help="lista adaptadores disponíveis para execução externa")
+    sub_adapters.add_argument("capability", nargs="?", help="filtro opcional por capability (ex.: ci, review, evidence)")
     parser.add_argument("--workspace", default=".", help="Diretório do projeto")
     args = parser.parse_args(argv)
     if json_flag_requested:
@@ -99,7 +102,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "debug":
         _run_debug(args.legacy)
         return
-    if args.command in {"status", "resume", "doctor", "config", "history", "inspect", "summary", "help"}:
+    if args.command in {"status", "resume", "doctor", "config", "history", "inspect", "summary", "help", "adapters"}:
         def _emit(payload: object) -> None:
             if args.json:
                 print(json.dumps(payload, ensure_ascii=False, indent=2))
@@ -151,6 +154,13 @@ def main(argv: list[str] | None = None) -> None:
                 _emit(agent._summary_payload())
             else:
                 print(agent._summary())
+            return
+        if args.command == "adapters":
+            payload = agent._adapters_payload(capability=args.capability)
+            if args.json:
+                _emit(payload)
+            else:
+                print(agent._adapters(payload))
             return
         if args.command == "help":
             parser.print_help()

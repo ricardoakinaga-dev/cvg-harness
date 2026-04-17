@@ -31,13 +31,18 @@ class ShellTool:
         workspace_root: Path,
         event_log_path: Path | None = None,
         allowed_commands: Iterable[str] | None = None,
+        denied_commands: Iterable[str] | None = None,
     ) -> None:
         self.workspace_root = Path(workspace_root).resolve()
         self.event_log_path = event_log_path or (
             self.workspace_root / ".harness" / "logs" / "tool-events.jsonl"
         )
-        whitelist = {item.strip() for item in (allowed_commands or []) if item.strip()}
+        whitelist = {
+            item.strip().lower() for item in (allowed_commands or []) if item.strip()
+        }
         self._allowed: set[str] | None = whitelist or None
+        denylist = {item.strip().lower() for item in (denied_commands or []) if item.strip()}
+        self._denied: set[str] | None = denylist or None
 
     def _event(self, event: str, command: str, metadata: dict | None = None) -> None:
         save_event(
@@ -54,7 +59,9 @@ class ShellTool:
         tokens = command.strip().split()
         if not tokens:
             return False
-        executable = tokens[0]
+        executable = tokens[0].lower()
+        if executable in self._denied if self._denied else False:
+            return False
         return executable in self._allowed
 
     def run(
