@@ -19,6 +19,7 @@ Fluxo principal:
 Comandos avançados:
   harness status      # consulta status da run ativa
   harness resume      # retoma a demanda ativa
+  harness history     # mostra histórico da sessão atual
   harness config      # reexecuta onboarding
   harness doctor      # health check básico
   harness debug ...   # executa comandos técnicos antigos
@@ -54,6 +55,7 @@ def main(argv: list[str] | None = None) -> None:
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("resume", help="retomar sessão ativa")
     sub.add_parser("status", help="mostrar status atual")
+    sub.add_parser("history", help="mostrar histórico da sessão atual")
     sub.add_parser("config", help="reconfigurar provider/apikey")
     sub.add_parser("doctor", help="health check do agente")
     sub_debug = sub.add_parser("debug", help="modo técnico; proxy de comandos antigos")
@@ -74,7 +76,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "debug":
         _run_debug(args.legacy)
         return
-    if args.command in {"status", "resume", "doctor", "config"}:
+    if args.command in {"status", "resume", "doctor", "config", "history"}:
         if args.command == "config":
             print("Modo configuração explícita.")
             agent._run_onboarding(agent.explicit_provider, agent.explicit_model)
@@ -93,6 +95,9 @@ def main(argv: list[str] | None = None) -> None:
         if args.command == "resume":
             agent.boot(require_provider=False)
             print(agent._resume())
+            return
+        if args.command == "history":
+            print(agent._history())
             return
 
     # sem comando: loop conversacional

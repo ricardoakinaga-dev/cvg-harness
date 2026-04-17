@@ -148,6 +148,7 @@ src/cvg_harness/
 - `harness` → inicia loop principal.
 - `harness status` → status da run ativa.
 - `harness resume` → retoma a run atual.
+- `harness history` → histórico dos últimos turnos da sessão.
 - `harness doctor` → health básico do agente.
 - `harness config` → inicia onboarding novamente.
 - `harness debug` → namespace técnico antigo.

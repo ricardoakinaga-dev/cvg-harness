@@ -44,6 +44,7 @@ def test_harness_help_exposes_prompt_first_flags() -> None:
     assert "harness" in output.lower()
     assert "status" in output.lower()
     assert "resume" in output.lower()
+    assert "history" in output.lower()
     assert "config" in output.lower()
 
 
@@ -72,3 +73,33 @@ def test_harness_resume_subcommand_uses_active_run(tmp_path: Path, monkeypatch: 
     )
     assert "Retoma da run" in out
     assert "Demanda:" in out
+
+
+def test_harness_history_subcommand_returns_session_turns(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    text = "adicionar autenticação OAuth2 com Google"
+    agent.session.append_turn("user", text, "new_demand", "cli")
+    _ = agent._new_demand(text)
+    _ = agent._status()
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "history"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    assert "Histórico da sessão atual" in out
+    assert "adicionar autenticação OAuth2 com Google" in out
