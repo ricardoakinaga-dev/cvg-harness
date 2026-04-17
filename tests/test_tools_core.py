@@ -6,6 +6,7 @@ import time
 
 import pytest
 
+from cvg_harness.ledger.event_log import load_events
 from cvg_harness.tools import (
     ContextMemoryTool,
     FileSystemTool,
@@ -98,6 +99,20 @@ def test_shell_tool_times_out_on_long_running_command(tmp_path: Path) -> None:
     assert result.timed_out is True
     assert result.return_code != 0
     assert elapsed < 2
+
+
+def test_shell_tool_logs_events_with_resolved_cwd(tmp_path: Path) -> None:
+    event_log = tmp_path / "shell-events.jsonl"
+    tool = ShellTool(tmp_path, event_log_path=event_log, allowed_commands=["python3"])
+    result = tool.run("python3 -c \"print('ok')\"", timeout=2)
+    assert result.return_code == 0
+
+    events = load_events(event_log)
+    assert len(events) == 1
+    payload = events[0]
+    assert payload.event_type == "shell_run"
+    assert payload.metadata["return_code"] == 0
+    assert payload.metadata["cwd"] == str(tmp_path.resolve())
 
 
 def test_planning_tool_persists_and_updates_steps(tmp_path: Path) -> None:

@@ -161,6 +161,7 @@ class ShellTool:
                 "return_code": return_code,
                 "elapsed_ms": elapsed,
                 "timed_out": timed_out,
+                "cwd": str(run_cwd),
             },
         )
         return result
