@@ -55,8 +55,6 @@ class ShellTool:
         )
 
     def _is_allowed(self, command: str) -> bool:
-        if self._allowed is None:
-            return True
         try:
             tokens = shlex.split(command.strip())
         except ValueError:
@@ -66,6 +64,8 @@ class ShellTool:
         executable = tokens[0].lower()
         if executable in self._denied if self._denied else False:
             return False
+        if self._allowed is None:
+            return True
         return executable in self._allowed
 
     def run(

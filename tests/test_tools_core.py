@@ -60,6 +60,14 @@ def test_shell_tool_respects_allow_and_deny_lists(tmp_path: Path) -> None:
         tool.run("rm -rf arquivo_inexistente", timeout=2)
 
 
+def test_shell_tool_respects_deny_list_without_allowlist(tmp_path: Path) -> None:
+    tool = ShellTool(tmp_path, denied_commands=["rm"])
+    result = tool.run("echo permitido", timeout=2)
+    assert result.return_code == 0
+    with pytest.raises(PermissionError):
+        tool.run("rm -rf arquivo_inexistente", timeout=2)
+
+
 def test_shell_tool_parses_quoted_command(tmp_path: Path) -> None:
     tool = ShellTool(tmp_path, allowed_commands=["python3"])
     result = tool.run('python3 -c "print(\'ok\')"', timeout=2)
