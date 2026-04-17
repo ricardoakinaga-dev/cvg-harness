@@ -214,6 +214,8 @@ class FrontAgent:
             return self._inspect()
         if request.route == RouteType.RESUME:
             return self._resume()
+        if request.route == RouteType.SUMMARY:
+            return self._summary()
         if request.route == RouteType.CONTINUE:
             return self._continue(request.raw)
         if request.route == RouteType.REPLAN:
@@ -243,6 +245,7 @@ class FrontAgent:
             "  - status\n"
             "  - continue\n"
             "  - inspect / resume\n"
+            "  - resumo\n"
             "  - replaneje <motivo>\n"
             "  - por que você escolheu enterprise?\n"
             "\n"
@@ -252,13 +255,30 @@ class FrontAgent:
 
     def _active_run(self) -> bool:
         state = self.session.current()
-        if not state.run_id:
-            return False
         try:
-            self.service.load_current_run()
-            return True
+            if state.run_id:
+                self.service.load_current_run()
+                self.session.set_active_run(state.run_id)
+                return True
+            current_run = self.service.get_current_run_id()
         except Exception:
             return False
+        state.run_id = current_run
+        self.session.set_active_run(current_run)
+        return True
+
+    def _summary(self) -> str:
+        if not self._active_run():
+            return "Sem demanda ativa para resumir."
+        payload = self.service.inspect()
+        run = payload["run"]
+        if run.get("operator_status") != "completed":
+            return (
+                f"Demanda não concluída ainda ({run['operator_status']}).\\n"
+                f"Próximo passo: {run['next_action']}\\n"
+                f"Pendência: {run['pending_human_action'] or '-'}"
+            )
+        return self._summarize_run({"run": run}, "Resumo final da demanda")
 
     def _status(self) -> str:
         if not self._active_run():
@@ -297,6 +317,7 @@ class FrontAgent:
         if not self._active_run():
             return "Sem run ativa para retomar."
         payload = self.service.status()
+        self.session.set_active_run(payload["run_id"])
         return (
             f"Retoma da run {payload['run_id']}\\n"
             f"Demanda: {payload['demand']}\\n"
@@ -411,15 +432,48 @@ class FrontAgent:
     def _summarize_run(self, payload: dict[str, Any], prefix: str) -> str:
         run = payload["run"]
         model = self.last_model or (self.session.current().model or "-")
-        return (
-            f"{prefix}\\n"
-            f"Run: {run['run_id']}\\n"
-            f"Modelo: {model}\\n"
-            f"Status: {run['operator_status']}\\n"
-            f"Fase/Gate: {run['current_phase']} / {run['current_gate']}\\n"
-            f"Pendência humana: {run['pending_human_action'] or '-'}\\n"
-            f"Próximo passo: {run['next_action']}"
-        )
+        lines = [
+            f"{prefix}",
+            f"Run: {run['run_id']}",
+            f"Modelo: {model}",
+            f"Status: {run['operator_status']}",
+            f"Fase/Gate: {run['current_phase']} / {run['current_gate']}",
+            f"Pendência humana: {run['pending_human_action'] or '-'}",
+            f"Próximo passo: {run['next_action']}",
+        ]
+        if run.get("operator_status") != "completed":
+            return "\\n".join(lines)
+        try:
+            inspect_payload = self.service.inspect()
+            causal = inspect_payload.get("causal", {})
+            artifacts = [str(item) for item in inspect_payload.get("artifacts", [])]
+            reports = [str(item) for item in inspect_payload.get("reports", [])]
+            sprints = inspect_payload.get("sprints", [])
+            evidence = causal.get("evidence", {})
+            changed_files = causal.get("changed_files", [])
+            decisions = causal.get("decisions", {})
+            lines.extend(
+                [
+                    "Resumo da entrega:",
+                    f"- classification: {run.get('mode', '-')}",
+                    f"- research: {'concluída' if 'research-notes.json' in artifacts else 'pendente'}",
+                    f"- SPEC: {'gerada' if 'spec.json' in artifacts else 'pendente'}",
+                    f"- spec lint: {'concluída' if ('spec-lint-report.json' in artifacts or 'spec-lint-report.json' in reports) else 'pendente'}",
+                    f"- sprints executadas: {len(sprints)}",
+                    f"- evaluator: {decisions.get('evaluation', '-')}",
+                    f"- drift crítico: {decisions.get('drift', '-')}",
+                    f"- release readiness: {decisions.get('release', '-')}",
+                    f"- arquivos alterados: {', '.join(changed_files) or '-'}",
+                    f"- evidências coletadas: {evidence.get('total_items', 0)}",
+                    f"- evidência pendente: {', '.join(evidence.get('missing', [])) or '-'}",
+                    f"- artefatos: {', '.join(artifacts or ['-'])}",
+                    f"- relatórios: {', '.join(reports or ['-'])}",
+                    f"- workspace: {run.get('run_workspace', '-')}",
+                ]
+            )
+        except Exception:
+            pass
+        return "\\n".join(lines)
 
     def _looks_like_approval(self, text: str) -> bool:
         lowered = text.lower()

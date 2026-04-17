@@ -39,6 +39,13 @@ def _iter_inputs(values: list[str]) -> Iterator[str]:
         raise RuntimeError("entrada não esperada no teste")
 
 
+def _seed_project(workspace: Path) -> None:
+    (workspace / "src" / "auth").mkdir(parents=True)
+    (workspace / "src" / "auth" / "login.py").write_text(
+        "def login():\n    return True\n"
+    )
+
+
 def test_front_agent_start_runs_status_and_exits(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
     home = tmp_path / "home"
     monkeypatch.setenv("HOME", str(home))
@@ -75,3 +82,38 @@ def test_select_model_prefers_fast_or_enterprise_variant(tmp_path: Path, monkeyp
 
     assert "highspeed" in agent._select_model("FAST").lower()
     assert "highspeed" not in agent._select_model("ENTERPRISE").lower()
+
+
+def test_front_agent_completion_summary_aggregates_results(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    _seed_project(workspace)
+
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+
+    _ = agent._new_demand("criar módulo de permissões por setor")
+    agent.service.approve()
+    completed = agent.service.continue_run(
+        changed_files=["src/auth/login.py"],
+        evidence=[
+            "implementação dos arquivos",
+            "testes unitários",
+            "logs de execução",
+            "implementação do módulo auth",
+            "testes do módulo auth",
+        ],
+    )
+    assert completed["run"]["operator_status"] == "completed"
+
+    summary = agent._summarize_run(completed, "Demanda concluída.")
+    assert "Demanda concluída." in summary
+    assert "Resumo da entrega:" in summary
+    assert "release readiness:" in summary
+    assert "evidências coletadas:" in summary
+    assert "arquivos alterados: src/auth/login.py" in summary

@@ -14,6 +14,7 @@ class RouteType(str, Enum):
     INSPECT = "inspect"
     CONTINUE = "continue"
     RESUME = "resume"
+    SUMMARY = "summary"
     REPLAN = "replan"
     REASON = "reason"
     DEBUG = "debug"
@@ -65,6 +66,8 @@ def route_request(text: str, has_active_run: bool = False) -> RoutedRequest:
     if _contains(txt, "debug"):
         command = re.sub(r"^\\s*debug\\s*", "", txt, flags=re.IGNORECASE)
         return RoutedRequest(RouteType.DEBUG, "debug", txt, {"command": command.strip()})
+    if _contains(txt, "resumo", "conclus", "entrega", "finalização", "encerrar", "encerramento"):
+        return RoutedRequest(RouteType.SUMMARY, "summary", txt, {})
 
     if _contains(
         txt,
