@@ -1,0 +1,69 @@
+{
+  // Arquivo de perfis de permissão para o ShellTool.
+  // Copie para a raiz do projeto para sobrescrever este padrão localmente.
+  "activeProfile": "balanced",
+
+  "profiles": {
+    "safe": {
+      "description": "modo conservador para revisão e diagnóstico",
+      "permissions": {
+        "allow": [
+          "Bash(python *)",
+          "Bash(python3 *)",
+          "Bash(pytest *)",
+          "Bash(cat *)",
+          "Bash(ls *)",
+          "Bash(git status)",
+          "Bash(git log)",
+          "Bash(git diff)"
+        ],
+        "deny": [
+          "Bash(rm *)",
+          "Bash(rm -rf *)",
+          "Bash(shred *)"
+        ]
+      }
+    },
+
+    "balanced": {
+      "description": "equilíbrio entre autonomia e segurança",
+      "permissions": {
+        "allow": [
+          "Bash(python *)",
+          "Bash(python3 *)",
+          "Bash(pytest *)",
+          "Bash(git status)",
+          "Bash(git diff)",
+          "Bash(git add *)",
+          "Bash(git commit *)",
+          "Bash(npm *)",
+          "Bash(node *)",
+          "Bash(npm test *)",
+          "Bash(ls *)",
+          "Bash(curl *)",
+          "Bash(echo *)"
+        ],
+        "deny": [
+          "Bash(rm -rf *)",
+          "Bash(reboot *)",
+          "Bash(shutdown *)"
+        ]
+      }
+    },
+
+    "aggressive": {
+      "description": "mais permissivo para tarefas de laboratório",
+      "permissions": {
+        "allow": [
+          "Bash(*)"
+        ],
+        "deny": [
+          "Bash(rm -rf / *)",
+          "Bash(dd *)",
+          "Bash(sudo rm *)",
+          "Bash(mkfs *)"
+        ]
+      }
+    }
+  }
+}

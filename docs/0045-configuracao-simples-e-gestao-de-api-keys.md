@@ -45,3 +45,29 @@ default_model = "MiniMax-M2.7"
 ## Segurança
 - nunca persistir chave em texto puro por padrão.
 - preferir chave em variável de ambiente e salvar apenas referência (`api_key_env`).
+
+## Perfis de permissão do Shell
+
+O runtime usa perfis opcionais para a seleção de comandos no `ShellTool`:
+
+- caminho buscado primeiro: `docs/permissions-profiles.jsonc` (ou `.json`)
+- em seguida: `permissions-profiles.jsonc` (ou `.json`) na raiz do workspace
+
+Estrutura esperada:
+
+```jsonc
+{
+  "activeProfile": "balanced",
+  "profiles": {
+    "safe": {
+      "description": "Modo restritivo",
+      "permissions": {
+        "allow": ["Bash(python *)", "Bash(git status)"],
+        "deny": ["Bash(rm -rf *)", "Bash(reboot *)"]
+      }
+    }
+  }
+}
+```
+
+Defina `activeProfile` para mudar o perfil padrão usado no workspace atual.
