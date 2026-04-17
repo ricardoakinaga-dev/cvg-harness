@@ -147,6 +147,89 @@ def test_harness_history_subcommand_json(tmp_path: Path, monkeypatch: pytest.Mon
     assert payload["count"] >= 1
 
 
+def test_harness_inspect_subcommand_no_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "inspect"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    assert "Sem demanda ativa para inspeção." in out
+
+
+def test_harness_inspect_subcommand_with_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    demand = "criar módulo de permissões por setor"
+    agent._new_demand(demand)
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "inspect"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    assert "Run:" in out
+    assert "Demanda:" in out
+    assert demand in out
+
+
+def test_harness_inspect_subcommand_json(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    demand = "adicionar autenticação OAuth2 com Google"
+    agent._new_demand(demand)
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "inspect", "--json"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    payload = json.loads(out)
+    assert payload["status"] == "ok"
+    assert payload["demand"] == demand
+    assert payload["run_id"]
+    assert isinstance(payload["artifacts"], list)
+
+
 def test_harness_status_json_without_active_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     home = tmp_path / "home"
     monkeypatch.setenv("HOME", str(home))

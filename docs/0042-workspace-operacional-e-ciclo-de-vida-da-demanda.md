@@ -77,7 +77,7 @@ Relatórios e resultados de validação.
 - cria o diretório da run
 - executa planning inicial
 - persiste estado inicial
-- registra um dispatch plan explícito para executor externo como sidecar da run
+- registra estado mínimo de run (sem dispatch automático)
 - atualiza `current-run.txt`
 - atualiza `run-index.json`
 

@@ -17,7 +17,7 @@ Base da avaliacao:
 - validacao atual da suite
 
 Validacao observada nesta rodada:
-- `pytest -q` -> `253 passed`
+- `pytest -q` -> `301 passed`
 
 ## Leitura executiva
 
@@ -286,4 +286,3 @@ Se a pergunta e “o que a documentacao promete versus o que o codigo realmente 
 - a documentacao recente esta bastante aderente ao build atual
 - os itens mais novos das Sprints 28 a 30 estao, em grande parte, implementados
 - o principal delta restante e evolucao externa real, nao estrutura interna
-

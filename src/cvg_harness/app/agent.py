@@ -452,6 +452,29 @@ class FrontAgent:
             f"Próximo passo: {run['next_action']}"
         )
 
+    def _inspect_payload(self) -> dict[str, object]:
+        if not self._active_run():
+            return {
+                "status": "no_active_run",
+                "message": "Sem demanda ativa para inspeção.",
+            }
+        payload = self.service.inspect()
+        run = payload["run"]
+        return {
+            "status": "ok",
+            "workspace": str(self.workspace_mgr.path),
+            "run_id": run.get("run_id", ""),
+            "project": run.get("project", self.workspace_mgr.path.name),
+            "demand": run.get("demand", ""),
+            "operator_status": run.get("operator_status", ""),
+            "mode": run.get("mode", ""),
+            "pending_human_action": run.get("pending_human_action"),
+            "next_action": run.get("next_action", ""),
+            "artifacts": payload.get("artifacts", []),
+            "reports": payload.get("reports", []),
+            "causal": payload.get("causal", {}),
+        }
+
     def _history(self) -> str:
         history = self.session.current().history or []
         if not history:

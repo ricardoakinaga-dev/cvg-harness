@@ -72,6 +72,7 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("resume", help="retomar sessão ativa", parents=[json_parser])
     sub.add_parser("status", help="mostrar status atual", parents=[json_parser])
     sub.add_parser("history", help="mostrar histórico da sessão atual", parents=[json_parser])
+    sub.add_parser("inspect", help="inspeção da demanda ativa", parents=[json_parser])
     sub.add_parser("config", help="reconfigurar provider/apikey")
     sub.add_parser("doctor", help="health check do agente")
     sub.add_parser("help", help="exibir ajuda do produto no terminal")
@@ -95,7 +96,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "debug":
         _run_debug(args.legacy)
         return
-    if args.command in {"status", "resume", "doctor", "config", "history", "help"}:
+    if args.command in {"status", "resume", "doctor", "config", "history", "inspect", "help"}:
         def _emit(payload: object) -> None:
             if args.json:
                 print(json.dumps(payload, ensure_ascii=False, indent=2))
@@ -135,6 +136,12 @@ def main(argv: list[str] | None = None) -> None:
                 _emit(payload)
             else:
                 print(agent._history())
+            return
+        if args.command == "inspect":
+            if args.json:
+                _emit(agent._inspect_payload())
+            else:
+                print(agent._inspect())
             return
         if args.command == "help":
             parser.print_help()
