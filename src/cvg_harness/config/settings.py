@@ -335,10 +335,14 @@ def load_config(
     merged = _merge_payloads(merged, _load_file_config(workspace_root / PROJECT_CONFIG))
 
     available = _provider_names_for_selection()
-    candidate_provider = _normalize_name(explicit_provider) or _normalize_name(os.getenv("HARNESS_PROVIDER")) or _normalize_name(
+    requested_provider = _normalize_name(explicit_provider)
+    candidate_provider = requested_provider or _normalize_name(os.getenv("HARNESS_PROVIDER")) or _normalize_name(
         merged.get("default_provider", "minimax")
     )
+    warnings: list[str] = []
     if candidate_provider and candidate_provider not in available:
+        if requested_provider:
+            warnings.append(f"provider explícito inválido '{requested_provider}', usando minimax")
         candidate_provider = "minimax"
 
     provider_payload = _load_provider_payload({"providers": merged.get("providers", {})}).get(candidate_provider, {})
@@ -366,9 +370,10 @@ def load_config(
     loaded_model_override = None if explicit_model is None else resolved_model
     loaded = LoadedConfig(
         config=cfg,
-        explicit_provider=_normalize_name(explicit_provider) or None,
+        explicit_provider=(candidate_provider if requested_provider == candidate_provider else None),
         explicit_model=loaded_model_override,
         explicit_key=explicit_api_key,
+        warnings=warnings,
     )
     return loaded.with_resolved_api_key()
 

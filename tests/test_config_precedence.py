@@ -78,3 +78,16 @@ def test_explicit_api_key_is_kept_in_memory_only(monkeypatch, tmp_path: Path) ->
 
     loaded = load_config(workspace, explicit_api_key="super-secret")
     assert loaded.explicit_key == "super-secret"
+
+
+def test_invalid_explicit_provider_falls_back_to_minimax(monkeypatch, tmp_path: Path) -> None:
+    home = tmp_path / "home-invalid"
+    monkeypatch.setenv("HOME", str(home))
+    workspace = _build_workspace(tmp_path / "project-invalid")
+    _create_minimal_global_config(home)
+
+    loaded = load_config(workspace, explicit_provider="not-a-provider")
+    assert loaded.provider == "minimax"
+    assert loaded.explicit_provider is None
+    assert loaded.config.default_provider == "minimax"
+    assert loaded.warnings
