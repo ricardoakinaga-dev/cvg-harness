@@ -53,6 +53,43 @@ def test_active_permission_profile_falls_back_to_balanced_when_missing(tmp_path:
     assert active_permission_profile(payload, requested_profile="missing") == "balanced"
 
 
+def test_load_permission_profiles_prefers_docs_source_over_workspace_root(tmp_path: Path) -> None:
+    workspace_file = tmp_path / "permissions-profiles.jsonc"
+    workspace_file.write_text(
+        """
+        {
+          "activeProfile": "balanced",
+          "profiles": {
+            "balanced": {
+              "description": "from workspace",
+              "permissions": {"allow": ["Bash(echo *)"], "deny": ["Bash(rm *)"]}
+            }
+          }
+        }
+        """
+    )
+
+    docs_dir = tmp_path / "docs"
+    docs_dir.mkdir()
+    (docs_dir / "permissions-profiles.jsonc").write_text(
+        """
+        {
+          // Ativo em documentação.
+          "activeProfile": "safe",
+          "profiles": {
+            "safe": {
+              "description": "from docs",
+              "permissions": {"allow": ["Bash(ls *)"], "deny": ["Bash(rm -rf *)"]}
+            }
+          }
+        }
+        """
+    )
+
+    payload = load_permission_profiles(tmp_path)
+    assert payload["activeProfile"] == "safe"
+
+
 def test_resolve_shell_permissions_extracts_executables() -> None:
     payload = {
         "activeProfile": "safe",
