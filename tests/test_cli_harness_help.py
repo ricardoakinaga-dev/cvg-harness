@@ -50,6 +50,16 @@ def test_harness_help_exposes_prompt_first_flags() -> None:
     assert "config" in output.lower()
 
 
+def test_harness_help_subcommand_prints_usage() -> None:
+    output = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "help"],
+        text=True,
+    )
+    assert "harness" in output.lower()
+    assert "status" in output.lower()
+    assert "debug" in output.lower()
+
+
 def test_harness_resume_subcommand_uses_active_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     home = tmp_path / "home"
     monkeypatch.setenv("HOME", str(home))

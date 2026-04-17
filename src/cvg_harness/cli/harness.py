@@ -74,6 +74,7 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("history", help="mostrar histórico da sessão atual", parents=[json_parser])
     sub.add_parser("config", help="reconfigurar provider/apikey")
     sub.add_parser("doctor", help="health check do agente")
+    sub.add_parser("help", help="exibir ajuda do produto no terminal")
     sub_debug = sub.add_parser("debug", help="modo técnico; proxy de comandos antigos")
     sub_debug.add_argument("legacy", nargs="*", help="Comando do modo técnico, ex.: status")
     parser.add_argument("--workspace", default=".", help="Diretório do projeto")
@@ -94,7 +95,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "debug":
         _run_debug(args.legacy)
         return
-    if args.command in {"status", "resume", "doctor", "config", "history"}:
+    if args.command in {"status", "resume", "doctor", "config", "history", "help"}:
         def _emit(payload: object) -> None:
             if args.json:
                 print(json.dumps(payload, ensure_ascii=False, indent=2))
@@ -134,6 +135,9 @@ def main(argv: list[str] | None = None) -> None:
                 _emit(payload)
             else:
                 print(agent._history())
+            return
+        if args.command == "help":
+            parser.print_help()
             return
 
     # sem comando: loop conversacional
