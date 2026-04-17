@@ -353,10 +353,72 @@ class SubagentTool:
         return {"status": "done", "report": str(path), "sprints_count": metrics.sprints_count}
 
     def _run_implementation(self, input: dict[str, Any], context: dict[str, Any], max_tokens: int) -> dict[str, Any]:
-        del input, context, max_tokens
+        del max_tokens
+        run_workspace = self._run_workspace(context)
+        artifacts = run_workspace / "artifacts"
+        spec = self._load_json(artifacts / "spec.json")
+        sprint_plan = self._load_json(artifacts / "sprint-plan.json")
+
+        feature = input.get("intent") or input.get("text", "")
+        mode = context.get("mode", "FAST")
+
+        implementation_plan: dict[str, Any] = {
+            "run_workspace": str(run_workspace),
+            "feature": feature,
+            "mode": mode,
+            "status": "pending",
+            "steps": [],
+        }
+
+        if isinstance(sprint_plan, dict) and sprint_plan.get("sprints"):
+            sprints = sprint_plan.get("sprints", [])
+            for sprint in sprints:
+                if not isinstance(sprint, dict):
+                    continue
+                implementation_plan["steps"].append(
+                    {
+                        "sprint_id": sprint.get("sprint_id", ""),
+                        "objetivo": sprint.get("objetivo", sprint.get("goal", "")),
+                        "ações": sprint.get("acoes", sprint.get("tasks", []))
+                        if isinstance(sprint.get("acoes", sprint.get("tasks", [])), list)
+                        else [],
+                        "status": "ready",
+                    }
+                )
+        elif isinstance(spec, dict):
+            implementation_plan.update(
+                {
+                    "modules": spec.get("modulos", []),
+                    "goals": spec.get("metas", []),
+                }
+            )
+
+        if not implementation_plan["steps"]:
+            implementation_plan["steps"].append(
+                {
+                    "sprint_id": "SPRINT-1",
+                    "objetivo": feature,
+                    "ações": [
+                        "Aguardando aprovação da sprint para coletar changed_files/evidence no fluxo operacional."
+                    ],
+                    "status": "requires_handoff",
+                }
+            )
+
+        implementation_plan["status"] = "ready"
+        implementation_plan["generated_by"] = self._run_workspace(context).name
+
+        path = artifacts / "implementation-plan.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(implementation_plan, ensure_ascii=False, indent=2), encoding="utf-8")
+
         return {
-            "status": "simulated",
-            "message": "implementação delegada ao operador de execução",
+            "status": "done",
+            "report": str(path),
+            "artifacts": [str(path)],
+            "mode": mode,
+            "steps": len(implementation_plan["steps"]),
+            "message": "plano de implementação gerado para handoff operacional",
         }
 
     @property

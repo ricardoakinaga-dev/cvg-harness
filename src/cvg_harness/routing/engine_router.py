@@ -126,6 +126,7 @@ def decide_route(
             "spec_builder",
             "spec_linter",
             "sprint_planner",
+            "implement",
             "evaluator",
             "metrics_aggregator",
         ]
@@ -137,6 +138,7 @@ def decide_route(
             "spec_builder",
             "spec_linter",
             "sprint_planner",
+            "implement",
             "architecture_guardian",
             "evaluator",
             "drift_detector",
