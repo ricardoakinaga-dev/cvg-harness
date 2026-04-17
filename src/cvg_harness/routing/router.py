@@ -108,11 +108,35 @@ def route_request(text: str, has_active_run: bool = False) -> RoutedRequest:
     if _contains(txt, "status", "estado", "progresso"):
         return RoutedRequest(RouteType.STATUS, "status", txt, {})
 
+    if _contains(
+        txt,
+        "inspect",
+        "inspecionar",
+        "inspecione",
+        "inspeção",
+        "inspecione",
+    ):
+        return RoutedRequest(RouteType.INSPECT, "inspect", txt, {})
+
     if _contains(txt, "continue", "prosseguir", "aprovar", "aprovarei", "aprove", "aprovo", "confirmo"):
         return RoutedRequest(RouteType.CONTINUE, "continue", txt, {})
     if _contains(txt, "replaneje", "replano", "replan", "menos risco"):
         return RoutedRequest(RouteType.REPLAN, "replan", txt, {})
-    if _contains(txt, "o que alter", "oque alter", "explique", "por que", "por que você", "porque você", "porquê", "por que motivo"):
+    if _contains(
+        txt,
+        "o que alter",
+        "o que você alter",
+        "o que voce alter",
+        "oque alter",
+        "explique",
+        "por que",
+        "por que você",
+        "porque você",
+        "porquê",
+        "por que motivo",
+        "o que você alterou",
+        "o que alterou",
+    ):
         return RoutedRequest(RouteType.INSPECT, "inspect", txt, {})
 
     if has_active_run and _contains(txt, "arquivos", "evidência", "evidencia", "prova", "summary", "resumo"):
