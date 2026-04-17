@@ -17,7 +17,7 @@ Base da avaliacao:
 - validacao atual da suite
 
 Validacao observada nesta rodada:
-- `pytest -q` -> `302 passed`
+- `pytest -q` -> `308 passed`
 
 ## Leitura executiva
 
