@@ -803,6 +803,15 @@ class OperatorService:
         slug = _slugify(demand)[:32]
         run_id = f"{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}-{slug}"
         run_workspace = self._run_dir(run_id)
+        # Estrutura canônica do run para rastreabilidade completa.
+        for path in [
+            run_workspace,
+            run_workspace / "artifacts",
+            run_workspace / "reports",
+            run_workspace / "logs",
+            run_workspace / "ledgers",
+        ]:
+            path.mkdir(parents=True, exist_ok=True)
         dims, rationale = infer_dimensions_from_demand(demand)
         orch = FlowOrchestrator(project_name, demand, "FAST", run_workspace, context_workspace=self.base_dir)
         class_path = orch.classify(dims, rationale)
