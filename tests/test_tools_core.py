@@ -1,6 +1,7 @@
 """Testes para as ferramentas centrais do front-agent."""
 
 from pathlib import Path
+import json
 
 import pytest
 
@@ -91,6 +92,72 @@ def test_subagent_tool_spawns_and_merges_result(tmp_path: Path) -> None:
 
     missing = tool.await_result(task_id)
     assert isinstance(missing, dict)
+
+
+def test_subagent_tool_runs_implementation_with_sprint_plan(tmp_path: Path) -> None:
+    run_ws = tmp_path / ".harness" / "runs" / "run-001"
+    artifacts = run_ws / "artifacts"
+    artifacts.mkdir(parents=True)
+
+    sprint_plan = {
+        "sprints": [
+            {
+                "sprint_id": "SPRINT-1",
+                "objetivo": "Implementar autenticação",
+                "acoes": ["Criar endpoint", "Adicionar testes"],
+            }
+        ]
+    }
+    (artifacts / "sprint-plan.json").write_text(json.dumps(sprint_plan, ensure_ascii=False), encoding="utf-8")
+
+    tool = SubagentTool(tmp_path)
+    task_id = tool.spawn(
+        "implement",
+        "implementação de autenticação",
+        {
+            "workspace": str(tmp_path),
+            "run_workspace": str(run_ws),
+            "project": "cvg-harness",
+            "mode": "ENTERPRISE",
+        },
+        max_tokens=128,
+    )
+    merged = tool.merge_result(task_id)
+
+    assert merged["status"] == "done"
+    assert merged["result"]["status"] == "done"
+    plan_path = Path(merged["result"]["report"])
+    assert plan_path.exists()
+    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    assert plan["mode"] == "ENTERPRISE"
+    assert plan["steps"][0]["sprint_id"] == "SPRINT-1"
+    assert plan["steps"][0]["ações"][0] == "Criar endpoint"
+
+
+def test_subagent_tool_runs_implementation_without_sprint_plan(tmp_path: Path) -> None:
+    run_ws = tmp_path / ".harness" / "runs" / "run-001"
+    (run_ws / "artifacts").mkdir(parents=True)
+
+    tool = SubagentTool(tmp_path)
+    task_id = tool.spawn(
+        "implement",
+        "criar módulo permissões por setor",
+        {
+            "workspace": str(tmp_path),
+            "run_workspace": str(run_ws),
+            "project": "cvg-harness",
+            "mode": "FAST",
+        },
+        max_tokens=128,
+    )
+    merged = tool.merge_result(task_id)
+
+    assert merged["status"] == "done"
+    plan_path = Path(merged["result"]["report"])
+    assert plan_path.exists()
+    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    assert plan["steps"][0]["status"] == "requires_handoff"
+    assert "Aguardando aprovação" in plan["steps"][0]["ações"][0]
 
 
 def test_context_memory_tool_store_and_load_scopes(tmp_path: Path) -> None:
