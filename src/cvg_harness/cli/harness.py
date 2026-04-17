@@ -17,12 +17,14 @@ Fluxo principal:
       Inicia o agente conversacional no diretório atual.
       O usuário digita instruções em linguagem natural.
 
-Comandos avançados:
+Comandos de produto:
   harness status      # consulta status da run ativa
   harness resume      # retoma a demanda ativa
   harness history     # mostra histórico da sessão atual
   harness config      # reexecuta onboarding
   harness doctor      # health check básico
+
+Comandos técnicos avançados:
   harness debug ...   # executa comandos técnicos antigos
 
 Exemplos:

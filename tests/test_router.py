@@ -17,6 +17,11 @@ def test_router_identifies_reason_questions() -> None:
     assert route_request("o porquê da decisão?").route == RouteType.REASON
 
 
+def test_router_routes_encerrar_to_exit() -> None:
+    assert route_request("encerrar").route == RouteType.EXIT
+    assert route_request("quero encerrar").route == RouteType.EXIT
+
+
 def test_router_identifies_history_intents() -> None:
     assert route_request("mostrar histórico").route == RouteType.HISTORY
     assert route_request("ver histórico da conversa").route == RouteType.HISTORY

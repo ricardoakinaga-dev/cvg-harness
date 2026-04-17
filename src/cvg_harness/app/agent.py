@@ -370,6 +370,7 @@ class FrontAgent:
             "  - histórico\n"
             "  - replaneje <motivo>\n"
             "  - por que você escolheu enterprise?\n"
+            "  - sair\n"
             "\n"
             "Debug avançado:\n"
             "  - debug <comando técnico antigo>"
