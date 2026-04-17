@@ -321,7 +321,21 @@ ARTIFACT_CONTRACTS = {
         created_at_trigger="quando o runtime processar ci_result",
         mutable_until_gate="a cada nova execução de CI",
         approved_by="operador",
-        required_fields=["run_id", "event", "profile", "provider", "simulated", "context", "raw_context", "status", "ci_ref", "evidence_refs", "results", "updated_at"],
+        required_fields=[
+            "run_id",
+            "event",
+            "profile",
+            "provider",
+            "simulated",
+            "context",
+            "raw_context",
+            "status",
+            "ci_ref",
+            "source",
+            "evidence_refs",
+            "results",
+            "updated_at",
+        ],
         neighboring_artifacts=["runtime-hooks.json", "external-evidence-manifest.json", "event-log.jsonl"],
     ),
     "dashboard.json": ArtifactContract(
@@ -350,6 +364,48 @@ ARTIFACT_CONTRACTS = {
 }
 
 
+_REPORT_FIELD_COMPAT = {
+    "spec-lint-report.json": {
+        "resultado": {"aliases": {"result"}},
+        "falhas": {"aliases": {"findings"}},
+        "recomendacao": {"aliases": {"recommendation"}},
+    },
+    "architecture-guard-report.json": {
+        "resultado": {"aliases": {"result"}},
+        "desvios": {"aliases": {"violations"}},
+        "areas_afetadas": {
+            "aliases": {"violations"},
+            "derive": lambda data: bool(data.get("violations")),
+        },
+        "severidade": {
+            "aliases": {"result"},
+            "derive": lambda data: isinstance(data.get("violations"), list),
+        },
+        "decisao": {
+            "aliases": {"result"},
+            "derive": lambda data: data.get("result") in {"PASS", "FAIL", "WAIVER"},
+        },
+    },
+    "drift-report.json": {
+        "drift_por_camada": {
+            "aliases": {"layers_checked"},
+            "derive": lambda data: isinstance(data.get("findings"), list),
+        },
+        "severidade": {
+            "aliases": {"result"},
+        },
+        "causa_probavel": {
+            "aliases": {"findings"},
+            "derive": lambda data: isinstance(data.get("findings"), list),
+        },
+        "acao_requerida": {
+            "aliases": {"findings"},
+            "derive": lambda data: isinstance(data.get("findings"), list),
+        },
+    },
+}
+
+
 def get_contract(artifact_name: str) -> Optional[ArtifactContract]:
     return ARTIFACT_CONTRACTS.get(artifact_name)
 
@@ -361,9 +417,21 @@ def validate_artifact(artifact_name: str, data: dict) -> list[str]:
         return [f"Artefato '{artifact_name}' não tem contrato definido"]
 
     errors = []
+    aliases = _REPORT_FIELD_COMPAT.get(artifact_name, {})
     for field in contract.required_fields:
-        if field not in data:
-            errors.append(f"Campo obrigatório ausente: {field}")
+        if field in data:
+            continue
+
+        alias_cfg = aliases.get(field)
+        aliases_names = alias_cfg.get("aliases", set()) if alias_cfg else set()
+        if any(alias in data for alias in aliases_names):
+            continue
+
+        derive = alias_cfg.get("derive") if alias_cfg else None
+        if callable(derive) and derive(data):
+            continue
+
+        errors.append(f"Campo obrigatório ausente: {field}")
 
     return errors
 
@@ -394,9 +462,7 @@ def validate_artifact_on_disk(artifact_path: Path) -> list[str]:
         # Validar campos obrigatórios do contrato
         contract = get_contract(name)
         if contract:
-            for field in contract.required_fields:
-                if field not in data:
-                    errors.append(f"Campo obrigatório ausente em {name}: {field}")
+            errors.extend(validate_artifact(name, data))
 
     elif is_md:
         content = artifact_path.read_text()

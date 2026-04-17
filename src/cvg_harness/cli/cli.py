@@ -506,7 +506,12 @@ def build_parser() -> argparse.ArgumentParser:
     p_run = sub.add_parser('run', help='[operator] iniciar demanda e levar até sprint pronta para execução')
     p_run.add_argument('demand', help='Descrição da demanda')
     p_run.add_argument('--project', help='Nome do projeto; default = pasta atual')
-    p_run.add_argument('--mode', default='AUTO', choices=['AUTO', 'ENTERPRISE'], help='AUTO usa heurística; ENTERPRISE força governança máxima')
+    p_run.add_argument(
+        '--mode',
+        default='AUTO',
+        choices=['AUTO', 'FAST', 'ENTERPRISE'],
+        help='AUTO usa heurística; FAST mantém decisão da classificação; ENTERPRISE força governança máxima',
+    )
     p_run.add_argument('--workspace', help='Diretório base do projeto; default = cwd')
     p_run.set_defaults(func=cmd_run)
 

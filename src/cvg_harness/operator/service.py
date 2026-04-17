@@ -796,6 +796,9 @@ class OperatorService:
         return record
 
     def start_run(self, demand: str, project: Optional[str] = None, mode: str = "AUTO") -> dict:
+        mode = (mode or "AUTO").upper()
+        if mode not in {"AUTO", "FAST", "ENTERPRISE"}:
+            raise ValueError("Modo de execução inválido para cvg run. Use AUTO, FAST ou ENTERPRISE")
         project_name = project or self.base_dir.name
         slug = _slugify(demand)[:32]
         run_id = f"{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}-{slug}"
@@ -806,10 +809,10 @@ class OperatorService:
         with open(class_path) as f:
             classification = json.load(f)
         if mode == "ENTERPRISE":
-            classification["mode"] = "ENTERPRISE"
+            classification["mode"] = mode
             classification["override_applied"] = True
             classification["override_reason"] = "operator override via cvg run --mode ENTERPRISE"
-            Path(class_path).write_text(json.dumps(classification, indent=2))
+        Path(class_path).write_text(json.dumps(classification, indent=2))
         orch.mode = classification["mode"]
         orch.state.mode = classification["mode"]
         orch._save_state()

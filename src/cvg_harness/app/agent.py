@@ -8,7 +8,6 @@ import os
 import re
 from typing import Any
 
-from cvg_harness.classification.classifier import calculate_mode
 from cvg_harness.config import (
     GlobalHarnessConfig,
     ProviderConfig,
@@ -22,7 +21,20 @@ from cvg_harness.config import (
 from cvg_harness.operator.service import OperatorService, infer_dimensions_from_demand
 from cvg_harness.providers import build_provider
 from cvg_harness.providers.base import Provider
-from cvg_harness.routing import RouteType, RoutedRequest, route_request
+from cvg_harness.routing import (
+    EngineRoute,
+    RouteType,
+    RoutedRequest,
+    decide_route,
+    route_request,
+)
+from cvg_harness.tools import (
+    ContextMemoryTool,
+    FileSystemTool,
+    PlanningTool,
+    ShellTool,
+    SubagentTool,
+)
 from cvg_harness.session import SessionManager
 from cvg_harness.workspace import WorkspaceManager
 
@@ -54,6 +66,7 @@ class FrontAgent:
         self.service = OperatorService(self.workspace_mgr.path, state_dir_name=state_dir)
         self.last_model: str | None = None
         self._booted = False
+        self._active_route: EngineRoute | None = None
 
     def boot(self, require_provider: bool = False) -> None:
         self.config = load_config(
@@ -131,6 +144,110 @@ class FrontAgent:
             print("Teste de conexão: OK")
         else:
             print("Teste de conexão: sem resposta do endpoint. A execução seguirá com validação de chave.")
+
+    def _route_for_demand(self, intent: str) -> EngineRoute:
+        if not self.config:
+            raise FrontAgentError("Configuração não inicializada.")
+        preferred_model = self.explicit_model or self.config.model
+        return decide_route(intent, self.config.provider_cfg.models, preferred_model=validate_model_name(self.config.provider, preferred_model))
+
+    def _build_toolset(self, run_id: str | None = None) -> dict[str, Any]:
+        run_workspace = (
+            Path(self.service._run_dir(run_id))
+            if run_id
+            else self.workspace_mgr.path / self.state_dir
+        )
+        event_log_path = run_workspace / "logs" / "tool-events.jsonl"
+        return {
+            "filesystem": FileSystemTool(self.workspace_mgr.path, event_log_path=event_log_path),
+            "shell": ShellTool(self.workspace_mgr.path, event_log_path=event_log_path),
+            "planning": PlanningTool(self.workspace_mgr.path),
+            "subagent": SubagentTool(self.workspace_mgr.path),
+            "context_memory": ContextMemoryTool(self.workspace_mgr.path, run_id=run_id),
+        }
+
+    def _route_decision_context(self, route: EngineRoute, run_id: str | None, demand: str, run_workspace: str | None) -> dict[str, Any]:
+        return {
+            "intent": route.intent,
+            "mode": route.mode,
+            "model": route.model,
+            "run_id": run_id,
+            "run_workspace": run_workspace or "",
+            "project": self.workspace_mgr.path.name,
+            "demand": demand,
+            "provider": self.config.provider if self.config else "minimax",
+            "tools": route.tools,
+            "subagents": route.subagents,
+        }
+
+    def _execute_autorouter_pipeline(
+        self,
+        route: EngineRoute,
+        demand: str,
+        run_id: str,
+        run_workspace: str,
+    ) -> dict[str, Any]:
+        tools = self._build_toolset(run_id=run_id)
+        planning: PlanningTool = tools["planning"]
+        memory: ContextMemoryTool = tools["context_memory"]
+        subagent: SubagentTool = tools["subagent"]
+
+        steps = planning.create_plan(run_id, steps=route.pipeline)
+        for index, step in enumerate(steps, start=1):
+            del index
+            step_id = step.step_id if hasattr(step, "step_id") else step["step_id"]
+            step_name = step.name if hasattr(step, "name") else step["name"]
+            planning.update_plan(run_id, step_id, "running", notes=f"pipeline:auto:{step_name}")
+            if step_name == "classification":
+                planning.update_plan(run_id, step_id, "done", notes="já aplicado por OperatorService.start_run")
+                continue
+            if step_name not in route.subagents:
+                planning.update_plan(
+                    run_id,
+                    step_id,
+                    "done",
+                    notes="sem subagente dedicado; etapa tratada na engine principal",
+                )
+                continue
+
+            context = self._route_decision_context(route, run_id, demand, run_workspace)
+            task_input = {
+                "intent": demand,
+                "mode": route.mode,
+                "rationale": route.rationale,
+                "model": route.model,
+            }
+            try:
+                task_id = subagent.spawn(step_name, task_input, context=context, max_tokens=1200)
+                payload = subagent.merge_result(task_id)
+                notes = payload.get("result", {}).get("status", "done")
+                planning.update_plan(run_id, step_id, "done", notes=f"subagent:{step_name}:{notes}")
+                memory.append_event(
+                    {
+                        "event": "subagent_step_done",
+                        "step": step_name,
+                        "task_id": task_id,
+                        "status": payload.get("status"),
+                        "result": payload.get("result", {}),
+                    }
+                )
+            except Exception as exc:  # pragma: no cover - proteção operacional
+                planning.update_plan(run_id, step["step_id"], "failed", notes=f"erro no subagente: {exc}")
+                memory.append_event(
+                    {
+                        "event": "subagent_step_error",
+                        "step": step["name"],
+                        "error": str(exc),
+                    }
+                )
+
+        return {
+            "run_id": run_id,
+            "plan": planning.serialize_plan(run_id),
+            "pipeline": route.pipeline,
+            "tools": route.tools,
+            "requires_human_confirmation": route.require_human_confirmation,
+        }
 
     def _provider_label(self) -> str:
         if not self.config:
@@ -486,17 +603,27 @@ class FrontAgent:
     def _new_demand(self, text: str) -> str:
         if not self.config:
             raise FrontAgentError("Configuração não inicializada.")
+        route = self._route_for_demand(text)
+        self._active_route = route
         dimensions, rationale = infer_dimensions_from_demand(text)
-        mode = calculate_mode(dimensions)
-        self.last_model = self._select_model(mode)
+        mode = route.mode
+        self.last_model = self._select_model(mode, preferred_model=route.model)
         model_hint = f"modelo escolhido: {self.last_model}"
         payload = self.service.start_run(demand=text, mode=mode)
         self.session.set_active_run(payload["run_id"])
         self.session.set_context(self.config.provider, self.last_model)
+        route_payload = self._execute_autorouter_pipeline(
+            route=route,
+            demand=text,
+            run_id=payload["run_id"],
+            run_workspace=payload["run_workspace"],
+        )
+        plan = route_payload["plan"]["count"]
         return (
             f"Demanda recebida e roteada ({mode}).\\n"
             f"{model_hint}\\n"
             f"Run: {payload['run_id']}\\n"
+            f"Plano automático: {plan} passos\\n"
             f"Próximo passo: {payload['next_action']}\\n"
             f"Racional inicial: {rationale}"
         ) + (
@@ -505,11 +632,13 @@ class FrontAgent:
             else ""
         )
 
-    def _select_model(self, mode: str) -> str:
+    def _select_model(self, mode: str, preferred_model: str | None = None) -> str:
         if not self.config:
             raise FrontAgentError("Configuração não inicializada.")
         provider = self.config.provider
         cfg = self.config.provider_cfg
+        if preferred_model and preferred_model in cfg.models:
+            return preferred_model
         normalized_mode = (mode or "").upper()
         if cfg.models:
             if normalized_mode == "FAST":

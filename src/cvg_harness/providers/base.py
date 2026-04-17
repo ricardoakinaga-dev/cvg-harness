@@ -6,7 +6,7 @@ import json
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Callable
 
 
 class ProviderError(RuntimeError):
@@ -52,32 +52,100 @@ class Provider:
             return model
         return self.default_model
 
+    def _extract_response_text(self, payload: dict[str, Any]) -> str:
+        message = payload.get("message")
+        if isinstance(message, dict):
+            content = message.get("content")
+            if isinstance(content, list):
+                parts: list[str] = []
+                for item in content:
+                    if not isinstance(item, dict):
+                        continue
+                    if item.get("type") == "text":
+                        parts.append(str(item.get("text", "")))
+                        continue
+                    if item.get("type") == "tool_use":
+                        name = item.get("name", "tool")
+                        tool_id = item.get("id", "")
+                        parts.append(f"[tool_use:{name}:{tool_id}]")
+                    if item.get("type") == "tool_result":
+                        tool_result = item.get("content")
+                        if isinstance(tool_result, str):
+                            parts.append(tool_result)
+                        elif isinstance(tool_result, list):
+                            for fragment in tool_result:
+                                if isinstance(fragment, dict):
+                                    parts.append(str(fragment.get("text", "")))
+                                    continue
+                                parts.append(str(fragment))
+                return "".join(parts).strip()
+            if isinstance(content, str):
+                return content.strip()
+        if isinstance(payload, dict) and "results" in payload:
+            results = payload.get("results")
+            if isinstance(results, list):
+                output = []
+                for result in results:
+                    if not isinstance(result, dict):
+                        continue
+                    msg = result.get("message")
+                    if isinstance(msg, dict):
+                        content = msg.get("content")
+                        if isinstance(content, str):
+                            output.append(content)
+                if output:
+                    return "\n".join(output).strip()
+        return ""
+
     def normalize_response(self, payload: dict[str, Any], model: str) -> ProviderResponse:
-        text = ""
-        if isinstance(payload, dict):
-            message = payload.get("message")
-            if isinstance(message, dict):
-                content = message.get("content")
-                if isinstance(content, list):
-                    text = "".join(item.get("text", "") for item in content if isinstance(item, dict))
-                elif isinstance(content, str):
-                    text = content
-            if not text and isinstance(payload.get("choices"), list):
-                first = payload["choices"][0]
-                if isinstance(first, dict):
-                    message = first.get("message") or {}
-                    text = str(message.get("content", ""))
+        if "stream" in payload and isinstance(payload["stream"], list):
+            return ProviderResponse(
+                model=model,
+                content=str(payload["stream"]),
+                provider=self.name,
+                raw=payload,
+            )
+        text = self._extract_response_text(payload)
+        if not text and isinstance(payload.get("choices"), list):
+            first = payload["choices"][0]
+            if isinstance(first, dict):
+                message = first.get("message") or {}
+                text = str(message.get("content", ""))
         return ProviderResponse(model=model, content=text.strip(), provider=self.name, raw=payload)
 
-    def complete(self, prompt: str, model: str | None = None) -> ProviderResponse:
+    def complete(
+        self,
+        prompt: str,
+        model: str | None = None,
+        *,
+        messages: list[dict[str, Any]] | None = None,
+        tools: list[dict[str, Any]] | None = None,
+        stream: bool = False,
+        on_chunk: Callable[[str], None] | None = None,
+    ) -> ProviderResponse:
         if not self.api_key:
             raise ProviderError(
                 f"Chave de API não configurada para {self.name}. "
                 f"Defina {self.api_key_env} no ambiente."
             )
-        payload = self.build_payload(prompt=prompt, model=self.resolve_model(model))
+        resolved_model = self.resolve_model(model)
+        payload = self.build_payload(
+            prompt=prompt,
+            model=resolved_model,
+            messages=messages,
+            tools=tools,
+        )
+        if stream:
+            payload["stream"] = True
+            response_payload = self._request(payload, stream=True)
+            for chunk in response_payload.get("stream", []):
+                if on_chunk:
+                    text_chunk = self._extract_text(chunk)
+                    if text_chunk:
+                        on_chunk(text_chunk)
+            return self.normalize_response(response_payload, model=resolved_model)
         response_payload = self._request(payload)
-        return self.normalize_response(response_payload, model=self.resolve_model(model))
+        return self.normalize_response(response_payload, model=resolved_model)
 
     def test_connection(self) -> bool:
         # Conexão mínima válida para onboarding.
@@ -90,7 +158,42 @@ class Provider:
             # O objetivo do check é experiência de setup; não bloquear execução.
             return False
 
-    def _request(self, payload: dict[str, Any], method: str = "POST") -> dict[str, Any]:
+    def build_payload(
+        self,
+        prompt: str,
+        model: str,
+        messages: list[dict[str, Any]] | None = None,
+        tools: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        return {"prompt": prompt, "model": model}
+
+    def _extract_text(self, chunk: Any) -> str:
+        if not isinstance(chunk, dict):
+            return ""
+        # Anthropic-compatible stream/events.
+        if isinstance(chunk.get("delta"), dict):
+            delta = chunk["delta"]
+            if isinstance(delta, dict) and "text" in delta:
+                return str(delta["text"])
+            if isinstance(delta, dict) and "content" in delta:
+                return str(delta["content"] or "")
+        content = chunk.get("content")
+        if isinstance(content, list):
+            return "".join(str(item.get("text", "")) for item in content if isinstance(item, dict))
+        if isinstance(content, str):
+            return content
+        if isinstance(chunk.get("result"), str):
+            return str(chunk["result"])
+        if isinstance(chunk.get("text"), str):
+            return str(chunk["text"])
+        return ""
+
+    def _request(
+        self,
+        payload: dict[str, Any],
+        method: str = "POST",
+        stream: bool = False,
+    ) -> dict[str, Any]:
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
@@ -106,6 +209,26 @@ class Provider:
                 raw = response.read().decode("utf-8")
                 if not raw:
                     return {}
+                if stream:
+                    events: list[dict[str, Any]] = []
+                    for line in raw.splitlines():
+                        clean = line.strip()
+                        if not clean:
+                            continue
+                        if clean.startswith("data:"):
+                            body = clean[len("data:") :].strip()
+                            if body == "[DONE]":
+                                continue
+                            try:
+                                events.append(json.loads(body))
+                            except Exception:
+                                events.append({"text": body})
+                            continue
+                        try:
+                            events.append(json.loads(clean))
+                        except Exception:
+                            events.append({"text": clean})
+                    return {"stream": events, "raw": raw}
                 return json.loads(raw or "{}")
         except urllib.error.HTTPError as exc:
             body = exc.read().decode("utf-8", errors="ignore")
@@ -117,6 +240,3 @@ class Provider:
 
     def build_url(self) -> str:
         return self.base_url
-
-    def build_payload(self, prompt: str, model: str) -> dict[str, Any]:
-        return {"prompt": prompt, "model": model}
