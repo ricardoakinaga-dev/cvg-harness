@@ -373,6 +373,12 @@ class FrontAgent:
             f"provider: {self.config.provider if self.config else '-'}",
             f"api key: {'ok' if self.config and self.config.explicit_key else 'faltando'}",
         ]
+        if self.config:
+            base_url_env = self.config.provider_cfg.base_url_env
+            checks.append(f"provider base_url: {self.config.provider_cfg.base_url}")
+            checks.append(
+                f"{base_url_env}: {'ok' if base_url_env and os.getenv(base_url_env) else 'padrao' if not base_url_env else 'missing'}"
+            )
         if self.provider and self.provider.api_key:
             checks.append(f"provider connection: {'OK' if self.provider.test_connection() else 'pending'}")
         return "doctor\\n- " + "\\n- ".join(checks)
