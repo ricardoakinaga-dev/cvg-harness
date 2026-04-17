@@ -1,85 +1,50 @@
 # 0044 — Agente de Terminal Prompt-First
 
-`harness` é o modo principal de operação.  
-O usuário fala em linguagem natural e o agente transforma intenção em fluxo interno.
+`harness` é o modo principal do projeto: o usuário abre o comando e fala em linguagem natural.
 
-## Visão do modo principal
+## O que mudou
+- entrada principal agora é apenas:
+```bash
+harness
+```
+- não é necessário executar `classify`, `lint`, `guard`, `drift` manualmente.
 
-- Entrada principal: `harness`
-- Entrada interativa: prompt livre
-- Resultado: resposta com estado, decisão e próximo passo
+## Fluxo principal
+1. `harness` inicia o agente.
+2. Detecta workspace atual (`cwd`) e carrega configuração.
+3. Executa onboarding se não houver configuração válida.
+4. Entra em loop conversacional:
+   - nova demanda (`criar módulo de permissões`)
+   - inspeção de estado (`status`, `inspect`, `o que você alterou?`)
+   - controle (`continue`, `approve`, `replaneje`, `resumo`)
 
-### Fluxo esperado
-
-1. O usuário inicia em qualquer diretório de projeto.
-2. O agente detecta workspace atual (`cwd`) e carrega estado `.harness`.
-3. Valida configuração (onboarding se necessário).
-4. Entra em loop conversacional.
-5. Router decide o plano de execução e chama módulos de governança.
-6. Entrega retorno no mesmo terminal, em português, sem exigir comandos técnicos.
-
-Exemplos:
-
-- `harness`
+## Exemplos de diálogo
 - `> criar módulo de permissões por setor`
 - `> revisar este projeto e montar um plano seguro para modularizar a agenda`
 - `> adicionar autenticação OAuth2 com Google`
 - `> status`
 - `> continue`
-- `> retome`
-- `> histórico`
-- `> o que você alterou?`
+- `> replaneje com menos risco`
 - `> por que você escolheu enterprise?`
-- `harness status --json`
-- `harness resume --json`
-- `harness history --json`
+- `> retome`
+- `> sair`
 
-## Loop conversacional real
+## Separação de responsabilidade
+- `app/agent.py`: UX, loop, roteamento de intenção.
+- `routing/`: decide ação da rodada (`status`, `inspect`, `resume`, `replan` etc.).
+- `operator/` + módulos de governance (`classification`, `research`, `prd`, `spec_builder`, `linter`, `sprint`, `evaluator`, `guardian`, `drift`, `release`, `fallback`, `metrics`): execução real do motor.
+- `session/`: estado da sessão e memória local.
 
-O front-agent mantém:
+## Comportamentos expostos ao usuário
+- `status`: situação da run ativa.
+- `inspect`: artefatos + evidências + próxima ação.
+- `history`: histórico da sessão.
+- `resume`: retoma da run ativa.
+- `debug ...`: namespace técnico não exposto por padrão.
 
-- estado da sessão (`session/current.json`)
-- histórico linear de turns (`session/history.jsonl`)
-- run ativa (`OperatorService.get_current_run_id`)
-
-### Rotas de interação implementadas
-
-| Rota | Entrada natural | Comportamento |
-|---|---|---|
-| nova demanda | texto de tarefa | abre nova run, classifica FAST/ENTERPRISE e seleciona modelo |
-| status | `status` | consulta `OperatorService.status` |
-| inspect | `inspect`, `o que você alterou?` | resume dados + artefatos |
-| resume | `resume`, `retome` | recarrega run ativa |
-| history | `histórico`, `history`, `conversa` | lista últimos turnos da sessão |
-| continue | `continue`, `aprovar` | chama `continue_run` com evidências/arquivos se houver |
-| replan | `replaneje` | aciona `replan` e retorna ação |
-| reason | `por que` + contexto de decisão | retorna classificação/score |
-| config | `config` | relança onboarding |
-| doctor | `doctor`/`health` | checagens de ambiente e provider |
-| debug | `debug ...` | encaminha para namespace técnico |
-
-As rotas estão em [`src/cvg_harness/routing/router.py`]( /home/ricardo/.openclaw/workspace/cvg-harness/src/cvg_harness/routing/router.py )  
-e o dispatcher está em [`src/cvg_harness/app/agent.py`]( /home/ricardo/.openclaw/workspace/cvg-harness/src/cvg_harness/app/agent.py ).
-
-## Separação UX vs engine
-
-- UX (`app/`) conversa e orquestra.
-- Engine (`operator/`, `classification/`, `research/`, `prd/`, `spec_builder/`, `linter/`, `sprint/`, `evaluator/`, `guardian/`, `drift/`, `release/`, `ledger/`, `fallback/`, `metrics/`) executa a governança existente.
-
-## Modo técnico (oculto no produto principal)
-
-O namespace técnico sobrevive para engenharia:
-
-- `harness debug ...`
-- também há CLI técnico legado `cvg <comando>`.
-
-Ele é mantido para scripts, validações e operações diretas sem quebrar backward compatibility.
-
-## Resultado esperado da interação
-
-Ao final de uma demanda concluída, o agente pode retornar:
-
-- `Run`, `Modelo`, `Status` e `Pendência`
-- resumo dos gates avaliados
-- artefatos e evidências associadas
-- mensagem de conclusão com próximo passo.
+## Resultado final esperado
+Ao concluir uma demanda de sucesso, o agente retorna um resumo com:
+- modo escolhido (FAST/ENTERPRISE), run_id,
+- gates/sprints executados,
+- decisões críticas (evaluator, drift, release),
+- artefatos e relatórios gerados.

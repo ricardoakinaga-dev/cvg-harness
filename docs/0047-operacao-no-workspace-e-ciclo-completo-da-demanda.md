@@ -1,73 +1,37 @@
 # 0047 — Operação no Workspace e Ciclo Completo da Demanda
 
-## Workspace-aware por padrão
+## Workspace-aware
+Ao abrir `harness`, o produto usa o diretório atual como contexto e trabalha com `.harness/`.
 
-Ao iniciar `harness` no diretório atual:
+Estrutura persistida esperada:
+```text
+.harness/
+  runs/
+  artifacts/
+  reports/
+  logs/
+  ledgers/
+  session/
+```
 
-- `WorkspaceManager` resolve `Path.cwd()`
-- cria (se necessário) `.harness/`
-- inicializa subpastas de persistência:
-  - `runs/`
-  - `artifacts/`
-  - `reports/`
-  - `logs/`
-  - `ledgers/`
-  - `session/`
+## Ciclo resumido
+1. Demanda nova em linguagem natural
+2. Classificação FAST/ENTERPRISE e seleção de model
+3. Execução de governança (research, PRD, SPEC, planning, evaluator, guardian, drift, release readiness)
+4. Fase de aprovação/evidência (`approve`, `continue`)
+5. Replanejamento ou conclusão
+6. Inspeção/entrega com `inspect`/`resumo`
 
-Implementação: [`WorkspaceManager`]( /home/ricardo/.openclaw/workspace/cvg-harness/src/cvg_harness/workspace/manager.py ).
+## Retomada e inspeção
+- `harness resume` e comando `resume`/`retome` reutilizam a run ativa.
+- `inspect` (ou `o que você alterou?`) mostra:
+  - run atual
+  - artifacts/reports
+  - pending action, next_action
+  - timeline e estado causal.
 
-## Estrutura de ciclo de demanda
-
-### 1) Nova demanda
-
-Input: `> criar módulo de permissões por setor`
-
-- `FrontAgent._new_demand` infere intenção com `infer_dimensions_from_demand`.
-- `calculate_mode` retorna `FAST` ou `ENTERPRISE`.
-- cria run via `OperatorService.start_run`.
-- atualiza estado de sessão (`session/current.json`) com `run_id`.
-
-### 2) Execução da engine
-
-O motor interno executa:
-
-- classificação
-- research
-- PRD
-- SPEC + lint
-- planner de sprints
-- guard/architecture guard
-- drift detect
-- evaluator
-- release readiness
-- metrics + ledger + event-log
-
-### 3) Interações durante execução
-
-- `status`: visão resumida do fluxo e próximo passo
-- `inspect`: artefatos, evidências e decisões conhecidas
-- `continue`: avança com evidência e arquivos opcionais
-- `replaneje ...`: dispara replanejamento
-- `resumo`: quando for necessário validar entrega
-
-### 4) Conclusão
-
-- `summary` ou fechamento automático do operador retornam:
-  - `run_id`, `status`, `fase/gate`
-  - `sprints` executadas
-  - decisão de evaluator/release/guardian/drift
-  - artefatos e evidências persistidas
-
-## Retomada
-
-Formas de retomada:
-
-- `harness resume`
-- `> retome`
-
-Ambas carregam a run ativa de:
-
-- `.harness/current-run.txt` e
-- `.harness/session/current.json`.
-
-Após recuperar run, o agente imprime pendência e próximo passo.
+## Persistência por run
+- `.harness/runs/<run_id>/plan.json`
+- `.harness/runs/<run_id>/event-log.jsonl`
+- `.harness/runs/<run_id>/progress.json`
+- `artifacts/*`, `reports/*`

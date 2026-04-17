@@ -28,6 +28,7 @@ from cvg_harness.routing import (
     decide_route,
     route_request,
 )
+from cvg_harness.app.activity_renderer import ActivityRenderer
 from cvg_harness.tools import (
     ContextMemoryTool,
     FileSystemTool,
@@ -67,6 +68,18 @@ class FrontAgent:
         self.last_model: str | None = None
         self._booted = False
         self._active_route: EngineRoute | None = None
+        self._activity = ActivityRenderer()
+
+    def _run_with_activity(self, label: str, action, success_message: str, error_message: str | None = None):
+        self._activity.start(label)
+        try:
+            result = action()
+            self._activity.success(success_message)
+            return result
+        except Exception as exc:  # pragma: no cover
+            message = error_message or f"{label} falhou"
+            self._activity.error(f"{message}: {exc}")
+            return f"{message}: {exc}"
 
     def boot(self, require_provider: bool = False) -> None:
         self.config = load_config(
@@ -187,6 +200,7 @@ class FrontAgent:
         run_id: str,
         run_workspace: str,
     ) -> dict[str, Any]:
+        self._activity.update("Planejando")
         tools = self._build_toolset(run_id=run_id)
         planning: PlanningTool = tools["planning"]
         memory: ContextMemoryTool = tools["context_memory"]
@@ -197,6 +211,7 @@ class FrontAgent:
             del index
             step_id = step.step_id if hasattr(step, "step_id") else step["step_id"]
             step_name = step.name if hasattr(step, "name") else step["name"]
+            self._activity.update(self._step_status_label(step_name))
             planning.update_plan(run_id, step_id, "running", notes=f"pipeline:auto:{step_name}")
             if step_name == "classification":
                 planning.update_plan(run_id, step_id, "done", notes="já aplicado por OperatorService.start_run")
@@ -248,6 +263,24 @@ class FrontAgent:
             "tools": route.tools,
             "requires_human_confirmation": route.require_human_confirmation,
         }
+
+    def _step_status_label(self, step_name: str) -> str:
+        normalized = (step_name or "").lower()
+        if "research" in normalized:
+            return "Pesquisando"
+        if normalized.startswith("prd"):
+            return "Escrevendo PRD"
+        if "spec" in normalized or "linter" in normalized:
+            return "Escrevendo"
+        if normalized in {"sprint_planner"}:
+            return "Planejando"
+        if normalized in {"architecture_guardian", "evaluator", "drift_detector", "release_readiness"}:
+            return "Validando"
+        if normalized in {"replan_coordinator"}:
+            return "Replanejando"
+        if normalized in {"metrics_aggregator"}:
+            return "Finalizando"
+        return "Executando"
 
     def _provider_label(self) -> str:
         if not self.config:
@@ -307,11 +340,14 @@ class FrontAgent:
             state = self.session.current()
             request = route_request(prompt, has_active_run=bool(state.run_id))
             self.session.append_turn("user", prompt, request.route.value, "cli")
+            if request.route == RouteType.EXIT:
+                self._activity.start("Finalizando")
+                print("Até mais.")
+                self._activity.success("Sessão encerrada")
+                break
             output = self._dispatch(request)
             if output:
                 print(output)
-            if request.route == RouteType.EXIT:
-                break
 
     def _announce(self) -> None:
         print("Harness iniciado.")
@@ -324,40 +360,60 @@ class FrontAgent:
 
     def _dispatch(self, request: RoutedRequest) -> str:
         if request.route == RouteType.HELP:
-            return self._help()
-        if request.route == RouteType.EXIT:
-            return "Até mais."
+            return self._run_with_activity("Analisando", self._help, "Ajuda exibida.")
         if request.route == RouteType.STATUS:
-            return self._status()
+            return self._run_with_activity("Analisando", self._status, "Status exibido.")
         if request.route == RouteType.INSPECT:
-            return self._inspect()
+            return self._run_with_activity("Analisando", self._inspect, "Inspeção exibida.")
         if request.route == RouteType.RESUME:
-            return self._resume()
+            return self._run_with_activity("Analisando", self._resume, "Demanda retomada.")
         if request.route == RouteType.SUMMARY:
-            return self._summary()
+            return self._run_with_activity("Analisando", self._summary, "Resumo exibido.")
         if request.route == RouteType.HISTORY:
-            return self._history()
+            return self._run_with_activity("Analisando", self._history, "Histórico exibido.")
         if request.route == RouteType.CONTINUE:
-            return self._continue(request.raw)
-        if request.route == RouteType.REPLAN:
-            return self._replan(request.raw)
-        if request.route == RouteType.REASON:
-            return self._reason()
-        if request.route == RouteType.CONFIG:
-            self._run_onboarding(self.explicit_provider, self.explicit_model)
-            self.config = load_config(
-                self.workspace_mgr.path,
-                explicit_provider=self.explicit_provider,
-                explicit_model=self.explicit_model,
-                explicit_api_key=self.explicit_api_key,
+            return self._run_with_activity(
+                "Executando",
+                lambda: self._continue(request.raw),
+                "Continue executado.",
+                error_message="Falha no continue",
             )
-            self.provider = build_provider(self.config)
-            return "Configuração atualizada."
+        if request.route == RouteType.REPLAN:
+            return self._run_with_activity(
+                "Replanejando",
+                lambda: self._replan(request.raw),
+                "Replanejamento enviado.",
+                error_message="Falha no replanejamento",
+            )
+        if request.route == RouteType.REASON:
+            return self._run_with_activity("Analisando", self._reason, "Explicação exibida.")
+        if request.route == RouteType.CONFIG:
+            return self._run_with_activity(
+                "Planejando",
+                self._reconfigure,
+                "Configuração atualizada.",
+            )
         if request.route == RouteType.DOCTOR:
-            return self._doctor()
+            return self._run_with_activity("Analisando", self._doctor, "Diagnóstico exibido.")
         if request.route == RouteType.DEBUG:
-            return self._debug(request.params.get("command", ""))
-        return self._new_demand(request.raw)
+            return self._run_with_activity(
+                "Executando",
+                lambda: self._debug(request.params.get("command", "")),
+                "Comando técnico concluído.",
+                error_message="Falha no comando técnico",
+            )
+        return self._new_demand_with_activity(request.raw)
+
+    def _reconfigure(self) -> str:
+        self._run_onboarding(self.explicit_provider, self.explicit_model)
+        self.config = load_config(
+            self.workspace_mgr.path,
+            explicit_provider=self.explicit_provider,
+            explicit_model=self.explicit_model,
+            explicit_api_key=self.explicit_api_key,
+        )
+        self.provider = build_provider(self.config)
+        return "Configuração atualizada."
 
     def _help(self) -> str:
         return (
@@ -619,42 +675,55 @@ class FrontAgent:
         if not command:
             return "debug: use 'debug <comando técnico>'. Ex.: debug status"
         from cvg_harness.cli.cli import main as legacy_main
-        print(f"Executando comando técnico: cvg {command}")
+        self._activity.log(f"Executando comando técnico: cvg {command}")
         legacy_args = command.split()
         legacy_main(legacy_args)
         return ""
 
     def _new_demand(self, text: str) -> str:
+        return self._new_demand_with_activity(text)
+
+    def _new_demand_with_activity(self, text: str) -> str:
         if not self.config:
             raise FrontAgentError("Configuração não inicializada.")
-        route = self._route_for_demand(text)
-        self._active_route = route
-        dimensions, rationale = infer_dimensions_from_demand(text)
-        mode = route.mode
-        self.last_model = self._select_model(mode, preferred_model=route.model)
-        model_hint = f"modelo escolhido: {self.last_model}"
-        payload = self.service.start_run(demand=text, mode=mode)
-        self.session.set_active_run(payload["run_id"])
-        self.session.set_context(self.config.provider, self.last_model)
-        route_payload = self._execute_autorouter_pipeline(
-            route=route,
-            demand=text,
-            run_id=payload["run_id"],
-            run_workspace=payload["run_workspace"],
-        )
-        plan = route_payload["plan"]["count"]
-        return (
-            f"Demanda recebida e roteada ({mode}).\\n"
-            f"{model_hint}\\n"
-            f"Run: {payload['run_id']}\\n"
-            f"Plano automático: {plan} passos\\n"
-            f"Próximo passo: {payload['next_action']}\\n"
-            f"Racional inicial: {rationale}"
-        ) + (
-            "\\nAguardando sua aprovação da sprint: responda 'aprovar'."
-            if payload.get("pending_human_action") == "approve_sprint"
-            else ""
-        )
+        self._activity.start("Entendendo")
+        try:
+            route = self._route_for_demand(text)
+            self._active_route = route
+            self._activity.update("Analisando")
+            dimensions, rationale = infer_dimensions_from_demand(text)
+            mode = route.mode
+            self.last_model = self._select_model(mode, preferred_model=route.model)
+            model_hint = f"modelo escolhido: {self.last_model}"
+            self._activity.update("Executando")
+            payload = self.service.start_run(demand=text, mode=mode)
+            self.session.set_active_run(payload["run_id"])
+            self.session.set_context(self.config.provider, self.last_model)
+            self._activity.update("Executando")
+            route_payload = self._execute_autorouter_pipeline(
+                route=route,
+                demand=text,
+                run_id=payload["run_id"],
+                run_workspace=payload["run_workspace"],
+            )
+            self._activity.update("Finalizando")
+            plan = route_payload["plan"]["count"]
+            self._activity.success("Demanda roteada")
+            return (
+                f"Demanda recebida e roteada ({mode}).\\n"
+                f"{model_hint}\\n"
+                f"Run: {payload['run_id']}\\n"
+                f"Plano automático: {plan} passos\\n"
+                f"Próximo passo: {payload['next_action']}\\n"
+                f"Racional inicial: {rationale}"
+            ) + (
+                "\\nAguardando sua aprovação da sprint: responda 'aprovar'."
+                if payload.get("pending_human_action") == "approve_sprint"
+                else ""
+            )
+        except Exception as exc:
+            self._activity.error(f"Falha no início da demanda: {exc}")
+            raise
 
     def _select_model(self, mode: str, preferred_model: str | None = None) -> str:
         if not self.config:
