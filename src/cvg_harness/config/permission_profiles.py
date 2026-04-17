@@ -28,10 +28,10 @@ import shlex
 
 DEFAULT_PERMISSION_PROFILE_NAME = "balanced"
 _PROFILE_FILE_CANDIDATES = (
-    Path("permissions-profiles.jsonc"),
-    Path("permissions-profiles.json"),
     Path("docs") / "permissions-profiles.jsonc",
     Path("docs") / "permissions-profiles.json",
+    Path("permissions-profiles.jsonc"),
+    Path("permissions-profiles.json"),
 )
 
 
@@ -205,4 +205,3 @@ def resolve_shell_permissions(
     denied.discard("")
 
     return sorted(allowed), sorted(denied)
-
