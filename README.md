@@ -63,7 +63,8 @@ Digite sua instrução.
 
 O front-agent usa um arquivo de perfis para limitar os comandos de shell disponíveis para os tools (`ShellTool`).
 
-- Local padrão: `permissions-profiles.jsonc` na raiz do workspace
+- Fonte canônica: `docs/permissions-profiles.jsonc`
+- Em ambiente legado, o arquivo pode ser mantido também em `permissions-profiles.jsonc` na raiz do workspace.
 - Perfil padrão: `balanced`
 - Perfis disponíveis: `safe`, `balanced`, `aggressive`
 
@@ -87,6 +88,29 @@ Exemplo:
 ```
 
 Para trocar o perfil ativo, altere apenas `activeProfile` no arquivo.
+
+## Feedback de atividade no terminal
+
+O agente mostra feedback visual de atividade com estados curtos durante operações longas:
+
+- `Entendendo`
+- `Analisando`
+- `Pesquisando`
+- `Planejando`
+- `Escrevendo`
+- `Executando`
+- `Validando`
+- `Corrigindo`
+- `Replanejando`
+- `Finalizando`
+
+Em terminais sem suporte a animação (CI, não-TTY etc.), ele imprime status simples no formato:
+
+```text
+[Analisando...]
+[Executando...]
+[Validando...]
+```
 
 ## Configuração e chaves de API
 
