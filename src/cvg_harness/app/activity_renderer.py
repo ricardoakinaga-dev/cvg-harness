@@ -15,6 +15,18 @@ class ActivityRenderer:
     FRAMES = ("⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧")
     FRAME_DELAY_SECONDS = 0.1
     START_DELAY_SECONDS = 0.3
+    VALID_STATES = {
+        "Entendendo",
+        "Analisando",
+        "Pesquisando",
+        "Planejando",
+        "Escrevendo",
+        "Executando",
+        "Validando",
+        "Corrigindo",
+        "Replanejando",
+        "Finalizando",
+    }
 
     def __init__(self, stream: Any = None) -> None:
         self._stream = stream or sys.stdout
@@ -50,8 +62,34 @@ class ActivityRenderer:
         return not self._is_ci_or_non_tty()
 
     def _normalize(self, label: str) -> str:
-        value = (label or "").strip()
-        return value or "Analisando"
+        return self._canonical_status((label or "").strip())
+
+    def _canonical_status(self, label: str) -> str:
+        if not label:
+            return "Analisando"
+        if label in self.VALID_STATES:
+            return label
+
+        lowered = label.lower()
+        if "entend" in lowered:
+            return "Entendendo"
+        if "pesquis" in lowered:
+            return "Pesquisando"
+        if "planej" in lowered:
+            return "Planejando"
+        if "escrev" in lowered:
+            return "Escrevendo"
+        if "valid" in lowered:
+            return "Validando"
+        if "corrig" in lowered:
+            return "Corrigindo"
+        if "replan" in lowered or "replanej" in lowered:
+            return "Replanejando"
+        if "final" in lowered or "conclu" in lowered:
+            return "Finalizando"
+        if "exec" in lowered:
+            return "Executando"
+        return label if label in self.VALID_STATES else "Analisando"
 
     def _clean_line(self) -> None:
         self._stream.write("\r\033[2K")
