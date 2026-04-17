@@ -2,6 +2,7 @@
 
 from pathlib import Path
 import json
+import time
 
 import pytest
 
@@ -73,6 +74,30 @@ def test_shell_tool_parses_quoted_command(tmp_path: Path) -> None:
     result = tool.run('python3 -c "print(\'ok\')"', timeout=2)
     assert result.return_code == 0
     assert "ok" in result.stdout
+
+
+def test_shell_tool_streams_output_when_requested(tmp_path: Path) -> None:
+    tool = ShellTool(tmp_path, allowed_commands=["bash", "python3", "echo"])
+    chunks: list[str] = []
+    result = tool.run("python3 -c \"print('linha1'); print('linha2')\"", timeout=2, stream=True, on_chunk=chunks.append)
+    assert result.return_code == 0
+    assert chunks, "stream deveria capturar chunks"
+    assert "linha1" in "".join(chunks)
+    assert "linha1" in result.stdout
+
+
+def test_shell_tool_times_out_on_long_running_command(tmp_path: Path) -> None:
+    tool = ShellTool(tmp_path, allowed_commands=["python3", "sleep"])
+    start = time.time()
+    result = tool.run(
+        ["python3", "-c", "import time; print('start'); time.sleep(2); print('end')"],
+        timeout=0.5,
+        stream=False,
+    )
+    elapsed = time.time() - start
+    assert result.timed_out is True
+    assert result.return_code != 0
+    assert elapsed < 2
 
 
 def test_planning_tool_persists_and_updates_steps(tmp_path: Path) -> None:

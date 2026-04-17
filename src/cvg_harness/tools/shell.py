@@ -45,6 +45,27 @@ class ShellTool:
         denylist = {item.strip().lower() for item in (denied_commands or []) if item.strip()}
         self._denied: set[str] | None = denylist or None
 
+    def _normalize_cwd(self, cwd: str | Path | None) -> Path:
+        requested = Path(cwd or self.workspace_root)
+        if not requested.is_absolute():
+            requested = (self.workspace_root / requested).resolve()
+        else:
+            requested = requested.resolve()
+
+        if requested != self.workspace_root and self.workspace_root not in requested.parents:
+            raise PermissionError(
+                f"Execução bloqueada: diretório fora do workspace ({requested})"
+            )
+        return requested
+
+    def _command_parts(self, cmd: str | list[str]) -> list[str]:
+        if isinstance(cmd, list):
+            return [str(item) for item in cmd]
+        try:
+            return shlex.split(cmd)
+        except ValueError as exc:
+            raise ValueError(f"Comando inválido: {cmd}") from exc
+
     def _event(self, event: str, command: str, metadata: dict | None = None) -> None:
         save_event(
             Event.create(event, "ShellTool", command, {
@@ -55,10 +76,7 @@ class ShellTool:
         )
 
     def _is_allowed(self, command: str) -> bool:
-        try:
-            tokens = shlex.split(command.strip())
-        except ValueError:
-            tokens = command.strip().split()
+        tokens = self._command_parts(command)
         if not tokens:
             return False
         executable = tokens[0].lower()
@@ -80,11 +98,19 @@ class ShellTool:
         if not self._is_allowed(raw_command):
             raise PermissionError(f"comando não permitido pela whitelist: {raw_command}")
 
+        run_cwd = self._normalize_cwd(cwd)
+        command = self._command_parts(cmd)
+        if not command:
+            raise ValueError("Comando vazio não é permitido.")
+
+        if timeout <= 0:
+            raise ValueError("timeout deve ser maior que zero.")
+
         start = time.time()
         process = subprocess.Popen(
-            cmd if isinstance(cmd, list) else cmd,
-            shell=isinstance(cmd, str),
-            cwd=str(cwd or self.workspace_root),
+            command,
+            shell=False,
+            cwd=str(run_cwd),
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -96,13 +122,12 @@ class ShellTool:
         timed_out = False
 
         try:
-            if stream and process.stdout is not None and on_chunk is not None:
-                for line in process.stdout:
-                    stdout_chunks.append(line)
-                    on_chunk(line)
             out, err = process.communicate(timeout=timeout)
             if out:
                 stdout_chunks.append(out)
+                if stream and on_chunk is not None:
+                    for line in out.splitlines(True):
+                        on_chunk(line)
             if err:
                 stderr_chunks.append(err)
         except subprocess.TimeoutExpired:
