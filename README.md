@@ -126,6 +126,7 @@ Comandos técnicos continuam úteis para automação e integração, sem dominar
 - A conversão de texto livre para evidência técnica ainda é conservadora (semântica inicial).
 - O front-agent prioriza governança e decisão, não substitui todo o patching automático por padrão.
 - O modo headless/gRPC ainda está preparado estruturalmente, mas não é padrão ainda.
+- O agente ainda não opera em autonomia irrestrita: há pontos de confirmação e aprovação quando há gating/human action ativo.
 
 ## Estrutura do projeto
 

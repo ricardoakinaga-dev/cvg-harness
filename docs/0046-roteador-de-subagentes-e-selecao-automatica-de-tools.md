@@ -2,39 +2,65 @@
 
 ## Objetivo
 
-Decidir automaticamente o plano operacional com base em:
+Decidir, em uma só entrada textual, o fluxo operacional interno sem exigir que o usuário escolha comandos de pipeline.
 
-- intenção da mensagem do usuário,
-- estado da run,
-- classificação de risco (`FAST`/`ENTERPRISE`),
-- contexto atual da sessão.
+## Camada de roteamento atual
 
-## Subagentes/capas internos contemplados
+1. Entrada livre chega em `FrontAgent.start()`.
+2. `_run` chama [`route_request`]( /home/ricardo/.openclaw/workspace/cvg-harness/src/cvg_harness/routing/router.py ).
+3. `RouteType` seleciona ação:
+   - nova demanda, status, inspect, continue, resume, replan, reason, config, doctor, debug, help, exit.
+4. Dispatcher (`FrontAgent._dispatch`) chama módulos técnicos apropriados.
 
-- classifier
-- research
-- prd
-- spec_builder
-- spec_linter
-- sprint_planner
-- evaluator
-- architecture_guardian
-- drift_detector
-- release_readiness
-- replan_coordinator
-- metrics_aggregator
+## Seleção de subagentes internos
 
-## Decisão atual (heurística inicial)
+O fluxo de `nova demanda` aciona serviços da engine preservada:
 
-- Mensagem de demanda nova: abre `start_run` com modo sugerido via `calculate_mode`.
-- Mensagem de aprovação (`aprovar`, `sim`, `ok`): aciona `approve`.
-- `status`/`inspect`/`resume`: chamada direta de consulta.
-- `continue`: resume run via `OperatorService.continue`.
-- `replaneje`: aciona `replan`.
-- Perguntas explicativas: `inspect + causal`.
+- `classification` (`calculate_mode`)
+- `research` (na sequência de execução)
+- `prd`
+- `spec_builder`
+- `spec_linter`
+- `sprint_planner`
+- `architecture_guardian`
+- `drift_detector`
+- `evaluator`
+- `release readiness`
+- `replan_coordinator`
+- `metrics_aggregator`
 
-## Seleção de modelos
+Não há acionamento manual de cada etapa no prompt principal; as chamadas são encadeadas no `OperatorService`.
 
-- `ModelProvider` resolve provider e modelo em configuração e checa suporte.
-- MiniMax é o padrão sugerido.
-- OpenAI / OpenRouter disponíveis para fallback por configuração.
+## Seleção de modelo por modo
+
+Modelo automático atual:
+
+- Modo `FAST` → primeiro modelo `*highspeed` disponível do provider.
+- Modo `ENTERPRISE` → primeiro modelo sem `highspeed`.
+- Se não houver correspondência, usa `config.default_model`.
+
+Definição em [`_select_model`]( /home/ricardo/.openclaw/workspace/cvg-harness/src/cvg_harness/app/agent.py ).
+
+## Seleção de provider
+
+- provider/credentials vêm da configuração resolvida (`load_config`).
+- `minimax` é o default sugerido.
+- OpenAI/OpenRouter só entram por configuração explícita ou variável de ambiente.
+- `Provider` é construído com `build_provider(...)` sem acoplamento de domínio.
+
+## Quando o agente pede confirmação humana
+
+Condições atuais:
+
+- sprint pendente de aprovação (`approve_sprint`)
+- run exigindo bloqueio de segurança (`pending_human_action`)
+- replanejamento com decisão de risco alto
+- health check/diálogo de explicação solicitado pelo usuário
+
+## Quando bloquear
+
+Bloqueia operação em:
+
+- onboarding incompleto em modo não-interativo
+- falhas de configuração crítica de chave
+- necessidade de input manual em fluxo técnico (dependente de execução real)

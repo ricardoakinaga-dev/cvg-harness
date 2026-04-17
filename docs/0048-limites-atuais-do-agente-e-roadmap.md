@@ -1,22 +1,26 @@
-# 0048 — Limites Atuais e Roadmap
+# 0048 — Limites Atuais do Agente e Roadmap
 
-## O que já está pronto
+## O que já funciona no estado atual
 
-- Modo de agente terminal com loop conversacional (`harness`).
-- Onboarding guiado e gestão de provider/model.
-- Sessão persistida e retomada por workspace.
-- Execução do core atual de governança sem reescrita (wrap de `OperatorService`).
-- Namespace técnico preservado em `debug`.
+- Agente conversacional principal com `harness`.
+- Onboarding guiado e resolução de provider por prioridade.
+- Persistência de sessão e resumibilidade (`.harness/session`, `current-run.txt`).
+- Execução da engine original de governança sem reescrita.
+- Namespace técnico preservado em `harness debug` e `cvg`.
+- Registro de eventos/ledger/metrics conforme contratos existentes.
 
-## Limitações atuais (simulação/homologação)
+## Limitações reais
 
-- Conversão de texto livre para evidências ainda é limitada a padrão simples.
-- O front-agent não cria e aplica patches de código sozinho por padrão (só executa fluxo de planejamento e validação da engine existente).
-- A justificativa automática usa o contexto de classification disponível na artefatos atuais.
+- O fluxo ainda opera com decisões majoritariamente heurísticas para transições de fase; não é um agente “multi-model autonomamente criativo”.
+- Geração de código automático (patch) ainda não é o padrão por segurança; a rotina padrão prioriza planejamento e governança.
+- A integração com runtime externo (CI, execução real, evidência externa) existe via adapters/execução opcional, mas não é mandatória no caminho padrão.
+- A escolha de ferramenta é feita por contratos e estado de run; não há ainda seleção por otimização de custo em tempo real.
+- Não há serviço headless publicado neste release (só estrutura preparada).
 
-## Dependências futuras
+## Roadmap curto (próximos ciclos)
 
-- Headless gRPC:
-  - separar entrada de CLI de serviços internos,
-  - expor sessão de run e eventos via stream.
-- Auto-execução de mudanças a partir de prompts ainda pode evoluir para modo executor opcional por política de segurança.
+1. Ativar executor de alterações em modo controlado por policy.
+2. Expandir `resume` para reconciliação de conversação com histórico completo de turns.
+3. Expor serviços de sessão/estado em gRPC local para automação.
+4. Melhorar observabilidade de custo/latência por provider.
+5. Adicionar telemetria por modelo com feedback de qualidade de decisão.
