@@ -1,0 +1,12 @@
+{
+  "runs": [
+    {
+      "run_id": "20260417-022209-capability-fallback-demo",
+      "project": "",
+      "demand": "capability fallback demo",
+      "run_workspace": ".cvg-harness/runs/20260417-022209-capability-fallback-demo",
+      "operator_status": "active",
+      "updated_at": "2026-04-17T02:22:09.812907+00:00"
+    }
+  ]
+}

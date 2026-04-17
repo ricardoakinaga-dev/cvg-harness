@@ -1,0 +1,11 @@
+{
+  "sequencia": [
+    "SPRINT-1"
+  ],
+  "bloqueios": [],
+  "paralelismo_permitido": false,
+  "pre_conds": {},
+  "sprint_ids": [
+    "SPRINT-1"
+  ]
+}

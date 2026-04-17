@@ -1,0 +1,21 @@
+{
+  "project": "",
+  "demand": "capability fallback demo",
+  "mode": "FAST",
+  "total_score": 5,
+  "dimensions": {
+    "impacto_arquitetural": 1,
+    "modulos_afetados": 1,
+    "risco_de_regressao": 1,
+    "criticidade_de_negocio": 0,
+    "sensibilidade_de_dados": 0,
+    "dependencia_externa": 0,
+    "reversibilidade": 1,
+    "complexidade_de_validacao": 1
+  },
+  "rationale": "Dimens\u00f5es inferidas heuristicamente a partir do texto da demanda; o operador pode revisar via status/inspect e for\u00e7ar ENTERPRISE quando necess\u00e1rio.",
+  "override_applied": false,
+  "override_reason": null,
+  "classified_by": "intake-classifier",
+  "timestamp": "2026-04-17T02:22:09.731522+00:00"
+}

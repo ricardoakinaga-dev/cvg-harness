@@ -1,0 +1,16 @@
+{
+  "source_artifact": "spec.json",
+  "source_version": "v1",
+  "target_agent": "Sprint Planner",
+  "objective": "Quebrar SPEC em unidades pequenas, sequenciadas e execut\u00e1veis",
+  "restrictions": [
+    "Cada sprint deve ter escopo fechado",
+    "Depend\u00eancias declaradas"
+  ],
+  "open_questions": [],
+  "required_evidences": [
+    "sprint-plan.json",
+    "execution-order.json"
+  ],
+  "created_at": "2026-04-17T02:22:09.743951+00:00"
+}

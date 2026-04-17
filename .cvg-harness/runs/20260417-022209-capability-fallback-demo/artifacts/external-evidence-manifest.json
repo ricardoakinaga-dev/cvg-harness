@@ -1,0 +1,19 @@
+{
+  "run_id": "20260417-022209-capability-fallback-demo",
+  "event": "ci_result",
+  "simulated": true,
+  "evidence_refs": [
+    "ci-result.json",
+    "https://github.com/openai/cvg-harness/actions/runs/42"
+  ],
+  "results": [
+    {
+      "hook_event": "ci_result",
+      "command": "gh run view 42 --repo openai/cvg-harness --json conclusion,url,workflowName",
+      "status": "simulated",
+      "artifact_output": "ci-result.json",
+      "reason": "Execução simulada - definir simulated=False para execução real"
+    }
+  ],
+  "updated_at": "2026-04-17T02:22:09.789590+00:00"
+}

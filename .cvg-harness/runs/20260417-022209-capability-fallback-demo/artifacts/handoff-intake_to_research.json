@@ -1,0 +1,13 @@
+{
+  "source_artifact": "intake.md",
+  "source_version": "v1",
+  "target_agent": "Research Agent",
+  "objective": "Mapear arquitetura atual, arquivos relevantes, decis\u00f5es existentes, riscos e restri\u00e7\u00f5es",
+  "restrictions": [],
+  "open_questions": [],
+  "required_evidences": [
+    "research-notes.md",
+    "system-map.md"
+  ],
+  "created_at": "2026-04-17T02:22:09.743911+00:00"
+}

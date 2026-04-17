@@ -1,0 +1,32 @@
+{
+  "run_id": "20260417-022209-capability-fallback-demo",
+  "event": "ci_result",
+  "profile": "github-actions",
+  "provider": "github-actions",
+  "simulated": true,
+  "context": {
+    "ci_ref": "https://github.com/openai/cvg-harness/actions/runs/42",
+    "repository": "openai/cvg-harness",
+    "ci_run_id": "42",
+    "ci_url": "https://github.com/openai/cvg-harness/actions/runs/42",
+    "ci_api": "https://api.github.com/repos/openai/cvg-harness/actions/runs/42"
+  },
+  "raw_context": {},
+  "status": "unknown",
+  "ci_ref": "https://github.com/openai/cvg-harness/actions/runs/42",
+  "evidence_refs": [
+    "ci-result.json"
+  ],
+  "results": [
+    {
+      "hook_event": "ci_result",
+      "command": "gh run view 42 --repo openai/cvg-harness --json conclusion,url,workflowName",
+      "status": "simulated",
+      "artifact_output": "ci-result.json",
+      "reason": "Execução simulada - definir simulated=False para execução real"
+    }
+  ],
+  "source": "external_ci",
+  "metadata": {},
+  "updated_at": "2026-04-17T02:22:09.789190+00:00"
+}

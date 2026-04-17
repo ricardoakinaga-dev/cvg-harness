@@ -1,0 +1,118 @@
+{
+  "run_id": "20260417-022209-capability-fallback-demo",
+  "sprint_id": "SPRINT-1",
+  "demand": "capability fallback demo",
+  "objective": "capability fallback demo",
+  "workspace": ".",
+  "changed_files": [],
+  "evidence_targets": [],
+  "context": {
+    "ci_ref": "https://github.com/openai/cvg-harness/actions/runs/42",
+    "repository": "openai/cvg-harness",
+    "ci_run_id": "42",
+    "ci_url": "https://github.com/openai/cvg-harness/actions/runs/42",
+    "ci_api": "https://api.github.com/repos/openai/cvg-harness/actions/runs/42",
+    "runtime_provider": "github-actions",
+    "ci_status": "unknown",
+    "ci_provider": "github-actions"
+  },
+  "context_sources": [
+    "runtime_hooks",
+    "ci_result"
+  ],
+  "metadata": {
+    "mode": "FAST",
+    "evidence_items": 0,
+    "runtime_profile": "github-actions",
+    "runtime_provider": "github-actions",
+    "runtime_event": "ci_result",
+    "transport": "manual",
+    "capabilities": [
+      "planning",
+      "review"
+    ],
+    "emits_evidence": true,
+    "provider": "",
+    "context_hints": [],
+    "required_context": [],
+    "example_contexts": [],
+    "command_examples": []
+  },
+  "adapter": "manual-review",
+  "status": "manual_required",
+  "planned_command": "manual://handoff/20260417-022209-capability-fallback-demo/SPRINT-1",
+  "external_ref": "",
+  "evidence_refs": [],
+  "notes": "Execução externa preparada; dispatch explícito continua opt-in",
+  "created_at": "2026-04-17T02:22:09.812356+00:00",
+  "provider": "",
+  "context_hints": [],
+  "required_context": [],
+  "missing_context_hints": [],
+  "missing_required_context": [],
+  "available_context_keys": [
+    "ci_api",
+    "ci_provider",
+    "ci_ref",
+    "ci_run_id",
+    "ci_status",
+    "ci_url",
+    "repository",
+    "runtime_provider"
+  ],
+  "example_contexts": [],
+  "command_examples": [],
+  "request_metadata": {
+    "mode": "FAST",
+    "evidence_items": 0,
+    "runtime_profile": "github-actions",
+    "runtime_provider": "github-actions",
+    "runtime_event": "ci_result"
+  },
+  "result_metadata": {
+    "transport": "manual",
+    "capabilities": [
+      "planning",
+      "review"
+    ],
+    "emits_evidence": true,
+    "provider": "",
+    "context_hints": [],
+    "required_context": [],
+    "example_contexts": [],
+    "command_examples": []
+  },
+  "runtime_profile": "github-actions",
+  "runtime_provider": "github-actions",
+  "capability": "review",
+  "selection_reason": [
+    "capability:review",
+    "policy:prefer_manual",
+    "required_context_satisfied"
+  ],
+  "suitability_score": 21,
+  "alternative_adapters": [
+    {
+      "name": "github-actions-review",
+      "provider": "github-actions",
+      "suitability_score": 19,
+      "selection_reason": [
+        "capability:review",
+        "provider:github-actions",
+        "required_context_satisfied"
+      ],
+      "missing_required_context": []
+    },
+    {
+      "name": "gitlab-ci-review",
+      "provider": "gitlab-ci",
+      "suitability_score": 14,
+      "selection_reason": [
+        "capability:review",
+        "required_context_satisfied"
+      ],
+      "missing_required_context": []
+    }
+  ],
+  "execute": false
+}

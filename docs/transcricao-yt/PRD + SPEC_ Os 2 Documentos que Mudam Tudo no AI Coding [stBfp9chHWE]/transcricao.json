@@ -1,0 +1,5384 @@
+[
+  {
+    "text": "Muito tem se falado sobre a SPEC, a",
+    "duration": 4481,
+    "offset": 199,
+    "lang": "pt"
+  },
+  {
+    "text": "especificação técnica de um projeto que",
+    "duration": 4081,
+    "offset": 2399,
+    "lang": "pt"
+  },
+  {
+    "text": "você envia para o seu agente para que",
+    "duration": 3720,
+    "offset": 4680,
+    "lang": "pt"
+  },
+  {
+    "text": "ele possa te entregar o código. Pronto.",
+    "duration": 4039,
+    "offset": 6480,
+    "lang": "pt"
+  },
+  {
+    "text": "A spec, que é uma especificação técnica,",
+    "duration": 4119,
+    "offset": 8400,
+    "lang": "pt"
+  },
+  {
+    "text": "ela não é algo que foi criado há pouco",
+    "duration": 4401,
+    "offset": 10519,
+    "lang": "pt"
+  },
+  {
+    "text": "tempo atrás. Isso já existe há anos no",
+    "duration": 4001,
+    "offset": 12519,
+    "lang": "pt"
+  },
+  {
+    "text": "mundo do desenvolvimento e ela sempre",
+    "duration": 3840,
+    "offset": 14920,
+    "lang": "pt"
+  },
+  {
+    "text": "fez parte do processo de uma empresa de",
+    "duration": 3960,
+    "offset": 16520,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvimento de sistemas. E com a",
+    "duration": 3720,
+    "offset": 18760,
+    "lang": "pt"
+  },
+  {
+    "text": "chegada dessas ideias agênticas, do",
+    "duration": 4760,
+    "offset": 20480,
+    "lang": "pt"
+  },
+  {
+    "text": "cloud Code, do Antigravity, muita gente",
+    "duration": 4920,
+    "offset": 22480,
+    "lang": "pt"
+  },
+  {
+    "text": "se arriscou a desenvolver software, mas",
+    "duration": 4160,
+    "offset": 25240,
+    "lang": "pt"
+  },
+  {
+    "text": "realmente não quis entender o processo",
+    "duration": 3680,
+    "offset": 27400,
+    "lang": "pt"
+  },
+  {
+    "text": "por trás de um desenvolvimento de alguma",
+    "duration": 3800,
+    "offset": 29400,
+    "lang": "pt"
+  },
+  {
+    "text": "aplicação. E o resultado é que pulou",
+    "duration": 4280,
+    "offset": 31080,
+    "lang": "pt"
+  },
+  {
+    "text": "toda a parte de documentação e foi",
+    "duration": 4480,
+    "offset": 33200,
+    "lang": "pt"
+  },
+  {
+    "text": "direto pra parte de desenvolvimento,",
+    "duration": 4280,
+    "offset": 35360,
+    "lang": "pt"
+  },
+  {
+    "text": "direto no desenvolvedor, que é o seu",
+    "duration": 4320,
+    "offset": 37680,
+    "lang": "pt"
+  },
+  {
+    "text": "agente. Isso nos primeiros 30 segundos",
+    "duration": 5120,
+    "offset": 39640,
+    "lang": "pt"
+  },
+  {
+    "text": "parece mágico, nos próximos 20 minutos",
+    "duration": 4640,
+    "offset": 42000,
+    "lang": "pt"
+  },
+  {
+    "text": "ele tá entregando OK. E depois quando a",
+    "duration": 4000,
+    "offset": 44760,
+    "lang": "pt"
+  },
+  {
+    "text": "janela de contexto dele começa a crescer",
+    "duration": 4360,
+    "offset": 46640,
+    "lang": "pt"
+  },
+  {
+    "text": "com seus comandos rasos. E mesmo que",
+    "duration": 4200,
+    "offset": 48760,
+    "lang": "pt"
+  },
+  {
+    "text": "você esteja conversando com outra LLM e",
+    "duration": 3920,
+    "offset": 51000,
+    "lang": "pt"
+  },
+  {
+    "text": "ela esteja te ajudando com os promptes",
+    "duration": 4079,
+    "offset": 52960,
+    "lang": "pt"
+  },
+  {
+    "text": "para poder desenvolver, isso não é o",
+    "duration": 4000,
+    "offset": 54920,
+    "lang": "pt"
+  },
+  {
+    "text": "suficiente para que você consiga",
+    "duration": 3520,
+    "offset": 57039,
+    "lang": "pt"
+  },
+  {
+    "text": "entregar uma aplicação de qualidade.",
+    "duration": 2880,
+    "offset": 58920,
+    "lang": "pt"
+  },
+  {
+    "text": "Hoje eu vou te mostrar um processo",
+    "duration": 2881,
+    "offset": 60559,
+    "lang": "pt"
+  },
+  {
+    "text": "básico que eu uso aqui para poder",
+    "duration": 3560,
+    "offset": 61800,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolver. É algo que talvez esteja",
+    "duration": 3960,
+    "offset": 63440,
+    "lang": "pt"
+  },
+  {
+    "text": "até fora da realidade para quem tá",
+    "duration": 3880,
+    "offset": 65360,
+    "lang": "pt"
+  },
+  {
+    "text": "utilizando essas ferramentas e quem",
+    "duration": 4200,
+    "offset": 67400,
+    "lang": "pt"
+  },
+  {
+    "text": "trabalha com vibe coding, mas é a dura",
+    "duration": 4680,
+    "offset": 69240,
+    "lang": "pt"
+  },
+  {
+    "text": "realidade de como utilizar isso aqui de",
+    "duration": 4400,
+    "offset": 71600,
+    "lang": "pt"
+  },
+  {
+    "text": "forma profissional, você tendo o melhor",
+    "duration": 4320,
+    "offset": 73920,
+    "lang": "pt"
+  },
+  {
+    "text": "resultado possível e com muito pouco",
+    "duration": 3799,
+    "offset": 76000,
+    "lang": "pt"
+  },
+  {
+    "text": "retrabalho. E vou te mostrar isso aqui",
+    "duration": 3519,
+    "offset": 78240,
+    "lang": "pt"
+  },
+  {
+    "text": "na prática, um processo como eu construo",
+    "duration": 4320,
+    "offset": 79799,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui uma feature, uma funcionalidade de",
+    "duration": 4680,
+    "offset": 81759,
+    "lang": "pt"
+  },
+  {
+    "text": "um sistema. É, e talvez isso vai te dar",
+    "duration": 4561,
+    "offset": 84119,
+    "lang": "pt"
+  },
+  {
+    "text": "um insight legal aí, é, que talvez você",
+    "duration": 4761,
+    "offset": 86439,
+    "lang": "pt"
+  },
+  {
+    "text": "consiga colocar no seu projeto. Beleza?",
+    "duration": 4280,
+    "offset": 88680,
+    "lang": "pt"
+  },
+  {
+    "text": "Meu nome é Breno. Eu sou fundador da",
+    "duration": 3279,
+    "offset": 91200,
+    "lang": "pt"
+  },
+  {
+    "text": "Lion Lab, comunidade de inteligência",
+    "duration": 3320,
+    "offset": 92960,
+    "lang": "pt"
+  },
+  {
+    "text": "artificial. Sou diretor de uma empresa",
+    "duration": 4081,
+    "offset": 94479,
+    "lang": "pt"
+  },
+  {
+    "text": "de tecnologia e hoje tô aqui para poder",
+    "duration": 4400,
+    "offset": 96280,
+    "lang": "pt"
+  },
+  {
+    "text": "passar o conhecimento para vocês. Então,",
+    "duration": 4360,
+    "offset": 98560,
+    "lang": "pt"
+  },
+  {
+    "text": "deixa o seu like, segue o canal, muito",
+    "duration": 3560,
+    "offset": 100680,
+    "lang": "pt"
+  },
+  {
+    "text": "importante pra gente continuar o nosso",
+    "duration": 3080,
+    "offset": 102920,
+    "lang": "pt"
+  },
+  {
+    "text": "trabalho. O link da comunidade tá",
+    "duration": 3720,
+    "offset": 104240,
+    "lang": "pt"
+  },
+  {
+    "text": "disponível na descrição desse vídeo.",
+    "duration": 3360,
+    "offset": 106000,
+    "lang": "pt"
+  },
+  {
+    "text": "Venha compartilhar o seu conhecimento",
+    "duration": 3199,
+    "offset": 107960,
+    "lang": "pt"
+  },
+  {
+    "text": "com a gente e nós também vamos",
+    "duration": 4000,
+    "offset": 109360,
+    "lang": "pt"
+  },
+  {
+    "text": "compartilhar com vocês. Então, bora pra",
+    "duration": 3560,
+    "offset": 111159,
+    "lang": "pt"
+  },
+  {
+    "text": "aula. Então, já pra gente não perder o",
+    "duration": 3240,
+    "offset": 113360,
+    "lang": "pt"
+  },
+  {
+    "text": "costume. Preparei aquela aulinha aqui, a",
+    "duration": 3320,
+    "offset": 114719,
+    "lang": "pt"
+  },
+  {
+    "text": "gente vai pra teoria e depois eu vou",
+    "duration": 3600,
+    "offset": 116600,
+    "lang": "pt"
+  },
+  {
+    "text": "mostrar pr vocês aqui o processo que eu",
+    "duration": 3961,
+    "offset": 118039,
+    "lang": "pt"
+  },
+  {
+    "text": "utilizo e aí vou liberar aqui um",
+    "duration": 4320,
+    "offset": 120200,
+    "lang": "pt"
+  },
+  {
+    "text": "workflow aqui até para poder melhorar as",
+    "duration": 5280,
+    "offset": 122000,
+    "lang": "pt"
+  },
+  {
+    "text": "specs de vocês aí, dar aquele tapa e",
+    "duration": 4760,
+    "offset": 124520,
+    "lang": "pt"
+  },
+  {
+    "text": "depois que você gera aquele documento, é",
+    "duration": 3679,
+    "offset": 127280,
+    "lang": "pt"
+  },
+  {
+    "text": "para ajudar aí os seus agentes aí ter",
+    "duration": 4039,
+    "offset": 129280,
+    "lang": "pt"
+  },
+  {
+    "text": "uma assertividade melhor no momento do",
+    "duration": 5481,
+    "offset": 130959,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvimento. Beleza? Então, o spec",
+    "duration": 5081,
+    "offset": 133319,
+    "lang": "pt"
+  },
+  {
+    "text": "Drive and",
+    "duration": 5120,
+    "offset": 136440,
+    "lang": "pt"
+  },
+  {
+    "text": "fazer a IA codar projetos inteiros. Isso",
+    "duration": 5160,
+    "offset": 138400,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui ele sempre existiu, galera, na",
+    "duration": 4240,
+    "offset": 141560,
+    "lang": "pt"
+  },
+  {
+    "text": "empresas de tecnologia aqui, todas que",
+    "duration": 4360,
+    "offset": 143560,
+    "lang": "pt"
+  },
+  {
+    "text": "eu trabalhei até hoje. Tudo isso que",
+    "duration": 4560,
+    "offset": 145800,
+    "lang": "pt"
+  },
+  {
+    "text": "sempre teve é a especificação técnica, é",
+    "duration": 4800,
+    "offset": 147920,
+    "lang": "pt"
+  },
+  {
+    "text": "um passo antes da implementação. O que",
+    "duration": 4440,
+    "offset": 150360,
+    "lang": "pt"
+  },
+  {
+    "text": "que é o problema de hoje aqui que esses",
+    "duration": 4320,
+    "offset": 152720,
+    "lang": "pt"
+  },
+  {
+    "text": "caras do Vibe Code, né, tão tão",
+    "duration": 5120,
+    "offset": 154800,
+    "lang": "pt"
+  },
+  {
+    "text": "sofrendo? Eh, o cara bota um system",
+    "duration": 5559,
+    "offset": 157040,
+    "lang": "pt"
+  },
+  {
+    "text": "prompt ali, a Ia vai lá dá uma leitura",
+    "duration": 5399,
+    "offset": 159920,
+    "lang": "pt"
+  },
+  {
+    "text": "nos arquivos. Aí tem a resposta disso,",
+    "duration": 5321,
+    "offset": 162599,
+    "lang": "pt"
+  },
+  {
+    "text": "mais o histórico, chama tools ali, mais",
+    "duration": 4881,
+    "offset": 165319,
+    "lang": "pt"
+  },
+  {
+    "text": "os resultados da tool. Rapidinho ele",
+    "duration": 4239,
+    "offset": 167920,
+    "lang": "pt"
+  },
+  {
+    "text": "chega no que a gente chama aqui de db",
+    "duration": 4800,
+    "offset": 170200,
+    "lang": "pt"
+  },
+  {
+    "text": "zone, que é cara é a zona que o agente",
+    "duration": 5641,
+    "offset": 172159,
+    "lang": "pt"
+  },
+  {
+    "text": "fica bobo, ele já não consegue",
+    "duration": 5440,
+    "offset": 175000,
+    "lang": "pt"
+  },
+  {
+    "text": "desenrolar nada. Então, 15 minutos de",
+    "duration": 4600,
+    "offset": 177800,
+    "lang": "pt"
+  },
+  {
+    "text": "trabalho aqui num cloud code, por",
+    "duration": 5480,
+    "offset": 180440,
+    "lang": "pt"
+  },
+  {
+    "text": "exemplo, que ele recebe o prompt, aí ele",
+    "duration": 6399,
+    "offset": 182400,
+    "lang": "pt"
+  },
+  {
+    "text": "recebe as skills, as tools, eh, os",
+    "duration": 5840,
+    "offset": 185920,
+    "lang": "pt"
+  },
+  {
+    "text": "agentes, eh, vai receber ali rules, vai",
+    "duration": 5681,
+    "offset": 188799,
+    "lang": "pt"
+  },
+  {
+    "text": "receber o cloud MD. Então pensa que esse",
+    "duration": 5720,
+    "offset": 191760,
+    "lang": "pt"
+  },
+  {
+    "text": "cara aqui ele já chega bombado de prompt",
+    "duration": 5399,
+    "offset": 194480,
+    "lang": "pt"
+  },
+  {
+    "text": "para tudo que é lado. E se você ficar",
+    "duration": 5039,
+    "offset": 197480,
+    "lang": "pt"
+  },
+  {
+    "text": "sujando a janela de contexto dele ali,",
+    "duration": 4521,
+    "offset": 199879,
+    "lang": "pt"
+  },
+  {
+    "text": "se planejando e pedindo para ele",
+    "duration": 4360,
+    "offset": 202519,
+    "lang": "pt"
+  },
+  {
+    "text": "promptes vagos, rapidamente esse cara",
+    "duration": 3839,
+    "offset": 204400,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui ele vai para um nível de",
+    "duration": 4401,
+    "offset": 206879,
+    "lang": "pt"
+  },
+  {
+    "text": "assertividade muito baixa. Beleza? Dito",
+    "duration": 5841,
+    "offset": 208239,
+    "lang": "pt"
+  },
+  {
+    "text": "isso, eh, nós não podemos deixar esse",
+    "duration": 4959,
+    "offset": 211280,
+    "lang": "pt"
+  },
+  {
+    "text": "cara aqui em alguma feature que ele",
+    "duration": 4560,
+    "offset": 214080,
+    "lang": "pt"
+  },
+  {
+    "text": "esteja desenvolvendo, chegar nessa dumb",
+    "duration": 4280,
+    "offset": 216239,
+    "lang": "pt"
+  },
+  {
+    "text": "zone aqui, ó. Não se engane. Não achea",
+    "duration": 4120,
+    "offset": 218640,
+    "lang": "pt"
+  },
+  {
+    "text": "que porque existe uma janela de contexto",
+    "duration": 4681,
+    "offset": 220519,
+    "lang": "pt"
+  },
+  {
+    "text": "de 1 milhão de tokens que quando chegar",
+    "duration": 5039,
+    "offset": 222760,
+    "lang": "pt"
+  },
+  {
+    "text": "ali nos 800.000 tokens o cara vai est",
+    "duration": 5800,
+    "offset": 225200,
+    "lang": "pt"
+  },
+  {
+    "text": "performando, ele vai est no 40% de",
+    "duration": 5160,
+    "offset": 227799,
+    "lang": "pt"
+  },
+  {
+    "text": "performance ou menos quando ele chegar",
+    "duration": 4599,
+    "offset": 231000,
+    "lang": "pt"
+  },
+  {
+    "text": "nesse nível aqui. Isso não é algo legal.",
+    "duration": 5200,
+    "offset": 232959,
+    "lang": "pt"
+  },
+  {
+    "text": "O que que é o spec drive development,",
+    "duration": 5041,
+    "offset": 235599,
+    "lang": "pt"
+  },
+  {
+    "text": "né? Aqui é um processo de TI.",
+    "duration": 5280,
+    "offset": 238159,
+    "lang": "pt"
+  },
+  {
+    "text": "Normalmente e você começa ali com a",
+    "duration": 4920,
+    "offset": 240640,
+    "lang": "pt"
+  },
+  {
+    "text": "equipe de produto, tem a ideia ali do",
+    "duration": 4041,
+    "offset": 243439,
+    "lang": "pt"
+  },
+  {
+    "text": "que que vai ser desenvolvido, aí depois",
+    "duration": 4720,
+    "offset": 245560,
+    "lang": "pt"
+  },
+  {
+    "text": "disso ele gera ali o PRD, que eu já",
+    "duration": 4640,
+    "offset": 247480,
+    "lang": "pt"
+  },
+  {
+    "text": "falei alguns vídeos aqui sobre o PRD,",
+    "duration": 4280,
+    "offset": 250280,
+    "lang": "pt"
+  },
+  {
+    "text": "como se gera. Tem um workflow que ajuda",
+    "duration": 4200,
+    "offset": 252120,
+    "lang": "pt"
+  },
+  {
+    "text": "muito a idear produto. Eu vou deixar o",
+    "duration": 3239,
+    "offset": 254560,
+    "lang": "pt"
+  },
+  {
+    "text": "vídeo aqui, se vocês quiserem entender",
+    "duration": 3439,
+    "offset": 256320,
+    "lang": "pt"
+  },
+  {
+    "text": "como funciona a geração dessas primeiras",
+    "duration": 4081,
+    "offset": 257799,
+    "lang": "pt"
+  },
+  {
+    "text": "PRDs aqui, principalmente em projetos",
+    "duration": 4720,
+    "offset": 259759,
+    "lang": "pt"
+  },
+  {
+    "text": "novos, o vídeo vai tá aí acima, beleza?",
+    "duration": 4280,
+    "offset": 261880,
+    "lang": "pt"
+  },
+  {
+    "text": "Depois gerou esse PRD, ele é um",
+    "duration": 4121,
+    "offset": 264479,
+    "lang": "pt"
+  },
+  {
+    "text": "documento de negócio, um documento de",
+    "duration": 4160,
+    "offset": 266160,
+    "lang": "pt"
+  },
+  {
+    "text": "produto. O que que você quer? o que você",
+    "duration": 4240,
+    "offset": 268600,
+    "lang": "pt"
+  },
+  {
+    "text": "gostaria, tem o user stories, o como eu",
+    "duration": 4920,
+    "offset": 270320,
+    "lang": "pt"
+  },
+  {
+    "text": "gostaria de utilizar essa funcionalidade",
+    "duration": 5240,
+    "offset": 272840,
+    "lang": "pt"
+  },
+  {
+    "text": "ou este produto, etc. E depois disso vem",
+    "duration": 5360,
+    "offset": 275240,
+    "lang": "pt"
+  },
+  {
+    "text": "a spec. Geralmente tem um profissional",
+    "duration": 5160,
+    "offset": 278080,
+    "lang": "pt"
+  },
+  {
+    "text": "dentro da TI que ele pega esse documento",
+    "duration": 5400,
+    "offset": 280600,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui e ele transforma numa especificação",
+    "duration": 4959,
+    "offset": 283240,
+    "lang": "pt"
+  },
+  {
+    "text": "técnica. Esse cara aqui, ele já dá uma",
+    "duration": 4440,
+    "offset": 286000,
+    "lang": "pt"
+  },
+  {
+    "text": "olhada no código, ele consegue validar",
+    "duration": 4481,
+    "offset": 288199,
+    "lang": "pt"
+  },
+  {
+    "text": "algumas variáveis, ele consegue validar",
+    "duration": 4400,
+    "offset": 290440,
+    "lang": "pt"
+  },
+  {
+    "text": "as funções que existem. Então ele",
+    "duration": 4720,
+    "offset": 292680,
+    "lang": "pt"
+  },
+  {
+    "text": "consegue fazer as conexões entre a ideia",
+    "duration": 6160,
+    "offset": 294840,
+    "lang": "pt"
+  },
+  {
+    "text": "de negócio com a o que a TI mesmo, o",
+    "duration": 6359,
+    "offset": 297400,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvedor precisa saber. E esse cara",
+    "duration": 5240,
+    "offset": 301000,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui, ele transforma o todo o contexto",
+    "duration": 5160,
+    "offset": 303759,
+    "lang": "pt"
+  },
+  {
+    "text": "de produto, é, de uma forma eh muito",
+    "duration": 4640,
+    "offset": 306240,
+    "lang": "pt"
+  },
+  {
+    "text": "mais técnica, por isso que fala",
+    "duration": 4401,
+    "offset": 308919,
+    "lang": "pt"
+  },
+  {
+    "text": "especificação técnica, porque esse cara",
+    "duration": 4400,
+    "offset": 310880,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui ele só precisa implementar, ele não",
+    "duration": 4680,
+    "offset": 313320,
+    "lang": "pt"
+  },
+  {
+    "text": "precisa saber do do qual é o benefício",
+    "duration": 5160,
+    "offset": 315280,
+    "lang": "pt"
+  },
+  {
+    "text": "que o usuário está tendo e quanto que",
+    "duration": 4919,
+    "offset": 318000,
+    "lang": "pt"
+  },
+  {
+    "text": "ele vai ganhar ou o que vai trazer isso",
+    "duration": 4680,
+    "offset": 320440,
+    "lang": "pt"
+  },
+  {
+    "text": "pra empresa. Esse cara aqui, ele precisa",
+    "duration": 4201,
+    "offset": 322919,
+    "lang": "pt"
+  },
+  {
+    "text": "saber, o desenvolvedor, ele precisa",
+    "duration": 3280,
+    "offset": 325120,
+    "lang": "pt"
+  },
+  {
+    "text": "saber do técnico, o que eu vou",
+    "duration": 3240,
+    "offset": 327120,
+    "lang": "pt"
+  },
+  {
+    "text": "implementar, o que eu tenho que fazer,",
+    "duration": 4160,
+    "offset": 328400,
+    "lang": "pt"
+  },
+  {
+    "text": "eh, e quais são os casos de uso. Vamos",
+    "duration": 4800,
+    "offset": 330360,
+    "lang": "pt"
+  },
+  {
+    "text": "para cima. Então, esse cara aqui, ele é",
+    "duration": 4400,
+    "offset": 332560,
+    "lang": "pt"
+  },
+  {
+    "text": "um cara muito importante, especificação",
+    "duration": 3400,
+    "offset": 335160,
+    "lang": "pt"
+  },
+  {
+    "text": "técnica. Depois disso, a gente vai pra",
+    "duration": 4120,
+    "offset": 336960,
+    "lang": "pt"
+  },
+  {
+    "text": "teste e depois disso, cara, deploy, vai",
+    "duration": 5199,
+    "offset": 338560,
+    "lang": "pt"
+  },
+  {
+    "text": "pra produção. Show. Isso aqui nada de",
+    "duration": 6280,
+    "offset": 341080,
+    "lang": "pt"
+  },
+  {
+    "text": "novidade. Empresa de TI de 2010 já",
+    "duration": 6201,
+    "offset": 343759,
+    "lang": "pt"
+  },
+  {
+    "text": "executava exatamente isso aqui. Beleza?",
+    "duration": 4040,
+    "offset": 347360,
+    "lang": "pt"
+  },
+  {
+    "text": "Agora, depois que chegou essas",
+    "duration": 4120,
+    "offset": 349960,
+    "lang": "pt"
+  },
+  {
+    "text": "ferramentas aqui, Vibe Code, enfim,",
+    "duration": 6440,
+    "offset": 351400,
+    "lang": "pt"
+  },
+  {
+    "text": "cloud, Antigravity, a galera se achou no",
+    "duration": 6160,
+    "offset": 354080,
+    "lang": "pt"
+  },
+  {
+    "text": "direito de chegar e vir direto aqui, ó.",
+    "duration": 4880,
+    "offset": 357840,
+    "lang": "pt"
+  },
+  {
+    "text": "O cara vem aqui, ele abre o antigravity",
+    "duration": 5079,
+    "offset": 360240,
+    "lang": "pt"
+  },
+  {
+    "text": "dele aqui, abre aqui a janela do agente",
+    "duration": 5000,
+    "offset": 362720,
+    "lang": "pt"
+  },
+  {
+    "text": "e aqui ele vai para cima e começa: \"Eu",
+    "duration": 4000,
+    "offset": 365319,
+    "lang": "pt"
+  },
+  {
+    "text": "quero construir aqui e tal, tal, tal,",
+    "duration": 4199,
+    "offset": 367720,
+    "lang": "pt"
+  },
+  {
+    "text": "tal, tal\". cara, não vai dar certo. Vai",
+    "duration": 4160,
+    "offset": 369319,
+    "lang": "pt"
+  },
+  {
+    "text": "dar certo no início, mas se o seu",
+    "duration": 4241,
+    "offset": 371919,
+    "lang": "pt"
+  },
+  {
+    "text": "projeto ele tiver mais de 15 arquivos,",
+    "duration": 5321,
+    "offset": 373479,
+    "lang": "pt"
+  },
+  {
+    "text": "eh, você vai ficar mais debugando os",
+    "duration": 4560,
+    "offset": 376160,
+    "lang": "pt"
+  },
+  {
+    "text": "problemas que tá sendo gerado, eh, do",
+    "duration": 3560,
+    "offset": 378800,
+    "lang": "pt"
+  },
+  {
+    "text": "que de fato resolvendo. Então, você vai",
+    "duration": 4000,
+    "offset": 380720,
+    "lang": "pt"
+  },
+  {
+    "text": "perder muito mais tempo. Eh, tem muita",
+    "duration": 3920,
+    "offset": 382360,
+    "lang": "pt"
+  },
+  {
+    "text": "gente que acha que não tem que perder",
+    "duration": 3520,
+    "offset": 384720,
+    "lang": "pt"
+  },
+  {
+    "text": "tempo com essa spec aqui, mas se você",
+    "duration": 4319,
+    "offset": 386280,
+    "lang": "pt"
+  },
+  {
+    "text": "não faz isso aqui nem a PRD, você, na",
+    "duration": 4600,
+    "offset": 388240,
+    "lang": "pt"
+  },
+  {
+    "text": "verdade, você perde muito mais tempo",
+    "duration": 4561,
+    "offset": 390599,
+    "lang": "pt"
+  },
+  {
+    "text": "depois, é, corrigindo as merdas que o",
+    "duration": 4320,
+    "offset": 392840,
+    "lang": "pt"
+  },
+  {
+    "text": "agente fez. E eu garanto para você que",
+    "duration": 4479,
+    "offset": 395160,
+    "lang": "pt"
+  },
+  {
+    "text": "ele faz muita merda, porque o, se você",
+    "duration": 4120,
+    "offset": 397160,
+    "lang": "pt"
+  },
+  {
+    "text": "não falou para ele exatamente o que ele",
+    "duration": 3521,
+    "offset": 399639,
+    "lang": "pt"
+  },
+  {
+    "text": "tem que fazer, ele vai fazer da cabeça",
+    "duration": 4400,
+    "offset": 401280,
+    "lang": "pt"
+  },
+  {
+    "text": "dele. E quando eu digo da cabeça dele, é",
+    "duration": 4920,
+    "offset": 403160,
+    "lang": "pt"
+  },
+  {
+    "text": "um padrão de código que ele viu em algum",
+    "duration": 5160,
+    "offset": 405680,
+    "lang": "pt"
+  },
+  {
+    "text": "momento no treinamento dele, no GitHub,",
+    "duration": 4920,
+    "offset": 408080,
+    "lang": "pt"
+  },
+  {
+    "text": "no stack overflow. E ele vai replicar",
+    "duration": 3560,
+    "offset": 410840,
+    "lang": "pt"
+  },
+  {
+    "text": "aquilo ali e vai falar: \"Ah, isso aqui",
+    "duration": 3720,
+    "offset": 413000,
+    "lang": "pt"
+  },
+  {
+    "text": "tá OK, porque entendo que o padrão é",
+    "duration": 4160,
+    "offset": 414400,
+    "lang": "pt"
+  },
+  {
+    "text": "esse e na maioria das vezes ele vai est",
+    "duration": 3919,
+    "offset": 416720,
+    "lang": "pt"
+  },
+  {
+    "text": "errado.\" Beleza? Então esse cara aqui,",
+    "duration": 3720,
+    "offset": 418560,
+    "lang": "pt"
+  },
+  {
+    "text": "mesmo que você esteja conversando com a",
+    "duration": 5321,
+    "offset": 420639,
+    "lang": "pt"
+  },
+  {
+    "text": "sua LLM lá, eh, com o cloud lá, vou tá",
+    "duration": 5160,
+    "offset": 422280,
+    "lang": "pt"
+  },
+  {
+    "text": "ideando e tá falando: \"Beleza, Cláudio,",
+    "duration": 2880,
+    "offset": 425960,
+    "lang": "pt"
+  },
+  {
+    "text": "então me dá o prompt aqui. Você tá",
+    "duration": 3240,
+    "offset": 427440,
+    "lang": "pt"
+  },
+  {
+    "text": "mandando o prompt direto para esse cara.",
+    "duration": 3359,
+    "offset": 428840,
+    "lang": "pt"
+  },
+  {
+    "text": "Se você tiver mandando um prompt muito",
+    "duration": 3760,
+    "offset": 430680,
+    "lang": "pt"
+  },
+  {
+    "text": "grande, a janela de contexto desse cara",
+    "duration": 3761,
+    "offset": 432199,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui, ela vai ficar grande. Então,",
+    "duration": 3479,
+    "offset": 434440,
+    "lang": "pt"
+  },
+  {
+    "text": "imagina que você mandou um propt",
+    "duration": 3600,
+    "offset": 435960,
+    "lang": "pt"
+  },
+  {
+    "text": "gigantesco ali, ele tem muita coisa para",
+    "duration": 3201,
+    "offset": 437919,
+    "lang": "pt"
+  },
+  {
+    "text": "implementar. Quando ele começa a",
+    "duration": 3800,
+    "offset": 439560,
+    "lang": "pt"
+  },
+  {
+    "text": "implementar só as buscas de arquivos que",
+    "duration": 4759,
+    "offset": 441120,
+    "lang": "pt"
+  },
+  {
+    "text": "ele tem que fazer, eh, sem documentação,",
+    "duration": 4239,
+    "offset": 443360,
+    "lang": "pt"
+  },
+  {
+    "text": "ele facilmente ele vai querer",
+    "duration": 3681,
+    "offset": 445879,
+    "lang": "pt"
+  },
+  {
+    "text": "simplesmente te entregar como pronto.",
+    "duration": 3561,
+    "offset": 447599,
+    "lang": "pt"
+  },
+  {
+    "text": "Inclusive, no vídeo abaixo ali, eu",
+    "duration": 3639,
+    "offset": 449560,
+    "lang": "pt"
+  },
+  {
+    "text": "comprovei isso, que realmente a Antropic",
+    "duration": 4000,
+    "offset": 451160,
+    "lang": "pt"
+  },
+  {
+    "text": "gerou um relatório que quando você",
+    "duration": 3241,
+    "offset": 453199,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolve um documento muito",
+    "duration": 3800,
+    "offset": 455160,
+    "lang": "pt"
+  },
+  {
+    "text": "gigantesco, ela pula vários steps porque",
+    "duration": 4640,
+    "offset": 456440,
+    "lang": "pt"
+  },
+  {
+    "text": "ela está ansiosa para te entregar que tá",
+    "duration": 5040,
+    "offset": 458960,
+    "lang": "pt"
+  },
+  {
+    "text": "pronto. Beleza? Show. Então, dito isso",
+    "duration": 4760,
+    "offset": 461080,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui, cara, a gente entendeu o problema.",
+    "duration": 3039,
+    "offset": 464000,
+    "lang": "pt"
+  },
+  {
+    "text": "Vocês entenderam aqui qual que é o",
+    "duration": 3639,
+    "offset": 465840,
+    "lang": "pt"
+  },
+  {
+    "text": "processo certo? entender o que que vocês",
+    "duration": 4801,
+    "offset": 467039,
+    "lang": "pt"
+  },
+  {
+    "text": "podem estar fazendo errado ou não, tá?",
+    "duration": 4680,
+    "offset": 469479,
+    "lang": "pt"
+  },
+  {
+    "text": "Tenho certeza que muita gente faz certo.",
+    "duration": 4039,
+    "offset": 471840,
+    "lang": "pt"
+  },
+  {
+    "text": "E agora aqui a gente vai tentar",
+    "duration": 3921,
+    "offset": 474159,
+    "lang": "pt"
+  },
+  {
+    "text": "entender, destrinchar isso e melhorar",
+    "duration": 4880,
+    "offset": 475879,
+    "lang": "pt"
+  },
+  {
+    "text": "isso, né? A primeira coisa que eu dou de",
+    "duration": 5760,
+    "offset": 478080,
+    "lang": "pt"
+  },
+  {
+    "text": "sugestão para vocês aqui é tem que ter",
+    "duration": 5880,
+    "offset": 480759,
+    "lang": "pt"
+  },
+  {
+    "text": "esses três etapas aqui, que é o wizard,",
+    "duration": 5079,
+    "offset": 483840,
+    "lang": "pt"
+  },
+  {
+    "text": "que é a pesquisa. Então aqui explora",
+    "duration": 5081,
+    "offset": 486639,
+    "lang": "pt"
+  },
+  {
+    "text": "code base, faz pergunta e gera anotações",
+    "duration": 4361,
+    "offset": 488919,
+    "lang": "pt"
+  },
+  {
+    "text": "do PRD. Por que que eu falei faz",
+    "duration": 3640,
+    "offset": 491720,
+    "lang": "pt"
+  },
+  {
+    "text": "perguntas? Porque hoje é com o cloud",
+    "duration": 4440,
+    "offset": 493280,
+    "lang": "pt"
+  },
+  {
+    "text": "cowork ou o próprio cloud code e o",
+    "duration": 4720,
+    "offset": 495360,
+    "lang": "pt"
+  },
+  {
+    "text": "antigravity também, porque tá tudo essas",
+    "duration": 4159,
+    "offset": 497720,
+    "lang": "pt"
+  },
+  {
+    "text": "ideias aqui que tão tão dentro da sua",
+    "duration": 4480,
+    "offset": 500080,
+    "lang": "pt"
+  },
+  {
+    "text": "máquina, eles podem executar e buscas",
+    "duration": 4880,
+    "offset": 501879,
+    "lang": "pt"
+  },
+  {
+    "text": "dentro do seu Phil System, eh, ficou",
+    "duration": 4400,
+    "offset": 504560,
+    "lang": "pt"
+  },
+  {
+    "text": "mais fácil ele explorar o código dentro",
+    "duration": 4120,
+    "offset": 506759,
+    "lang": "pt"
+  },
+  {
+    "text": "do seu computador do seu, você não",
+    "duration": 4759,
+    "offset": 508960,
+    "lang": "pt"
+  },
+  {
+    "text": "precisa mais colocar um repositório e e",
+    "duration": 5201,
+    "offset": 510879,
+    "lang": "pt"
+  },
+  {
+    "text": "copiar o código e colar no contexto. Ela",
+    "duration": 4440,
+    "offset": 513719,
+    "lang": "pt"
+  },
+  {
+    "text": "mesmo procura ali o que ela precisa e",
+    "duration": 4280,
+    "offset": 516080,
+    "lang": "pt"
+  },
+  {
+    "text": "ela consegue te ajudar. Então essa",
+    "duration": 4560,
+    "offset": 518159,
+    "lang": "pt"
+  },
+  {
+    "text": "pesquisa, quando você eh dá um acesso",
+    "duration": 5320,
+    "offset": 520360,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui, entra no no cloud cowork aqui, por",
+    "duration": 5041,
+    "offset": 522719,
+    "lang": "pt"
+  },
+  {
+    "text": "exemplo, se você abrir uma nova tesquec",
+    "duration": 4520,
+    "offset": 525680,
+    "lang": "pt"
+  },
+  {
+    "text": "e você dá acesso a essa pasta aqui, eh,",
+    "duration": 4360,
+    "offset": 527760,
+    "lang": "pt"
+  },
+  {
+    "text": "cara, ele já vai ter acesso a todo o seu",
+    "duration": 4480,
+    "offset": 530200,
+    "lang": "pt"
+  },
+  {
+    "text": "código e ele vai conseguir te ajudar. E",
+    "duration": 3800,
+    "offset": 532120,
+    "lang": "pt"
+  },
+  {
+    "text": "e aí quando você quer implementar uma",
+    "duration": 3360,
+    "offset": 534680,
+    "lang": "pt"
+  },
+  {
+    "text": "nova feature, você sempre começa por",
+    "duration": 4200,
+    "offset": 535920,
+    "lang": "pt"
+  },
+  {
+    "text": "essa research aqui. Você vai perguntar",
+    "duration": 3080,
+    "offset": 538040,
+    "lang": "pt"
+  },
+  {
+    "text": "para ele, olha, eu quero agora",
+    "duration": 3120,
+    "offset": 540120,
+    "lang": "pt"
+  },
+  {
+    "text": "implementar isso no meu projeto, é, por",
+    "duration": 3640,
+    "offset": 541120,
+    "lang": "pt"
+  },
+  {
+    "text": "enquanto estamos só ideando, não faça",
+    "duration": 3400,
+    "offset": 543240,
+    "lang": "pt"
+  },
+  {
+    "text": "nada, dá uma olhada no código, o que que",
+    "duration": 4160,
+    "offset": 544760,
+    "lang": "pt"
+  },
+  {
+    "text": "você me sugere, etc e tal. Isso. Você",
+    "duration": 5199,
+    "offset": 546640,
+    "lang": "pt"
+  },
+  {
+    "text": "começou uma conversa e aí baseado no que",
+    "duration": 4599,
+    "offset": 548920,
+    "lang": "pt"
+  },
+  {
+    "text": "ele vai te respondendo, você vai pedir",
+    "duration": 4641,
+    "offset": 551839,
+    "lang": "pt"
+  },
+  {
+    "text": "para ele gerar anotações. Por quê? Dá",
+    "duration": 5641,
+    "offset": 553519,
+    "lang": "pt"
+  },
+  {
+    "text": "uma olhada no tamanho desse chat aqui,",
+    "duration": 5120,
+    "offset": 556480,
+    "lang": "pt"
+  },
+  {
+    "text": "por exemplo. Isso aqui, olha, olha o a o",
+    "duration": 6320,
+    "offset": 559160,
+    "lang": "pt"
+  },
+  {
+    "text": "título do do chat, fix mcp servers e",
+    "duration": 6320,
+    "offset": 561600,
+    "lang": "pt"
+  },
+  {
+    "text": "memory path issues. Ou seja, eu tô",
+    "duration": 5479,
+    "offset": 565480,
+    "lang": "pt"
+  },
+  {
+    "text": "corrigindo um problema que teve dentro",
+    "duration": 5680,
+    "offset": 567920,
+    "lang": "pt"
+  },
+  {
+    "text": "do meu sistema, eh, que tanto na na no",
+    "duration": 4361,
+    "offset": 570959,
+    "lang": "pt"
+  },
+  {
+    "text": "PEF de memória e o MCP Service, ou seja,",
+    "duration": 3479,
+    "offset": 573600,
+    "lang": "pt"
+  },
+  {
+    "text": "é um bug que eu tô corrigindo aqui. E",
+    "duration": 3680,
+    "offset": 575320,
+    "lang": "pt"
+  },
+  {
+    "text": "olha o tanto que eu discuti com esse",
+    "duration": 4681,
+    "offset": 577079,
+    "lang": "pt"
+  },
+  {
+    "text": "cara, só pra gente poder chegar e numa",
+    "duration": 4920,
+    "offset": 579000,
+    "lang": "pt"
+  },
+  {
+    "text": "solução. Então essa janela de contexto",
+    "duration": 3880,
+    "offset": 581760,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui, ela estourou muito mais que 1",
+    "duration": 4280,
+    "offset": 583920,
+    "lang": "pt"
+  },
+  {
+    "text": "milhão de tokens. E aí dito isso, se",
+    "duration": 5120,
+    "offset": 585640,
+    "lang": "pt"
+  },
+  {
+    "text": "esse cara ele não for anotando o que foi",
+    "duration": 4840,
+    "offset": 588200,
+    "lang": "pt"
+  },
+  {
+    "text": "decidido, eh, ele vai se perder",
+    "duration": 3800,
+    "offset": 590760,
+    "lang": "pt"
+  },
+  {
+    "text": "facilmente quando você chegar no final",
+    "duration": 2680,
+    "offset": 593040,
+    "lang": "pt"
+  },
+  {
+    "text": "da conversa, falar assim: \"Cara,",
+    "duration": 3760,
+    "offset": 594560,
+    "lang": "pt"
+  },
+  {
+    "text": "realmente agora tô satisfeito\". Então,",
+    "duration": 5080,
+    "offset": 595720,
+    "lang": "pt"
+  },
+  {
+    "text": "gera aí as anotações, gera o PRD aí de",
+    "duration": 4040,
+    "offset": 598320,
+    "lang": "pt"
+  },
+  {
+    "text": "tudo que a gente conversou. E ele vai",
+    "duration": 2880,
+    "offset": 600800,
+    "lang": "pt"
+  },
+  {
+    "text": "olhar pro contexto dele, ele vai falar:",
+    "duration": 4280,
+    "offset": 602360,
+    "lang": "pt"
+  },
+  {
+    "text": "\"Hum, já teve duas compactação aqui,",
+    "duration": 4960,
+    "offset": 603680,
+    "lang": "pt"
+  },
+  {
+    "text": "cara. Eu só lembro até aqui. Você quer",
+    "duration": 3639,
+    "offset": 606640,
+    "lang": "pt"
+  },
+  {
+    "text": "me lembrar aí o que que a gente falou?\"",
+    "duration": 3400,
+    "offset": 608640,
+    "lang": "pt"
+  },
+  {
+    "text": "É exatamente isso que vai acontecer. Se",
+    "duration": 3201,
+    "offset": 610279,
+    "lang": "pt"
+  },
+  {
+    "text": "você for daqueles caras que não lê o",
+    "duration": 3840,
+    "offset": 612040,
+    "lang": "pt"
+  },
+  {
+    "text": "PRD, o documento que ele vai gerar, o",
+    "duration": 4240,
+    "offset": 613480,
+    "lang": "pt"
+  },
+  {
+    "text": "spec, é pior ainda. Você nem vai",
+    "duration": 3120,
+    "offset": 615880,
+    "lang": "pt"
+  },
+  {
+    "text": "perguntar isso para ele, vai mandar",
+    "duration": 3480,
+    "offset": 617720,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolver, você vai nem percebeu que",
+    "duration": 4000,
+    "offset": 619000,
+    "lang": "pt"
+  },
+  {
+    "text": "metade do que você falou não foi para",
+    "duration": 3800,
+    "offset": 621200,
+    "lang": "pt"
+  },
+  {
+    "text": "dentro da documentação. E aí depois",
+    "duration": 4120,
+    "offset": 623000,
+    "lang": "pt"
+  },
+  {
+    "text": "disso, a gente vai aqui pro plano.",
+    "duration": 4160,
+    "offset": 625000,
+    "lang": "pt"
+  },
+  {
+    "text": "baseado nesse documento aqui com o",
+    "duration": 4360,
+    "offset": 627120,
+    "lang": "pt"
+  },
+  {
+    "text": "arquivo em mãos que esse cara do cloud",
+    "duration": 5239,
+    "offset": 629160,
+    "lang": "pt"
+  },
+  {
+    "text": "cork aqui gera, o seu cloud code, o seu",
+    "duration": 5400,
+    "offset": 631480,
+    "lang": "pt"
+  },
+  {
+    "text": "antigravity também gera, você vai partir",
+    "duration": 5401,
+    "offset": 634399,
+    "lang": "pt"
+  },
+  {
+    "text": "pra construção da spec, que aí a spec",
+    "duration": 4840,
+    "offset": 636880,
+    "lang": "pt"
+  },
+  {
+    "text": "ela vem muito mais no nível de você",
+    "duration": 4479,
+    "offset": 639800,
+    "lang": "pt"
+  },
+  {
+    "text": "definir e tecnicamente o que vai ser",
+    "duration": 5160,
+    "offset": 641720,
+    "lang": "pt"
+  },
+  {
+    "text": "construído. Você define ali os goals, o",
+    "duration": 5321,
+    "offset": 644279,
+    "lang": "pt"
+  },
+  {
+    "text": "escopo, você define regras e define os",
+    "duration": 5519,
+    "offset": 646880,
+    "lang": "pt"
+  },
+  {
+    "text": "cenários. E aí essa spec, ela vai ser",
+    "duration": 5440,
+    "offset": 649600,
+    "lang": "pt"
+  },
+  {
+    "text": "gerada numa nova janela. Você não vai",
+    "duration": 5481,
+    "offset": 652399,
+    "lang": "pt"
+  },
+  {
+    "text": "usar a janela suja desse cara aqui para",
+    "duration": 5400,
+    "offset": 655040,
+    "lang": "pt"
+  },
+  {
+    "text": "poder gerar essa spec. Você abre o novo",
+    "duration": 5120,
+    "offset": 657880,
+    "lang": "pt"
+  },
+  {
+    "text": "chat, você, cara, agora beleza, tá aqui,",
+    "duration": 4959,
+    "offset": 660440,
+    "lang": "pt"
+  },
+  {
+    "text": "eu tenho esse documento, por favor, gere",
+    "duration": 4920,
+    "offset": 663000,
+    "lang": "pt"
+  },
+  {
+    "text": "a especificação técnica, né, com com",
+    "duration": 4680,
+    "offset": 665399,
+    "lang": "pt"
+  },
+  {
+    "text": "todos os cenários, enfim, etc., que eu",
+    "duration": 4640,
+    "offset": 667920,
+    "lang": "pt"
+  },
+  {
+    "text": "vou dar uma lida nela, beleza? E aí esse",
+    "duration": 5681,
+    "offset": 670079,
+    "lang": "pt"
+  },
+  {
+    "text": "cara vai gerar spec e aí sim, depois que",
+    "duration": 5320,
+    "offset": 672560,
+    "lang": "pt"
+  },
+  {
+    "text": "você gera esse spec, você vai mandar",
+    "duration": 4879,
+    "offset": 675760,
+    "lang": "pt"
+  },
+  {
+    "text": "para um outro agente desenvolver de novo",
+    "duration": 4600,
+    "offset": 677880,
+    "lang": "pt"
+  },
+  {
+    "text": "com a janela limpinha. Então você não",
+    "duration": 4440,
+    "offset": 680639,
+    "lang": "pt"
+  },
+  {
+    "text": "pode gerar uma specela",
+    "duration": 4840,
+    "offset": 682480,
+    "lang": "pt"
+  },
+  {
+    "text": "que você vai mandar implementar, sempre",
+    "duration": 4521,
+    "offset": 685079,
+    "lang": "pt"
+  },
+  {
+    "text": "vai limpando o contexto. E aí eu trouxe",
+    "duration": 3680,
+    "offset": 687320,
+    "lang": "pt"
+  },
+  {
+    "text": "um gráfico aqui que eu sempre trago",
+    "duration": 4000,
+    "offset": 689600,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui, já trouxe umas 20 vezes, né, nesse",
+    "duration": 6040,
+    "offset": 691000,
+    "lang": "pt"
+  },
+  {
+    "text": "canal, que é o gráfico de precisão dos",
+    "duration": 6919,
+    "offset": 693600,
+    "lang": "pt"
+  },
+  {
+    "text": "tokens. Então, se você tem poking token,",
+    "duration": 5640,
+    "offset": 697040,
+    "lang": "pt"
+  },
+  {
+    "text": "tá todo mundo aqui na beira dos 100. Mas",
+    "duration": 4481,
+    "offset": 700519,
+    "lang": "pt"
+  },
+  {
+    "text": "se você for conversando aí com com o seu",
+    "duration": 5000,
+    "offset": 702680,
+    "lang": "pt"
+  },
+  {
+    "text": "cloud aí, com a sua LLM e esses tokens",
+    "duration": 5279,
+    "offset": 705000,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui vai estourando, meu amigo, você vai",
+    "duration": 5360,
+    "offset": 707680,
+    "lang": "pt"
+  },
+  {
+    "text": "vendo aqui, ó, que aqui já bate 80%. Se",
+    "duration": 5881,
+    "offset": 710279,
+    "lang": "pt"
+  },
+  {
+    "text": "você for 200.000 tokens, 70. E aqui por",
+    "duration": 4960,
+    "offset": 713040,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui vai. Olha o 1 milhão de contexto",
+    "duration": 3799,
+    "offset": 716160,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui, o tanto que é legal. Já cai para",
+    "duration": 5519,
+    "offset": 718000,
+    "lang": "pt"
+  },
+  {
+    "text": "menos de 50% de precisão. Ou seja, aqui",
+    "duration": 6161,
+    "offset": 719959,
+    "lang": "pt"
+  },
+  {
+    "text": "é a alucinação certa. Você, o cara não",
+    "duration": 5601,
+    "offset": 723519,
+    "lang": "pt"
+  },
+  {
+    "text": "vai codar nada, ele vai tentar e você",
+    "duration": 5120,
+    "offset": 726120,
+    "lang": "pt"
+  },
+  {
+    "text": "vai se ferrar com isso aqui. Beleza?",
+    "duration": 4399,
+    "offset": 729120,
+    "lang": "pt"
+  },
+  {
+    "text": "Então, show. Expliquei para vocês aqui o",
+    "duration": 5039,
+    "offset": 731240,
+    "lang": "pt"
+  },
+  {
+    "text": "contexto e por que vocês devem separar",
+    "duration": 5801,
+    "offset": 733519,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui as janelas, beleza? E aí agora vou",
+    "duration": 4560,
+    "offset": 736279,
+    "lang": "pt"
+  },
+  {
+    "text": "separar para vocês aqui também porque",
+    "duration": 5000,
+    "offset": 739320,
+    "lang": "pt"
+  },
+  {
+    "text": "muita gente confunde o PRD com a spec e,",
+    "duration": 5680,
+    "offset": 740839,
+    "lang": "pt"
+  },
+  {
+    "text": "cara, comum e confundir os dois",
+    "duration": 4400,
+    "offset": 744320,
+    "lang": "pt"
+  },
+  {
+    "text": "documentos. Então, vou definir aqui para",
+    "duration": 3440,
+    "offset": 746519,
+    "lang": "pt"
+  },
+  {
+    "text": "vocês o que que é um e o que que é",
+    "duration": 4400,
+    "offset": 748720,
+    "lang": "pt"
+  },
+  {
+    "text": "outro. O PRD, cara, ele você descreve o",
+    "duration": 5601,
+    "offset": 749959,
+    "lang": "pt"
+  },
+  {
+    "text": "problema, aí faz algumas perguntas ali,",
+    "duration": 4719,
+    "offset": 753120,
+    "lang": "pt"
+  },
+  {
+    "text": "você refina ali os objetivos e ele",
+    "duration": 5519,
+    "offset": 755560,
+    "lang": "pt"
+  },
+  {
+    "text": "atualiza ali um PRD.m, MD, ou seja, a",
+    "duration": 5481,
+    "offset": 757839,
+    "lang": "pt"
+  },
+  {
+    "text": "estrutura dele vem de uma estrutura de",
+    "duration": 4120,
+    "offset": 761079,
+    "lang": "pt"
+  },
+  {
+    "text": "negócio. O que que você tá resolvendo",
+    "duration": 3199,
+    "offset": 763320,
+    "lang": "pt"
+  },
+  {
+    "text": "ali? É um problema que você tá",
+    "duration": 3601,
+    "offset": 765199,
+    "lang": "pt"
+  },
+  {
+    "text": "resolvendo? Eh, a quais que são as metas",
+    "duration": 4760,
+    "offset": 766519,
+    "lang": "pt"
+  },
+  {
+    "text": "que você eh tá que vai atingir com esse",
+    "duration": 4599,
+    "offset": 768800,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvimento? É o que que não tá no",
+    "duration": 3601,
+    "offset": 771279,
+    "lang": "pt"
+  },
+  {
+    "text": "escopo, o que que tá fora do escopo por",
+    "duration": 3841,
+    "offset": 773399,
+    "lang": "pt"
+  },
+  {
+    "text": "enquanto. O user stories, que eu falei",
+    "duration": 4000,
+    "offset": 774880,
+    "lang": "pt"
+  },
+  {
+    "text": "muito também nesse outro vídeo, né, que",
+    "duration": 4120,
+    "offset": 777240,
+    "lang": "pt"
+  },
+  {
+    "text": "é como o usuário se enxerga utilizando.",
+    "duration": 4040,
+    "offset": 778880,
+    "lang": "pt"
+  },
+  {
+    "text": "Eh, isso dá uma visão muito boa paraa",
+    "duration": 4440,
+    "offset": 781360,
+    "lang": "pt"
+  },
+  {
+    "text": "IA. Eh, e o contexto técnico ali é até",
+    "duration": 5200,
+    "offset": 782920,
+    "lang": "pt"
+  },
+  {
+    "text": "os padrões ali decisões pode vir aqui",
+    "duration": 4520,
+    "offset": 785800,
+    "lang": "pt"
+  },
+  {
+    "text": "dentro do PRD. Eh, isso aqui é um",
+    "duration": 4320,
+    "offset": 788120,
+    "lang": "pt"
+  },
+  {
+    "text": "documento de produto, então pense que",
+    "duration": 4040,
+    "offset": 790320,
+    "lang": "pt"
+  },
+  {
+    "text": "não tem nada técnico dentro dele, é um",
+    "duration": 3920,
+    "offset": 792440,
+    "lang": "pt"
+  },
+  {
+    "text": "contexto um pouco mais de negócio,",
+    "duration": 5760,
+    "offset": 794360,
+    "lang": "pt"
+  },
+  {
+    "text": "beleza? Já a spec, ela já é algo que ela",
+    "duration": 6560,
+    "offset": 796360,
+    "lang": "pt"
+  },
+  {
+    "text": "vem realmente bem mais técnica. Então,",
+    "duration": 5399,
+    "offset": 800120,
+    "lang": "pt"
+  },
+  {
+    "text": "eh, algo que eu gosto de utilizar aqui é",
+    "duration": 5200,
+    "offset": 802920,
+    "lang": "pt"
+  },
+  {
+    "text": "definir sprints, que são nada mais são",
+    "duration": 4760,
+    "offset": 805519,
+    "lang": "pt"
+  },
+  {
+    "text": "do que etapas do desenvolvimento, ou",
+    "duration": 5240,
+    "offset": 808120,
+    "lang": "pt"
+  },
+  {
+    "text": "seja, são subtesques dentro da tesque",
+    "duration": 5481,
+    "offset": 810279,
+    "lang": "pt"
+  },
+  {
+    "text": "principal, eh, que você vai executar o",
+    "duration": 4400,
+    "offset": 813360,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvimento, eh, utilizando",
+    "duration": 4639,
+    "offset": 815760,
+    "lang": "pt"
+  },
+  {
+    "text": "idealmente até agentes diferentes para",
+    "duration": 5040,
+    "offset": 817760,
+    "lang": "pt"
+  },
+  {
+    "text": "não poluir o contexto novamente. Uma vez",
+    "duration": 5201,
+    "offset": 820399,
+    "lang": "pt"
+  },
+  {
+    "text": "que a PRD aqui tá aprovada, eh, uma IA",
+    "duration": 5479,
+    "offset": 822800,
+    "lang": "pt"
+  },
+  {
+    "text": "mesmo vai gerar esse spec. Cara, eu uso",
+    "duration": 4720,
+    "offset": 825600,
+    "lang": "pt"
+  },
+  {
+    "text": "uma IA para gerar esse spec. Ninguém vai",
+    "duration": 4321,
+    "offset": 828279,
+    "lang": "pt"
+  },
+  {
+    "text": "escrever esse documento de fato. Depois",
+    "duration": 5759,
+    "offset": 830320,
+    "lang": "pt"
+  },
+  {
+    "text": "você valida aqui as sprints e aá executa",
+    "duration": 6239,
+    "offset": 832600,
+    "lang": "pt"
+  },
+  {
+    "text": "essa feature. Então, baseado nisso, hoje",
+    "duration": 6081,
+    "offset": 836079,
+    "lang": "pt"
+  },
+  {
+    "text": "eu estou gostando de utilizar é as specs",
+    "duration": 6081,
+    "offset": 838839,
+    "lang": "pt"
+  },
+  {
+    "text": "com Jason. Eu uso Markdown também, mas",
+    "duration": 4599,
+    "offset": 842160,
+    "lang": "pt"
+  },
+  {
+    "text": "cara, ultimamente eu tenho testado com",
+    "duration": 4000,
+    "offset": 844920,
+    "lang": "pt"
+  },
+  {
+    "text": "Jason. Até fiz um vídeo, o vídeo passado",
+    "duration": 4520,
+    "offset": 846759,
+    "lang": "pt"
+  },
+  {
+    "text": "que eu fiz, era relativo a um paper da",
+    "duration": 4039,
+    "offset": 848920,
+    "lang": "pt"
+  },
+  {
+    "text": "Antropic, que ele estava usando também",
+    "duration": 4360,
+    "offset": 851279,
+    "lang": "pt"
+  },
+  {
+    "text": "algumas specs em Jason. É, e eu achei",
+    "duration": 4800,
+    "offset": 852959,
+    "lang": "pt"
+  },
+  {
+    "text": "interessante e tô testando isso aqui e",
+    "duration": 4440,
+    "offset": 855639,
+    "lang": "pt"
+  },
+  {
+    "text": "tá tendo um resultado legal. Então, hoje",
+    "duration": 4721,
+    "offset": 857759,
+    "lang": "pt"
+  },
+  {
+    "text": "tem aqui sprints que são a divisão do",
+    "duration": 4560,
+    "offset": 860079,
+    "lang": "pt"
+  },
+  {
+    "text": "trabalho, as features, que é o que que",
+    "duration": 4919,
+    "offset": 862480,
+    "lang": "pt"
+  },
+  {
+    "text": "cada sprint entrega, esse cara aqui que",
+    "duration": 5961,
+    "offset": 864639,
+    "lang": "pt"
+  },
+  {
+    "text": "é essencial para testes, né? O que que é",
+    "duration": 6721,
+    "offset": 867399,
+    "lang": "pt"
+  },
+  {
+    "text": "o aceite para que aquele sprint ali e",
+    "duration": 5560,
+    "offset": 870600,
+    "lang": "pt"
+  },
+  {
+    "text": "seja entregue? O que que aquela sprint",
+    "duration": 3719,
+    "offset": 874120,
+    "lang": "pt"
+  },
+  {
+    "text": "ali tem que entregar para que você",
+    "duration": 3280,
+    "offset": 876160,
+    "lang": "pt"
+  },
+  {
+    "text": "aceite aquele desenvolvimento como",
+    "duration": 4800,
+    "offset": 877839,
+    "lang": "pt"
+  },
+  {
+    "text": "correto, né? Como o definition of, né?",
+    "duration": 5240,
+    "offset": 879440,
+    "lang": "pt"
+  },
+  {
+    "text": "tipo a definição de pronto. E aí depois",
+    "duration": 4640,
+    "offset": 882639,
+    "lang": "pt"
+  },
+  {
+    "text": "nós temos aqui o API spec, que aí você",
+    "duration": 4920,
+    "offset": 884680,
+    "lang": "pt"
+  },
+  {
+    "text": "tem que falar todos os end points, os",
+    "duration": 4961,
+    "offset": 887279,
+    "lang": "pt"
+  },
+  {
+    "text": "métodos, os payloads, é tudo que por",
+    "duration": 4720,
+    "offset": 889600,
+    "lang": "pt"
+  },
+  {
+    "text": "integração, mesmo que seja do seu front",
+    "duration": 4320,
+    "offset": 892240,
+    "lang": "pt"
+  },
+  {
+    "text": "com seu backend, isso vai ser útil, que",
+    "duration": 3959,
+    "offset": 894320,
+    "lang": "pt"
+  },
+  {
+    "text": "você vai precisar utilizar. Depois",
+    "duration": 3839,
+    "offset": 896560,
+    "lang": "pt"
+  },
+  {
+    "text": "disso, também temos aqui os data models,",
+    "duration": 4920,
+    "offset": 898279,
+    "lang": "pt"
+  },
+  {
+    "text": "que são os as migrações, eh, o que é",
+    "duration": 4560,
+    "offset": 900399,
+    "lang": "pt"
+  },
+  {
+    "text": "relacionado ali com esquemas e as",
+    "duration": 4880,
+    "offset": 903199,
+    "lang": "pt"
+  },
+  {
+    "text": "relações e no banco de dados, enfim, ou",
+    "duration": 5041,
+    "offset": 904959,
+    "lang": "pt"
+  },
+  {
+    "text": "outro ou outra aplicação que você",
+    "duration": 3760,
+    "offset": 908079,
+    "lang": "pt"
+  },
+  {
+    "text": "utilize para guardar os seus dados. a",
+    "duration": 3959,
+    "offset": 910000,
+    "lang": "pt"
+  },
+  {
+    "text": "gente inclui a stack tecnologias",
+    "duration": 4680,
+    "offset": 911839,
+    "lang": "pt"
+  },
+  {
+    "text": "dependências. Temos aqui Colder agent",
+    "duration": 5000,
+    "offset": 913959,
+    "lang": "pt"
+  },
+  {
+    "text": "ID. E aí nesse caso aqui, eh, eu gosto",
+    "duration": 5240,
+    "offset": 916519,
+    "lang": "pt"
+  },
+  {
+    "text": "de usar agentes diferentes dependendo da",
+    "duration": 5880,
+    "offset": 918959,
+    "lang": "pt"
+  },
+  {
+    "text": "Sprint. E aí isso tá é para todo lado,",
+    "duration": 5681,
+    "offset": 921759,
+    "lang": "pt"
+  },
+  {
+    "text": "tem no cloud code, tem no antigravit.",
+    "duration": 4961,
+    "offset": 924839,
+    "lang": "pt"
+  },
+  {
+    "text": "Você sabe que você pode colocar vários",
+    "duration": 5079,
+    "offset": 927440,
+    "lang": "pt"
+  },
+  {
+    "text": "agentes aqui. Cada agente ele tem uma",
+    "duration": 5719,
+    "offset": 929800,
+    "lang": "pt"
+  },
+  {
+    "text": "função específica, um prompt diferente.",
+    "duration": 5361,
+    "offset": 932519,
+    "lang": "pt"
+  },
+  {
+    "text": "É você, cara, tem um agente aqui que",
+    "duration": 4521,
+    "offset": 935519,
+    "lang": "pt"
+  },
+  {
+    "text": "coda a parte de banco de dados. Esse",
+    "duration": 3680,
+    "offset": 937880,
+    "lang": "pt"
+  },
+  {
+    "text": "cara aqui é o cara do electron, esse",
+    "duration": 3400,
+    "offset": 940040,
+    "lang": "pt"
+  },
+  {
+    "text": "cara é o front, esse cara é o full",
+    "duration": 4719,
+    "offset": 941560,
+    "lang": "pt"
+  },
+  {
+    "text": "stack. E aí quando você define uma",
+    "duration": 5120,
+    "offset": 943440,
+    "lang": "pt"
+  },
+  {
+    "text": "sprint, dentro daquela sprint vai ter",
+    "duration": 4480,
+    "offset": 946279,
+    "lang": "pt"
+  },
+  {
+    "text": "uma stack de tecnologia que você vai",
+    "duration": 4279,
+    "offset": 948560,
+    "lang": "pt"
+  },
+  {
+    "text": "chamar o melhor agente para poder codar",
+    "duration": 4281,
+    "offset": 950759,
+    "lang": "pt"
+  },
+  {
+    "text": "em cima daquela sprint. E no final aqui",
+    "duration": 4120,
+    "offset": 952839,
+    "lang": "pt"
+  },
+  {
+    "text": "também tem a parte de estrutura de",
+    "duration": 4680,
+    "offset": 955040,
+    "lang": "pt"
+  },
+  {
+    "text": "arquivos. E aí muita gente que já tá se",
+    "duration": 5641,
+    "offset": 956959,
+    "lang": "pt"
+  },
+  {
+    "text": "arriscando aí no na nas specs, né, gerar",
+    "duration": 5599,
+    "offset": 959720,
+    "lang": "pt"
+  },
+  {
+    "text": "esses documentos, eh, não sabe como",
+    "duration": 4679,
+    "offset": 962600,
+    "lang": "pt"
+  },
+  {
+    "text": "validar isso, né? Então assim, o que que",
+    "duration": 4121,
+    "offset": 965319,
+    "lang": "pt"
+  },
+  {
+    "text": "é uma spec ideal aqui? Já dando um",
+    "duration": 5040,
+    "offset": 967279,
+    "lang": "pt"
+  },
+  {
+    "text": "exemplo aqui de um arquivo é de Jono. Se",
+    "duration": 5560,
+    "offset": 969440,
+    "lang": "pt"
+  },
+  {
+    "text": "você vem aqui e quer uma sprint do aqui,",
+    "duration": 5080,
+    "offset": 972319,
+    "lang": "pt"
+  },
+  {
+    "text": "eu quero um login de e-mail e senha.",
+    "duration": 3680,
+    "offset": 975000,
+    "lang": "pt"
+  },
+  {
+    "text": "Então quero o que que eu quero",
+    "duration": 2920,
+    "offset": 977399,
+    "lang": "pt"
+  },
+  {
+    "text": "implementar autenticação com e-mail,",
+    "duration": 3800,
+    "offset": 978680,
+    "lang": "pt"
+  },
+  {
+    "text": "senha, tela de login e proteção de",
+    "duration": 4481,
+    "offset": 980319,
+    "lang": "pt"
+  },
+  {
+    "text": "rotas. Legal, você falou exatamente o",
+    "duration": 4159,
+    "offset": 982480,
+    "lang": "pt"
+  },
+  {
+    "text": "que você queria e o entregável disso",
+    "duration": 4360,
+    "offset": 984800,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui. E aí eu vou colocar aqui o ID, o",
+    "duration": 5361,
+    "offset": 986639,
+    "lang": "pt"
+  },
+  {
+    "text": "agente e aí o nome, a tela de login. É,",
+    "duration": 4720,
+    "offset": 989160,
+    "lang": "pt"
+  },
+  {
+    "text": "e aí aqui o formulário com e-mail, sem a",
+    "duration": 4440,
+    "offset": 992000,
+    "lang": "pt"
+  },
+  {
+    "text": "validação, cliente. Feedback de erro.",
+    "duration": 5079,
+    "offset": 993880,
+    "lang": "pt"
+  },
+  {
+    "text": "Beleza, cara? Um spec aqui que em teoria",
+    "duration": 4639,
+    "offset": 996440,
+    "lang": "pt"
+  },
+  {
+    "text": "quem olha e não tem o conhecimento acha",
+    "duration": 4560,
+    "offset": 998959,
+    "lang": "pt"
+  },
+  {
+    "text": "que tá tudo OK, mas tá faltando várias",
+    "duration": 4841,
+    "offset": 1001079,
+    "lang": "pt"
+  },
+  {
+    "text": "coisas aqui porque muitas vezes você",
+    "duration": 5120,
+    "offset": 1003519,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolve principalmente eh a IA quando",
+    "duration": 4640,
+    "offset": 1005920,
+    "lang": "pt"
+  },
+  {
+    "text": "tá te ajudando a fazer isso, ela",
+    "duration": 3801,
+    "offset": 1008639,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolve sempre pensando no caminho",
+    "duration": 4320,
+    "offset": 1010560,
+    "lang": "pt"
+  },
+  {
+    "text": "feliz. Agora, os caminhos alternativos",
+    "duration": 4240,
+    "offset": 1012440,
+    "lang": "pt"
+  },
+  {
+    "text": "que são o problema e eles são os",
+    "duration": 4000,
+    "offset": 1014880,
+    "lang": "pt"
+  },
+  {
+    "text": "principais que precisam estar dentro da",
+    "duration": 4200,
+    "offset": 1016680,
+    "lang": "pt"
+  },
+  {
+    "text": "spec. Então dando um exemplo um pouco",
+    "duration": 4879,
+    "offset": 1018880,
+    "lang": "pt"
+  },
+  {
+    "text": "mais completo, seria algo desse sentido.",
+    "duration": 5000,
+    "offset": 1020880,
+    "lang": "pt"
+  },
+  {
+    "text": "Você tem aqui o login, autenticação,",
+    "duration": 4320,
+    "offset": 1023759,
+    "lang": "pt"
+  },
+  {
+    "text": "senha. Aqui a gente coloca qual que é a",
+    "duration": 4559,
+    "offset": 1025880,
+    "lang": "pt"
+  },
+  {
+    "text": "steack que vai ser desenvolvida. E aqui",
+    "duration": 4720,
+    "offset": 1028079,
+    "lang": "pt"
+  },
+  {
+    "text": "além do da descrição, a gente tem que",
+    "duration": 3760,
+    "offset": 1030439,
+    "lang": "pt"
+  },
+  {
+    "text": "ter esse cara aqui, ó. O que que eu",
+    "duration": 2961,
+    "offset": 1032799,
+    "lang": "pt"
+  },
+  {
+    "text": "aceito, né? Qual que é o critério de",
+    "duration": 3720,
+    "offset": 1034199,
+    "lang": "pt"
+  },
+  {
+    "text": "aceite? Então, formulário com campos de",
+    "duration": 4520,
+    "offset": 1035760,
+    "lang": "pt"
+  },
+  {
+    "text": "e-mail, senha, renderiza no login.",
+    "duration": 4441,
+    "offset": 1037919,
+    "lang": "pt"
+  },
+  {
+    "text": "Validação, e-mail inválido, mostra a",
+    "duration": 4399,
+    "offset": 1040280,
+    "lang": "pt"
+  },
+  {
+    "text": "mensagem de e-mail inválido. Validação,",
+    "duration": 4160,
+    "offset": 1042360,
+    "lang": "pt"
+  },
+  {
+    "text": "senha vazia, mostra a mensagem de senha",
+    "duration": 3841,
+    "offset": 1044679,
+    "lang": "pt"
+  },
+  {
+    "text": "obrigatória. Botão de submite",
+    "duration": 4039,
+    "offset": 1046520,
+    "lang": "pt"
+  },
+  {
+    "text": "desabilitado durante a request. Erro",
+    "duration": 4080,
+    "offset": 1048520,
+    "lang": "pt"
+  },
+  {
+    "text": "401, credenciais inválidas. Então, ou",
+    "duration": 4401,
+    "offset": 1050559,
+    "lang": "pt"
+  },
+  {
+    "text": "seja, eu tô dando tantos cenários aqui",
+    "duration": 4600,
+    "offset": 1052600,
+    "lang": "pt"
+  },
+  {
+    "text": "que o agente vai ter que desenvolver que",
+    "duration": 4200,
+    "offset": 1054960,
+    "lang": "pt"
+  },
+  {
+    "text": "se eu não falar isso, ele simplesmente",
+    "duration": 4520,
+    "offset": 1057200,
+    "lang": "pt"
+  },
+  {
+    "text": "vai fazer o básico do básico aqui. Ele",
+    "duration": 4080,
+    "offset": 1059160,
+    "lang": "pt"
+  },
+  {
+    "text": "vai fazer aqui um formulário de e-mail",
+    "duration": 3560,
+    "offset": 1061720,
+    "lang": "pt"
+  },
+  {
+    "text": "sem vai ter uma validação. Na primeira",
+    "duration": 3679,
+    "offset": 1063240,
+    "lang": "pt"
+  },
+  {
+    "text": "vez que tiver o e-mail inválido, vai",
+    "duration": 3880,
+    "offset": 1065280,
+    "lang": "pt"
+  },
+  {
+    "text": "estourar um erro horroroso na sua tela e",
+    "duration": 3640,
+    "offset": 1066919,
+    "lang": "pt"
+  },
+  {
+    "text": "você vai ter que voltar ali no seu",
+    "duration": 3040,
+    "offset": 1069160,
+    "lang": "pt"
+  },
+  {
+    "text": "agente, falar: \"Cara, tá estourando esse",
+    "duration": 4081,
+    "offset": 1070559,
+    "lang": "pt"
+  },
+  {
+    "text": "erro aqui. Tem que tratar esse erro\". Ou",
+    "duration": 4560,
+    "offset": 1072200,
+    "lang": "pt"
+  },
+  {
+    "text": "seja, uma ação a mais que você teve que",
+    "duration": 3919,
+    "offset": 1074640,
+    "lang": "pt"
+  },
+  {
+    "text": "fazer, porque isso não estava bem",
+    "duration": 4399,
+    "offset": 1076760,
+    "lang": "pt"
+  },
+  {
+    "text": "escrito eh na sua especificação técnica.",
+    "duration": 4921,
+    "offset": 1078559,
+    "lang": "pt"
+  },
+  {
+    "text": "Beleza? Então, eh, o formato que eu uso",
+    "duration": 4681,
+    "offset": 1081159,
+    "lang": "pt"
+  },
+  {
+    "text": "aí, cara, aqui não tem certo ou errado,",
+    "duration": 4280,
+    "offset": 1083480,
+    "lang": "pt"
+  },
+  {
+    "text": "né? De novo, cara, cada um tem a sua",
+    "duration": 3920,
+    "offset": 1085840,
+    "lang": "pt"
+  },
+  {
+    "text": "estratégia. Vou passar a minha aqui para",
+    "duration": 4560,
+    "offset": 1087760,
+    "lang": "pt"
+  },
+  {
+    "text": "vocês. É, eu tô usando muito a em",
+    "duration": 4760,
+    "offset": 1089760,
+    "lang": "pt"
+  },
+  {
+    "text": "formato de Jzon, então, cara, é dividido",
+    "duration": 4760,
+    "offset": 1092320,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui. Essa aqui é a Sprint 001 e aqui",
+    "duration": 4639,
+    "offset": 1094520,
+    "lang": "pt"
+  },
+  {
+    "text": "tem a primeira fit. O que que é a Sprint",
+    "duration": 4360,
+    "offset": 1097080,
+    "lang": "pt"
+  },
+  {
+    "text": "001, cara? Criar a estrutura base do",
+    "duration": 5561,
+    "offset": 1099159,
+    "lang": "pt"
+  },
+  {
+    "text": "projeto React, Vit, Fash API, configurar",
+    "duration": 5359,
+    "offset": 1101440,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui e rodar um Hello World. Beleza,",
+    "duration": 4280,
+    "offset": 1104720,
+    "lang": "pt"
+  },
+  {
+    "text": "show. Aí a fit número um é a estrutura",
+    "duration": 5041,
+    "offset": 1106799,
+    "lang": "pt"
+  },
+  {
+    "text": "do React. Aqui eu vou criar o appreact",
+    "duration": 5280,
+    "offset": 1109000,
+    "lang": "pt"
+  },
+  {
+    "text": "com ta e fazer um router básico. E aí",
+    "duration": 4520,
+    "offset": 1111840,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui os critérios de aceite, né? Tem que",
+    "duration": 4600,
+    "offset": 1114280,
+    "lang": "pt"
+  },
+  {
+    "text": "rodar exatamente isso aqui. Aí depois",
+    "duration": 5559,
+    "offset": 1116360,
+    "lang": "pt"
+  },
+  {
+    "text": "disso nós vamos aqui pra fit 002 ainda",
+    "duration": 5840,
+    "offset": 1118880,
+    "lang": "pt"
+  },
+  {
+    "text": "da primeira sprint que aqui tudo que eu",
+    "duration": 5841,
+    "offset": 1121919,
+    "lang": "pt"
+  },
+  {
+    "text": "preciso gerar para poder dar essa tesque",
+    "duration": 5720,
+    "offset": 1124720,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui como completa. Beleza? E aqui",
+    "duration": 5399,
+    "offset": 1127760,
+    "lang": "pt"
+  },
+  {
+    "text": "depois do final eu gero uma API spec que",
+    "duration": 5280,
+    "offset": 1130440,
+    "lang": "pt"
+  },
+  {
+    "text": "aí eu vou mapear todas as respostas das",
+    "duration": 5321,
+    "offset": 1133159,
+    "lang": "pt"
+  },
+  {
+    "text": "APIs e e quais são as mensagens que eu",
+    "duration": 5680,
+    "offset": 1135720,
+    "lang": "pt"
+  },
+  {
+    "text": "vou entregar. caso eh essas APIs",
+    "duration": 4559,
+    "offset": 1138480,
+    "lang": "pt"
+  },
+  {
+    "text": "retornem algum erro. Então eu tô",
+    "duration": 4440,
+    "offset": 1141400,
+    "lang": "pt"
+  },
+  {
+    "text": "validando aqui todos os cenários, não só",
+    "duration": 4561,
+    "offset": 1143039,
+    "lang": "pt"
+  },
+  {
+    "text": "o cenário bonitinho ali que eu expliquei",
+    "duration": 4120,
+    "offset": 1145840,
+    "lang": "pt"
+  },
+  {
+    "text": "para vocês de cara, se logou, beleza,",
+    "duration": 3800,
+    "offset": 1147600,
+    "lang": "pt"
+  },
+  {
+    "text": "mas e se não logou? E se digitou uma",
+    "duration": 2880,
+    "offset": 1149960,
+    "lang": "pt"
+  },
+  {
+    "text": "senha errada? E se digitou um e-mail",
+    "duration": 3040,
+    "offset": 1151400,
+    "lang": "pt"
+  },
+  {
+    "text": "errado? E e se o cara tentou se",
+    "duration": 3240,
+    "offset": 1152840,
+    "lang": "pt"
+  },
+  {
+    "text": "autenticar ali de uma outra forma? Como",
+    "duration": 3800,
+    "offset": 1154440,
+    "lang": "pt"
+  },
+  {
+    "text": "que você vai tratar isso? A IA ela não",
+    "duration": 4680,
+    "offset": 1156080,
+    "lang": "pt"
+  },
+  {
+    "text": "sabe. Você precisa falar isso para ela.",
+    "duration": 4400,
+    "offset": 1158240,
+    "lang": "pt"
+  },
+  {
+    "text": "Beleza? E aí também eu coloco aqui uma",
+    "duration": 5000,
+    "offset": 1160760,
+    "lang": "pt"
+  },
+  {
+    "text": "parte de hints, que é eu vou dar um",
+    "duration": 6200,
+    "offset": 1162640,
+    "lang": "pt"
+  },
+  {
+    "text": "hints dos arquivos que ela vai mexer,",
+    "duration": 5080,
+    "offset": 1165760,
+    "lang": "pt"
+  },
+  {
+    "text": "eh, para ela poder desenvolver isso. E",
+    "duration": 4280,
+    "offset": 1168840,
+    "lang": "pt"
+  },
+  {
+    "text": "aí, cara, arquitecture notes, né? Notas",
+    "duration": 4199,
+    "offset": 1170840,
+    "lang": "pt"
+  },
+  {
+    "text": "de arquitetura, mono report com front",
+    "duration": 4480,
+    "offset": 1173120,
+    "lang": "pt"
+  },
+  {
+    "text": "end. Ou seja, isso aqui, putz, Bren, sal",
+    "duration": 4241,
+    "offset": 1175039,
+    "lang": "pt"
+  },
+  {
+    "text": "da sua cabeça? Não, cara, eu criei meio",
+    "duration": 4040,
+    "offset": 1177600,
+    "lang": "pt"
+  },
+  {
+    "text": "que um template aqui e toda vez que eu",
+    "duration": 4759,
+    "offset": 1179280,
+    "lang": "pt"
+  },
+  {
+    "text": "tô conversando com o meu amigo aqui, o",
+    "duration": 5039,
+    "offset": 1181640,
+    "lang": "pt"
+  },
+  {
+    "text": "Cloud Cowork, eu falo para ele: \"Cara,",
+    "duration": 4721,
+    "offset": 1184039,
+    "lang": "pt"
+  },
+  {
+    "text": "nós estamos aqui conversando e aí depois",
+    "duration": 3761,
+    "offset": 1186679,
+    "lang": "pt"
+  },
+  {
+    "text": "que essa conversa toda aqui você vai",
+    "duration": 4039,
+    "offset": 1188760,
+    "lang": "pt"
+  },
+  {
+    "text": "anotando todas as decisões que a gente",
+    "duration": 4800,
+    "offset": 1190440,
+    "lang": "pt"
+  },
+  {
+    "text": "vai tomando, é, e no final das contas",
+    "duration": 5041,
+    "offset": 1192799,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui nós vamos gerar aqui um arquivo X,",
+    "duration": 5080,
+    "offset": 1195240,
+    "lang": "pt"
+  },
+  {
+    "text": "não é spec ainda, ele anotou todas as",
+    "duration": 4760,
+    "offset": 1197840,
+    "lang": "pt"
+  },
+  {
+    "text": "decisões, eu abro uma nova janela, eu",
+    "duration": 3520,
+    "offset": 1200320,
+    "lang": "pt"
+  },
+  {
+    "text": "falo: \"Cara, eu tenho tudo isso aqui",
+    "duration": 4600,
+    "offset": 1202600,
+    "lang": "pt"
+  },
+  {
+    "text": "decidido e agora você vai me gerar essa",
+    "duration": 6079,
+    "offset": 1203840,
+    "lang": "pt"
+  },
+  {
+    "text": "spec\". Neste formato aqui, é, neste",
+    "duration": 4800,
+    "offset": 1207200,
+    "lang": "pt"
+  },
+  {
+    "text": "formato de Jon, nesse template, gera",
+    "duration": 3481,
+    "offset": 1209919,
+    "lang": "pt"
+  },
+  {
+    "text": "essa spec para mim. Também desenvolvi",
+    "duration": 3559,
+    "offset": 1212000,
+    "lang": "pt"
+  },
+  {
+    "text": "isso aqui dentro de um outro projeto, é,",
+    "duration": 4680,
+    "offset": 1213400,
+    "lang": "pt"
+  },
+  {
+    "text": "que é o o Lion Clock, que na verdade ele",
+    "duration": 5240,
+    "offset": 1215559,
+    "lang": "pt"
+  },
+  {
+    "text": "é um eu envelopei o cloud Code num",
+    "duration": 5880,
+    "offset": 1218080,
+    "lang": "pt"
+  },
+  {
+    "text": "front, eh, e aí eu consigo fazer aqui é",
+    "duration": 5721,
+    "offset": 1220799,
+    "lang": "pt"
+  },
+  {
+    "text": "workflows aqui de harness e tal, enfim.",
+    "duration": 5400,
+    "offset": 1223960,
+    "lang": "pt"
+  },
+  {
+    "text": "Eh, então aqui é é o mesmo formato. Eh,",
+    "duration": 5639,
+    "offset": 1226520,
+    "lang": "pt"
+  },
+  {
+    "text": "ele dividiu aqui eh a demanda em quatro",
+    "duration": 4960,
+    "offset": 1229360,
+    "lang": "pt"
+  },
+  {
+    "text": "sprints e aqui cada sprint tem o",
+    "duration": 4121,
+    "offset": 1232159,
+    "lang": "pt"
+  },
+  {
+    "text": "entregável, tem os critérios de aceite",
+    "duration": 4120,
+    "offset": 1234320,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui. Eh, aqui embaixo aqui tem outros",
+    "duration": 4800,
+    "offset": 1236280,
+    "lang": "pt"
+  },
+  {
+    "text": "critérios de aceite na fit 002. E aqui",
+    "duration": 5280,
+    "offset": 1238440,
+    "lang": "pt"
+  },
+  {
+    "text": "cada um, um agente diferente, com",
+    "duration": 5320,
+    "offset": 1241080,
+    "lang": "pt"
+  },
+  {
+    "text": "especialidade diferente executa em uma",
+    "duration": 5480,
+    "offset": 1243720,
+    "lang": "pt"
+  },
+  {
+    "text": "janela de contexto separada. Ou seja, o",
+    "duration": 5040,
+    "offset": 1246400,
+    "lang": "pt"
+  },
+  {
+    "text": "cara vai vir aqui, ele vai rodar aqui,",
+    "duration": 4560,
+    "offset": 1249200,
+    "lang": "pt"
+  },
+  {
+    "text": "eh, vai executar essa sprint. Aí aqui",
+    "duration": 4719,
+    "offset": 1251440,
+    "lang": "pt"
+  },
+  {
+    "text": "vai ter um avaliador que vai validar a",
+    "duration": 4480,
+    "offset": 1253760,
+    "lang": "pt"
+  },
+  {
+    "text": "sprint desse cara e aí depois se deu",
+    "duration": 3841,
+    "offset": 1256159,
+    "lang": "pt"
+  },
+  {
+    "text": "como entregue eu passo paraa próxima",
+    "duration": 3799,
+    "offset": 1258240,
+    "lang": "pt"
+  },
+  {
+    "text": "sprint e aí eu chego aqui, ó,",
+    "duration": 4720,
+    "offset": 1260000,
+    "lang": "pt"
+  },
+  {
+    "text": "complexidade, quantos rounds estimados",
+    "duration": 4481,
+    "offset": 1262039,
+    "lang": "pt"
+  },
+  {
+    "text": "que é o desenvolvedor, ele nunca vai",
+    "duration": 3800,
+    "offset": 1264720,
+    "lang": "pt"
+  },
+  {
+    "text": "acertar de primeira. O o avaliador vai",
+    "duration": 3680,
+    "offset": 1266520,
+    "lang": "pt"
+  },
+  {
+    "text": "ter que validar e aí depois que ele",
+    "duration": 4399,
+    "offset": 1268520,
+    "lang": "pt"
+  },
+  {
+    "text": "validou e volta pro pro coder para ele",
+    "duration": 5000,
+    "offset": 1270200,
+    "lang": "pt"
+  },
+  {
+    "text": "poder corrigir. E aí isso demora bem",
+    "duration": 4240,
+    "offset": 1272919,
+    "lang": "pt"
+  },
+  {
+    "text": "mais a parte de desenvolvimento, mas a",
+    "duration": 4000,
+    "offset": 1275200,
+    "lang": "pt"
+  },
+  {
+    "text": "chance dele entregar a feature quase",
+    "duration": 4801,
+    "offset": 1277159,
+    "lang": "pt"
+  },
+  {
+    "text": "pronta, quase sem erros, é muito alta.",
+    "duration": 4400,
+    "offset": 1279200,
+    "lang": "pt"
+  },
+  {
+    "text": "Beleza? Então assim, olha o tamanho",
+    "duration": 3400,
+    "offset": 1281960,
+    "lang": "pt"
+  },
+  {
+    "text": "dessa spec aqui que foi feita em",
+    "duration": 4000,
+    "offset": 1283600,
+    "lang": "pt"
+  },
+  {
+    "text": "Markdown. Cara, é para gerar uma spec",
+    "duration": 6400,
+    "offset": 1285360,
+    "lang": "pt"
+  },
+  {
+    "text": "que tem aqui eh 800 linhas, eh você não",
+    "duration": 7360,
+    "offset": 1287600,
+    "lang": "pt"
+  },
+  {
+    "text": "pode esperar eh que o agente ele vai",
+    "duration": 5600,
+    "offset": 1291760,
+    "lang": "pt"
+  },
+  {
+    "text": "encodar isso aqui em uma única janela de",
+    "duration": 3920,
+    "offset": 1294960,
+    "lang": "pt"
+  },
+  {
+    "text": "contexto. Então por isso que você tem",
+    "duration": 3799,
+    "offset": 1297360,
+    "lang": "pt"
+  },
+  {
+    "text": "que dividir isso em sprints mesmo dentro",
+    "duration": 4240,
+    "offset": 1298880,
+    "lang": "pt"
+  },
+  {
+    "text": "do mesmo documento, você divide isso em",
+    "duration": 4041,
+    "offset": 1301159,
+    "lang": "pt"
+  },
+  {
+    "text": "sprints e você pode dar o comando. Você",
+    "duration": 3600,
+    "offset": 1303120,
+    "lang": "pt"
+  },
+  {
+    "text": "pode entrar aqui dentro do cloud code",
+    "duration": 2839,
+    "offset": 1305200,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui e falar: \"Cara, olha, tenho o",
+    "duration": 4319,
+    "offset": 1306720,
+    "lang": "pt"
+  },
+  {
+    "text": "documento a spec tal e desenvolva essa",
+    "duration": 5361,
+    "offset": 1308039,
+    "lang": "pt"
+  },
+  {
+    "text": "spec para mim. Você vai separar essa",
+    "duration": 5441,
+    "offset": 1311039,
+    "lang": "pt"
+  },
+  {
+    "text": "spec em três sprints. Você vai spawnar o",
+    "duration": 4480,
+    "offset": 1313400,
+    "lang": "pt"
+  },
+  {
+    "text": "primeiro agente, vai desenvolver a",
+    "duration": 3480,
+    "offset": 1316480,
+    "lang": "pt"
+  },
+  {
+    "text": "sprint. Quando ele entregar, você vai",
+    "duration": 4960,
+    "offset": 1317880,
+    "lang": "pt"
+  },
+  {
+    "text": "validar e só depois você vai enviar para",
+    "duration": 5319,
+    "offset": 1319960,
+    "lang": "pt"
+  },
+  {
+    "text": "um novo agente com contexto limpo a",
+    "duration": 5079,
+    "offset": 1322840,
+    "lang": "pt"
+  },
+  {
+    "text": "próxima sprint e ele vai conseguir fazer",
+    "duration": 4880,
+    "offset": 1325279,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui eh o bem bolado para que isso",
+    "duration": 4360,
+    "offset": 1327919,
+    "lang": "pt"
+  },
+  {
+    "text": "aconteça, que é basicamente o que eu",
+    "duration": 3721,
+    "offset": 1330159,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvi, um fronte para isso, mas",
+    "duration": 3400,
+    "offset": 1332279,
+    "lang": "pt"
+  },
+  {
+    "text": "justamente porque eu queria ter métricas",
+    "duration": 4880,
+    "offset": 1333880,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui, de quantos rounds teve, eh, de",
+    "duration": 5041,
+    "offset": 1335679,
+    "lang": "pt"
+  },
+  {
+    "text": "quanto que cada um gastou aqui, qual",
+    "duration": 4399,
+    "offset": 1338760,
+    "lang": "pt"
+  },
+  {
+    "text": "agente foi utilizado, eh, enfim, quanto",
+    "duration": 4680,
+    "offset": 1340720,
+    "lang": "pt"
+  },
+  {
+    "text": "em quanto tempo durou cada sprint, o",
+    "duration": 4441,
+    "offset": 1343159,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvimento, a validação, etc.,",
+    "duration": 4360,
+    "offset": 1345400,
+    "lang": "pt"
+  },
+  {
+    "text": "enfim. E aí eu quis ter algo um pouco",
+    "duration": 4199,
+    "offset": 1347600,
+    "lang": "pt"
+  },
+  {
+    "text": "mais visual, mas basicamente você",
+    "duration": 3440,
+    "offset": 1349760,
+    "lang": "pt"
+  },
+  {
+    "text": "consegue fazer aqui dentro do cloud",
+    "duration": 3321,
+    "offset": 1351799,
+    "lang": "pt"
+  },
+  {
+    "text": "code, é, você consegue dar um comando",
+    "duration": 4240,
+    "offset": 1353200,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui pro cara do antigravit da mesma",
+    "duration": 5039,
+    "offset": 1355120,
+    "lang": "pt"
+  },
+  {
+    "text": "forma, beleza? Para eu reforçar sobre e",
+    "duration": 5280,
+    "offset": 1357440,
+    "lang": "pt"
+  },
+  {
+    "text": "esse formato de desenvolvimento, uma vez",
+    "duration": 5241,
+    "offset": 1360159,
+    "lang": "pt"
+  },
+  {
+    "text": "que você gera a spec MD, aqui no meu",
+    "duration": 5839,
+    "offset": 1362720,
+    "lang": "pt"
+  },
+  {
+    "text": "caso é eu tô simplesmente gerando e um",
+    "duration": 6440,
+    "offset": 1365400,
+    "lang": "pt"
+  },
+  {
+    "text": "uma nova spec em Jon. Então eu gero uma",
+    "duration": 5761,
+    "offset": 1368559,
+    "lang": "pt"
+  },
+  {
+    "text": "spec MD, eu coloco essa spec aqui. Aqui",
+    "duration": 3920,
+    "offset": 1371840,
+    "lang": "pt"
+  },
+  {
+    "text": "eu vou escolher qual a gente vai ser o",
+    "duration": 3760,
+    "offset": 1374320,
+    "lang": "pt"
+  },
+  {
+    "text": "planner que vai gerar essa spec MD. Aqui",
+    "duration": 3640,
+    "offset": 1375760,
+    "lang": "pt"
+  },
+  {
+    "text": "eu vou escolher aqui o cara que vai ser",
+    "duration": 3479,
+    "offset": 1378080,
+    "lang": "pt"
+  },
+  {
+    "text": "o avaliador. Enfim, posso mexer nos",
+    "duration": 3840,
+    "offset": 1379400,
+    "lang": "pt"
+  },
+  {
+    "text": "promps desses agentes. E aqui eu vou",
+    "duration": 3881,
+    "offset": 1381559,
+    "lang": "pt"
+  },
+  {
+    "text": "gerar, vou colocar spec em MD e ele vai",
+    "duration": 4679,
+    "offset": 1383240,
+    "lang": "pt"
+  },
+  {
+    "text": "me gerar é uma spec em Jon. Mas cara,",
+    "duration": 4640,
+    "offset": 1385440,
+    "lang": "pt"
+  },
+  {
+    "text": "isso aqui sou eu, não tô falando que MD",
+    "duration": 4120,
+    "offset": 1387919,
+    "lang": "pt"
+  },
+  {
+    "text": "tá errado. Então assim, tanto MD quanto",
+    "duration": 4760,
+    "offset": 1390080,
+    "lang": "pt"
+  },
+  {
+    "text": "Jon é, tão certos. É, eu tô usando Jon e",
+    "duration": 4361,
+    "offset": 1392039,
+    "lang": "pt"
+  },
+  {
+    "text": "tá funcionando muito bem para mim. Tô",
+    "duration": 4319,
+    "offset": 1394840,
+    "lang": "pt"
+  },
+  {
+    "text": "conseguindo até visualmente eh eh",
+    "duration": 6000,
+    "offset": 1396400,
+    "lang": "pt"
+  },
+  {
+    "text": "enxergar aquela sprint e cada uma das",
+    "duration": 5400,
+    "offset": 1399159,
+    "lang": "pt"
+  },
+  {
+    "text": "features da Sprint de uma maneira melhor",
+    "duration": 4399,
+    "offset": 1402400,
+    "lang": "pt"
+  },
+  {
+    "text": "do que um arquivo de MD lotado de texto",
+    "duration": 4120,
+    "offset": 1404559,
+    "lang": "pt"
+  },
+  {
+    "text": "ali na tela. Beleza? Então, cara, uma",
+    "duration": 4240,
+    "offset": 1406799,
+    "lang": "pt"
+  },
+  {
+    "text": "vez que gerou esse print jon aqui, é o",
+    "duration": 4480,
+    "offset": 1408679,
+    "lang": "pt"
+  },
+  {
+    "text": "esse é o harness aqui, que é a forma",
+    "duration": 4081,
+    "offset": 1411039,
+    "lang": "pt"
+  },
+  {
+    "text": "como nesse momento eu estou utilizando.",
+    "duration": 3561,
+    "offset": 1413159,
+    "lang": "pt"
+  },
+  {
+    "text": "E aí, como eu tenho métricas, eu posso",
+    "duration": 3240,
+    "offset": 1415120,
+    "lang": "pt"
+  },
+  {
+    "text": "ir melhorando, eu posso adicionar um",
+    "duration": 3720,
+    "offset": 1416720,
+    "lang": "pt"
+  },
+  {
+    "text": "outro agente diferente. Eh, eu posso",
+    "duration": 3600,
+    "offset": 1418360,
+    "lang": "pt"
+  },
+  {
+    "text": "entender se tem que melhorar spec, se",
+    "duration": 3440,
+    "offset": 1420440,
+    "lang": "pt"
+  },
+  {
+    "text": "tem que melhorar o documento. É, mas uma",
+    "duration": 3319,
+    "offset": 1421960,
+    "lang": "pt"
+  },
+  {
+    "text": "vez que eu coloquei esse cara aqui para",
+    "duration": 3560,
+    "offset": 1423880,
+    "lang": "pt"
+  },
+  {
+    "text": "dentro, é, primeira coisa aqui é o",
+    "duration": 4601,
+    "offset": 1425279,
+    "lang": "pt"
+  },
+  {
+    "text": "input, um input da spec MD, que vai",
+    "duration": 4880,
+    "offset": 1427440,
+    "lang": "pt"
+  },
+  {
+    "text": "gerar aqui as sprints, que pode ser Jon",
+    "duration": 4279,
+    "offset": 1429880,
+    "lang": "pt"
+  },
+  {
+    "text": "ou não. E aqui tem um arquivo de",
+    "duration": 3880,
+    "offset": 1432320,
+    "lang": "pt"
+  },
+  {
+    "text": "progress. Então, uma vez aqui que eu",
+    "duration": 4481,
+    "offset": 1434159,
+    "lang": "pt"
+  },
+  {
+    "text": "mandei pro coder com a janela de",
+    "duration": 4760,
+    "offset": 1436200,
+    "lang": "pt"
+  },
+  {
+    "text": "contexto novinha, esse cara aqui vai",
+    "duration": 4519,
+    "offset": 1438640,
+    "lang": "pt"
+  },
+  {
+    "text": "avaliar, que é o evaluator. E aí ele vai",
+    "duration": 4240,
+    "offset": 1440960,
+    "lang": "pt"
+  },
+  {
+    "text": "validar cada critério, se passou, se",
+    "duration": 4400,
+    "offset": 1443159,
+    "lang": "pt"
+  },
+  {
+    "text": "falhou. Se falhou ele vai dar o feedback",
+    "duration": 3599,
+    "offset": 1445200,
+    "lang": "pt"
+  },
+  {
+    "text": "para esse cara aqui. Esse cara vai",
+    "duration": 3240,
+    "offset": 1447559,
+    "lang": "pt"
+  },
+  {
+    "text": "corrigir. Quando passou, ele vai",
+    "duration": 3760,
+    "offset": 1448799,
+    "lang": "pt"
+  },
+  {
+    "text": "atualizar o arquivo de progresso, que é",
+    "duration": 4120,
+    "offset": 1450799,
+    "lang": "pt"
+  },
+  {
+    "text": "aquela sprint ali foi finalizada. E a",
+    "duration": 4921,
+    "offset": 1452559,
+    "lang": "pt"
+  },
+  {
+    "text": "gente volta aqui de novo, entende o",
+    "duration": 4841,
+    "offset": 1454919,
+    "lang": "pt"
+  },
+  {
+    "text": "progresso e passa a próxima sprint pro",
+    "duration": 4840,
+    "offset": 1457480,
+    "lang": "pt"
+  },
+  {
+    "text": "coder. Parece ser simples e é realmente",
+    "duration": 6200,
+    "offset": 1459760,
+    "lang": "pt"
+  },
+  {
+    "text": "simples. É só você sentar e e fazer essa",
+    "duration": 6079,
+    "offset": 1462320,
+    "lang": "pt"
+  },
+  {
+    "text": "estratégia funcionar. A grande maioria",
+    "duration": 4920,
+    "offset": 1465960,
+    "lang": "pt"
+  },
+  {
+    "text": "das pessoas não tem a paciência de",
+    "duration": 5441,
+    "offset": 1468399,
+    "lang": "pt"
+  },
+  {
+    "text": "planejar muito bem cada feature que você",
+    "duration": 5120,
+    "offset": 1470880,
+    "lang": "pt"
+  },
+  {
+    "text": "quer implementar no seu projeto. Então,",
+    "duration": 4680,
+    "offset": 1473840,
+    "lang": "pt"
+  },
+  {
+    "text": "entenda que para eu conseguir ter gerado",
+    "duration": 5960,
+    "offset": 1476000,
+    "lang": "pt"
+  },
+  {
+    "text": "essa spec de 800 linhas aqui, você pode",
+    "duration": 6200,
+    "offset": 1478520,
+    "lang": "pt"
+  },
+  {
+    "text": "ter certeza que só no planejamento, eu",
+    "duration": 5599,
+    "offset": 1481960,
+    "lang": "pt"
+  },
+  {
+    "text": "batendo bola com o cloud ali, eh, eu",
+    "duration": 5400,
+    "offset": 1484720,
+    "lang": "pt"
+  },
+  {
+    "text": "demorei pelo menos 3 horas de discussão",
+    "duration": 5561,
+    "offset": 1487559,
+    "lang": "pt"
+  },
+  {
+    "text": "com ele para ele gerar uma única feature",
+    "duration": 4799,
+    "offset": 1490120,
+    "lang": "pt"
+  },
+  {
+    "text": "no meu sistema. A parte de",
+    "duration": 4039,
+    "offset": 1493120,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvimento demorou 30 minutos para",
+    "duration": 4521,
+    "offset": 1494919,
+    "lang": "pt"
+  },
+  {
+    "text": "ele poder eh desenvolver, escrever o",
+    "duration": 4640,
+    "offset": 1497159,
+    "lang": "pt"
+  },
+  {
+    "text": "código eh de todas essas sprints,",
+    "duration": 3959,
+    "offset": 1499440,
+    "lang": "pt"
+  },
+  {
+    "text": "incluindo o validador. Se não tivesse",
+    "duration": 3760,
+    "offset": 1501799,
+    "lang": "pt"
+  },
+  {
+    "text": "validador, teria sido bem menos. Então,",
+    "duration": 4601,
+    "offset": 1503399,
+    "lang": "pt"
+  },
+  {
+    "text": "3 horas só pensando e ideando e",
+    "duration": 5240,
+    "offset": 1505559,
+    "lang": "pt"
+  },
+  {
+    "text": "definindo todas as regras e, cara, 20,",
+    "duration": 5000,
+    "offset": 1508000,
+    "lang": "pt"
+  },
+  {
+    "text": "30 minutos de desenvolvimento. De fato,",
+    "duration": 3841,
+    "offset": 1510799,
+    "lang": "pt"
+  },
+  {
+    "text": "maioria das pessoas hoje tá querendo",
+    "duration": 4559,
+    "offset": 1513000,
+    "lang": "pt"
+  },
+  {
+    "text": "conversar eh 10 minutos com o Cloud, eh,",
+    "duration": 5800,
+    "offset": 1514640,
+    "lang": "pt"
+  },
+  {
+    "text": "pede um prompt lá e joga aqui no",
+    "duration": 6600,
+    "offset": 1517559,
+    "lang": "pt"
+  },
+  {
+    "text": "contexto da conversa eh do LLM e espera",
+    "duration": 5640,
+    "offset": 1520440,
+    "lang": "pt"
+  },
+  {
+    "text": "o pro melhor aqui, se vai conseguir",
+    "duration": 4120,
+    "offset": 1524159,
+    "lang": "pt"
+  },
+  {
+    "text": "resolver e não cobriu nem a metade dos",
+    "duration": 4280,
+    "offset": 1526080,
+    "lang": "pt"
+  },
+  {
+    "text": "casos de uso. Então é realmente você ter",
+    "duration": 4520,
+    "offset": 1528279,
+    "lang": "pt"
+  },
+  {
+    "text": "a paciência e pensar bem no que você",
+    "duration": 4559,
+    "offset": 1530360,
+    "lang": "pt"
+  },
+  {
+    "text": "está desenvolvendo e discutir com com",
+    "duration": 5120,
+    "offset": 1532799,
+    "lang": "pt"
+  },
+  {
+    "text": "uma LLM externa com contexto limpo. Esse",
+    "duration": 6201,
+    "offset": 1534919,
+    "lang": "pt"
+  },
+  {
+    "text": "cara aqui, o cloud aqui, ão dentro do",
+    "duration": 5480,
+    "offset": 1537919,
+    "lang": "pt"
+  },
+  {
+    "text": "Lion Claw ou dentro do Antigravity, esse",
+    "duration": 4919,
+    "offset": 1541120,
+    "lang": "pt"
+  },
+  {
+    "text": "cara, esse agente aqui, ele é só",
+    "duration": 4640,
+    "offset": 1543399,
+    "lang": "pt"
+  },
+  {
+    "text": "executa, esse cara. Ele não é para você",
+    "duration": 4360,
+    "offset": 1546039,
+    "lang": "pt"
+  },
+  {
+    "text": "planejar, é até bom para você economizar",
+    "duration": 3961,
+    "offset": 1548039,
+    "lang": "pt"
+  },
+  {
+    "text": "aí seus tokens. você tiver uma",
+    "duration": 3801,
+    "offset": 1550399,
+    "lang": "pt"
+  },
+  {
+    "text": "assinatura do Google, eh, planeja lá no",
+    "duration": 4200,
+    "offset": 1552000,
+    "lang": "pt"
+  },
+  {
+    "text": "Gemini, enfim, eh, você tem que se",
+    "duration": 5199,
+    "offset": 1554200,
+    "lang": "pt"
+  },
+  {
+    "text": "planejar fora e gaste muito tempo e gere",
+    "duration": 5000,
+    "offset": 1556200,
+    "lang": "pt"
+  },
+  {
+    "text": "esse documento aqui com maior nível de",
+    "duration": 4121,
+    "offset": 1559399,
+    "lang": "pt"
+  },
+  {
+    "text": "detalhe e veja que isso aqui eu também",
+    "duration": 4599,
+    "offset": 1561200,
+    "lang": "pt"
+  },
+  {
+    "text": "estou documentando o meu sistema no",
+    "duration": 4080,
+    "offset": 1563520,
+    "lang": "pt"
+  },
+  {
+    "text": "futuro. Quando eu for e implementar",
+    "duration": 3921,
+    "offset": 1565799,
+    "lang": "pt"
+  },
+  {
+    "text": "novas features, eu tenho muita coisa",
+    "duration": 4439,
+    "offset": 1567600,
+    "lang": "pt"
+  },
+  {
+    "text": "documentada, é, que vai bastar o agente",
+    "duration": 4280,
+    "offset": 1569720,
+    "lang": "pt"
+  },
+  {
+    "text": "dar uma lida ali em algum outro arquivo,",
+    "duration": 3760,
+    "offset": 1572039,
+    "lang": "pt"
+  },
+  {
+    "text": "ele já vai entender o contexto, ele já",
+    "duration": 3679,
+    "offset": 1574000,
+    "lang": "pt"
+  },
+  {
+    "text": "vai saber exatamente quais arquivos ele",
+    "duration": 4000,
+    "offset": 1575799,
+    "lang": "pt"
+  },
+  {
+    "text": "procurar e o meu sistema ele fica",
+    "duration": 4000,
+    "offset": 1577679,
+    "lang": "pt"
+  },
+  {
+    "text": "inteiro documentado, que é muito",
+    "duration": 3201,
+    "offset": 1579799,
+    "lang": "pt"
+  },
+  {
+    "text": "importante. Quem mexe com o",
+    "duration": 3281,
+    "offset": 1581679,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvimento sabe o quão importante é",
+    "duration": 4799,
+    "offset": 1583000,
+    "lang": "pt"
+  },
+  {
+    "text": "a documentação é de uma solução que é a",
+    "duration": 5199,
+    "offset": 1584960,
+    "lang": "pt"
+  },
+  {
+    "text": "vida do sistema. Beleza? E aí, quando",
+    "duration": 5120,
+    "offset": 1587799,
+    "lang": "pt"
+  },
+  {
+    "text": "que você vai usar aqui a spec, né, cara?",
+    "duration": 4520,
+    "offset": 1590159,
+    "lang": "pt"
+  },
+  {
+    "text": "Se você tem um projeto com mais de cinco",
+    "duration": 3521,
+    "offset": 1592919,
+    "lang": "pt"
+  },
+  {
+    "text": "arquivos, então basicamente, se você não",
+    "duration": 3961,
+    "offset": 1594679,
+    "lang": "pt"
+  },
+  {
+    "text": "tiver um projeto HTML aí que abre uma",
+    "duration": 4040,
+    "offset": 1596440,
+    "lang": "pt"
+  },
+  {
+    "text": "página, você deveria fazer",
+    "duration": 4200,
+    "offset": 1598640,
+    "lang": "pt"
+  },
+  {
+    "text": "especificação, eh, múltiplas sessões",
+    "duration": 5360,
+    "offset": 1600480,
+    "lang": "pt"
+  },
+  {
+    "text": "necessárias, lógica de negócio complexa,",
+    "duration": 5319,
+    "offset": 1602840,
+    "lang": "pt"
+  },
+  {
+    "text": "back end, front end juntos, múltiplas",
+    "duration": 4240,
+    "offset": 1605840,
+    "lang": "pt"
+  },
+  {
+    "text": "pessoas envolvidas. Tudo isso aqui você",
+    "duration": 3640,
+    "offset": 1608159,
+    "lang": "pt"
+  },
+  {
+    "text": "precisa aqui de spec, cara. Não tem",
+    "duration": 3360,
+    "offset": 1610080,
+    "lang": "pt"
+  },
+  {
+    "text": "como. Então, quando você não vai usar",
+    "duration": 3321,
+    "offset": 1611799,
+    "lang": "pt"
+  },
+  {
+    "text": "uma spec, cara, você tá fazendo uma",
+    "duration": 4119,
+    "offset": 1613440,
+    "lang": "pt"
+  },
+  {
+    "text": "correção pontual do de um bug. Se você",
+    "duration": 5240,
+    "offset": 1615120,
+    "lang": "pt"
+  },
+  {
+    "text": "fez a sua spec e aí você utilizou esse",
+    "duration": 5561,
+    "offset": 1617559,
+    "lang": "pt"
+  },
+  {
+    "text": "processo aqui, eh, fez a sprint ali",
+    "duration": 5199,
+    "offset": 1620360,
+    "lang": "pt"
+  },
+  {
+    "text": "bonitinho, eh, a gente desenvolveu,",
+    "duration": 4120,
+    "offset": 1623120,
+    "lang": "pt"
+  },
+  {
+    "text": "cara, se deu algum problema naquela",
+    "duration": 3720,
+    "offset": 1625559,
+    "lang": "pt"
+  },
+  {
+    "text": "sprint, quando você vai validar, você",
+    "duration": 4000,
+    "offset": 1627240,
+    "lang": "pt"
+  },
+  {
+    "text": "realmente pode conversar com aquele",
+    "duration": 3441,
+    "offset": 1629279,
+    "lang": "pt"
+  },
+  {
+    "text": "agente ali para corrigir aquele bug",
+    "duration": 3799,
+    "offset": 1631240,
+    "lang": "pt"
+  },
+  {
+    "text": "pontual. Aí sim, não tem problema você",
+    "duration": 3679,
+    "offset": 1632720,
+    "lang": "pt"
+  },
+  {
+    "text": "ir lá no cloud, falar: \"Cara, tá dando",
+    "duration": 3601,
+    "offset": 1635039,
+    "lang": "pt"
+  },
+  {
+    "text": "esse erro aqui\". Eh, veu aí no arquivo,",
+    "duration": 4361,
+    "offset": 1636399,
+    "lang": "pt"
+  },
+  {
+    "text": "ele vai te ajudar e vai ele executar um",
+    "duration": 4639,
+    "offset": 1638640,
+    "lang": "pt"
+  },
+  {
+    "text": "prompt único paraa correção pontual",
+    "duration": 4279,
+    "offset": 1640760,
+    "lang": "pt"
+  },
+  {
+    "text": "daquele bug. E aí o agente sim vai",
+    "duration": 3441,
+    "offset": 1643279,
+    "lang": "pt"
+  },
+  {
+    "text": "executar numa janela limpa. Ele vai",
+    "duration": 3201,
+    "offset": 1645039,
+    "lang": "pt"
+  },
+  {
+    "text": "corrigir muito facilmente os seus bugs.",
+    "duration": 3079,
+    "offset": 1646720,
+    "lang": "pt"
+  },
+  {
+    "text": "A bem que se você for gerar um protótipo",
+    "duration": 4120,
+    "offset": 1648240,
+    "lang": "pt"
+  },
+  {
+    "text": "descartável eh ou cara não tem nem",
+    "duration": 4561,
+    "offset": 1649799,
+    "lang": "pt"
+  },
+  {
+    "text": "lógica de negócio ali, você não vai usar",
+    "duration": 4520,
+    "offset": 1652360,
+    "lang": "pt"
+  },
+  {
+    "text": "spec. Então, basicamente em 90% dos",
+    "duration": 4199,
+    "offset": 1654360,
+    "lang": "pt"
+  },
+  {
+    "text": "casos, você tem que usar uma",
+    "duration": 3960,
+    "offset": 1656880,
+    "lang": "pt"
+  },
+  {
+    "text": "especificação técnica e para que você",
+    "duration": 4041,
+    "offset": 1658559,
+    "lang": "pt"
+  },
+  {
+    "text": "tenha uma assertividade maior. Eu vejo",
+    "duration": 3280,
+    "offset": 1660840,
+    "lang": "pt"
+  },
+  {
+    "text": "muito aqui na comunidade a galera, cara,",
+    "duration": 3040,
+    "offset": 1662600,
+    "lang": "pt"
+  },
+  {
+    "text": "o que que é melhor? Qual é a assinatura",
+    "duration": 3320,
+    "offset": 1664120,
+    "lang": "pt"
+  },
+  {
+    "text": "do cloud? e os meus limites estão",
+    "duration": 4639,
+    "offset": 1665640,
+    "lang": "pt"
+  },
+  {
+    "text": "acabando e tal. Eh, isso aqui é algo que",
+    "duration": 5520,
+    "offset": 1667440,
+    "lang": "pt"
+  },
+  {
+    "text": "vai economizar muitos tokens, eh, porque",
+    "duration": 4000,
+    "offset": 1670279,
+    "lang": "pt"
+  },
+  {
+    "text": "depois você vai ter que ficar",
+    "duration": 3520,
+    "offset": 1672960,
+    "lang": "pt"
+  },
+  {
+    "text": "refatorando a sua ferramenta, é, ir",
+    "duration": 4400,
+    "offset": 1674279,
+    "lang": "pt"
+  },
+  {
+    "text": "rodando várias auditorias em cima dela",
+    "duration": 4000,
+    "offset": 1676480,
+    "lang": "pt"
+  },
+  {
+    "text": "de segurança, porque você não",
+    "duration": 3961,
+    "offset": 1678679,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolveu certo desde o começo e você",
+    "duration": 4439,
+    "offset": 1680480,
+    "lang": "pt"
+  },
+  {
+    "text": "vai pagar o preço por isso, hora mais,",
+    "duration": 4720,
+    "offset": 1682640,
+    "lang": "pt"
+  },
+  {
+    "text": "hora menos, com certeza absoluta esse",
+    "duration": 4561,
+    "offset": 1684919,
+    "lang": "pt"
+  },
+  {
+    "text": "preço vai ter que ser pago e aí vem",
+    "duration": 4640,
+    "offset": 1687360,
+    "lang": "pt"
+  },
+  {
+    "text": "refatoração, sistema quebrado, etc e",
+    "duration": 4280,
+    "offset": 1689480,
+    "lang": "pt"
+  },
+  {
+    "text": "tal. Beleza? Então isso que eu tô",
+    "duration": 3960,
+    "offset": 1692000,
+    "lang": "pt"
+  },
+  {
+    "text": "falando para vocês é parece ser algo",
+    "duration": 4159,
+    "offset": 1693760,
+    "lang": "pt"
+  },
+  {
+    "text": "novo. De novo me repetindo aqui, mas",
+    "duration": 3559,
+    "offset": 1695960,
+    "lang": "pt"
+  },
+  {
+    "text": "quem for de ti que esteja assistindo",
+    "duration": 4000,
+    "offset": 1697919,
+    "lang": "pt"
+  },
+  {
+    "text": "esse vídeo, é isso aqui é básico. O que",
+    "duration": 5921,
+    "offset": 1699519,
+    "lang": "pt"
+  },
+  {
+    "text": "foi substituído foi o cara que escreve o",
+    "duration": 6041,
+    "offset": 1701919,
+    "lang": "pt"
+  },
+  {
+    "text": "código. O cara do produto da ideação,",
+    "duration": 4280,
+    "offset": 1705440,
+    "lang": "pt"
+  },
+  {
+    "text": "ele não foi substituído. O cara da",
+    "duration": 3400,
+    "offset": 1707960,
+    "lang": "pt"
+  },
+  {
+    "text": "especificação técnica, ele não foi",
+    "duration": 3799,
+    "offset": 1709720,
+    "lang": "pt"
+  },
+  {
+    "text": "substituído. Eh, você obviamente pode",
+    "duration": 4280,
+    "offset": 1711360,
+    "lang": "pt"
+  },
+  {
+    "text": "utilizar e esses agentes já para poder",
+    "duration": 4441,
+    "offset": 1713519,
+    "lang": "pt"
+  },
+  {
+    "text": "executar isso, mas tem que fazer parte",
+    "duration": 4279,
+    "offset": 1715640,
+    "lang": "pt"
+  },
+  {
+    "text": "do processo. E se você não fazer parte",
+    "duration": 3599,
+    "offset": 1717960,
+    "lang": "pt"
+  },
+  {
+    "text": "desse processo, você não vai conseguir",
+    "duration": 3401,
+    "offset": 1719919,
+    "lang": "pt"
+  },
+  {
+    "text": "entregar. E aí eu preparei aqui um",
+    "duration": 4600,
+    "offset": 1721559,
+    "lang": "pt"
+  },
+  {
+    "text": "workflow para poder ajudar a vocês a",
+    "duration": 4800,
+    "offset": 1723320,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolver especificações melhores.",
+    "duration": 4000,
+    "offset": 1726159,
+    "lang": "pt"
+  },
+  {
+    "text": "Então, a partir do momento que você eh",
+    "duration": 3640,
+    "offset": 1728120,
+    "lang": "pt"
+  },
+  {
+    "text": "tá seguindo uma estratégia muito",
+    "duration": 3841,
+    "offset": 1730159,
+    "lang": "pt"
+  },
+  {
+    "text": "parecida com essa aqui, eh eu coloquei",
+    "duration": 4399,
+    "offset": 1731760,
+    "lang": "pt"
+  },
+  {
+    "text": "um cara aqui para poder dar uma avaliada",
+    "duration": 4399,
+    "offset": 1734000,
+    "lang": "pt"
+  },
+  {
+    "text": "na sua spec antes que você mande isso",
+    "duration": 3961,
+    "offset": 1736159,
+    "lang": "pt"
+  },
+  {
+    "text": "para desenvolvimento. Eu vou deixar aqui",
+    "duration": 3760,
+    "offset": 1738399,
+    "lang": "pt"
+  },
+  {
+    "text": "na descrição do vídeo. É, basta você",
+    "duration": 4679,
+    "offset": 1740120,
+    "lang": "pt"
+  },
+  {
+    "text": "baixar ali, executar aqui. pode ser do",
+    "duration": 4801,
+    "offset": 1742159,
+    "lang": "pt"
+  },
+  {
+    "text": "antigraft ou você é utiliza ali o",
+    "duration": 3561,
+    "offset": 1744799,
+    "lang": "pt"
+  },
+  {
+    "text": "comando do cloud code para poder",
+    "duration": 3959,
+    "offset": 1746960,
+    "lang": "pt"
+  },
+  {
+    "text": "executar, mas se você executar ela aqui,",
+    "duration": 3880,
+    "offset": 1748360,
+    "lang": "pt"
+  },
+  {
+    "text": "então aqui eu tenho uma uma",
+    "duration": 2600,
+    "offset": 1750919,
+    "lang": "pt"
+  },
+  {
+    "text": "especificação, ela já está uma",
+    "duration": 2919,
+    "offset": 1752240,
+    "lang": "pt"
+  },
+  {
+    "text": "especificação, OK? É um sistema muito",
+    "duration": 4121,
+    "offset": 1753519,
+    "lang": "pt"
+  },
+  {
+    "text": "simples aqui, é um gamezinho aqui, é, em",
+    "duration": 4801,
+    "offset": 1755159,
+    "lang": "pt"
+  },
+  {
+    "text": "HTML, e eu vou rodar ela aqui só para",
+    "duration": 4360,
+    "offset": 1757640,
+    "lang": "pt"
+  },
+  {
+    "text": "mostrar para vocês rapidamente. Então,",
+    "duration": 5520,
+    "offset": 1759960,
+    "lang": "pt"
+  },
+  {
+    "text": "vou colocar aqui speculi e analise a",
+    "duration": 7000,
+    "offset": 1762000,
+    "lang": "pt"
+  },
+  {
+    "text": "spec.md a sprintsv1.j.",
+    "duration": 4960,
+    "offset": 1765480,
+    "lang": "pt"
+  },
+  {
+    "text": "E aí ele vai analisar essas",
+    "duration": 3159,
+    "offset": 1769000,
+    "lang": "pt"
+  },
+  {
+    "text": "especificações e ele vai me fazer",
+    "duration": 4560,
+    "offset": 1770440,
+    "lang": "pt"
+  },
+  {
+    "text": "diversas perguntas. Eh, se de se eu",
+    "duration": 4921,
+    "offset": 1772159,
+    "lang": "pt"
+  },
+  {
+    "text": "esqueci algo, eh, ele precisa me",
+    "duration": 4720,
+    "offset": 1775000,
+    "lang": "pt"
+  },
+  {
+    "text": "perguntar, porque entenda que eh se eu",
+    "duration": 4319,
+    "offset": 1777080,
+    "lang": "pt"
+  },
+  {
+    "text": "tô falando aqui eh que nós estamos",
+    "duration": 3360,
+    "offset": 1779720,
+    "lang": "pt"
+  },
+  {
+    "text": "falando do que eu tenho que construir",
+    "duration": 3400,
+    "offset": 1781399,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui o caminho feliz e o caminho",
+    "duration": 4959,
+    "offset": 1783080,
+    "lang": "pt"
+  },
+  {
+    "text": "alternativo, eh, muitas vezes eh se não",
+    "duration": 5681,
+    "offset": 1784799,
+    "lang": "pt"
+  },
+  {
+    "text": "tá o caminho alternativo aqui do nosso",
+    "duration": 4360,
+    "offset": 1788039,
+    "lang": "pt"
+  },
+  {
+    "text": "lado, é, ele precisa perguntar para",
+    "duration": 3400,
+    "offset": 1790480,
+    "lang": "pt"
+  },
+  {
+    "text": "você, porque ele não pode sair tirar da",
+    "duration": 3000,
+    "offset": 1792399,
+    "lang": "pt"
+  },
+  {
+    "text": "cabeça dele. Então, ele vai falar:",
+    "duration": 3279,
+    "offset": 1793880,
+    "lang": "pt"
+  },
+  {
+    "text": "\"Cara, você col você não colocou aqui um",
+    "duration": 4561,
+    "offset": 1795399,
+    "lang": "pt"
+  },
+  {
+    "text": "cenário onde quando o usuário se loga e",
+    "duration": 4760,
+    "offset": 1797159,
+    "lang": "pt"
+  },
+  {
+    "text": "ele coloca o e-mail errado e aí o que",
+    "duration": 3319,
+    "offset": 1799960,
+    "lang": "pt"
+  },
+  {
+    "text": "que eu faço?\" Então ele tem que te",
+    "duration": 3681,
+    "offset": 1801919,
+    "lang": "pt"
+  },
+  {
+    "text": "perguntar e ele vai te perguntar. Então",
+    "duration": 4120,
+    "offset": 1803279,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui ele já me me falou, ó, gaps",
+    "duration": 4079,
+    "offset": 1805600,
+    "lang": "pt"
+  },
+  {
+    "text": "técnicos, nenhum ed case definido nos",
+    "duration": 4321,
+    "offset": 1807399,
+    "lang": "pt"
+  },
+  {
+    "text": "sprints, ó, features nos sprints, não",
+    "duration": 4201,
+    "offset": 1809679,
+    "lang": "pt"
+  },
+  {
+    "text": "tem aqui critério de aceite. É, vou",
+    "duration": 3799,
+    "offset": 1811720,
+    "lang": "pt"
+  },
+  {
+    "text": "adicionar um ed case relevante por",
+    "duration": 3720,
+    "offset": 1813880,
+    "lang": "pt"
+  },
+  {
+    "text": "feature, bola presa delta time, ou seja,",
+    "duration": 4441,
+    "offset": 1815519,
+    "lang": "pt"
+  },
+  {
+    "text": "ele tá tratando aqui algum possível",
+    "duration": 4319,
+    "offset": 1817600,
+    "lang": "pt"
+  },
+  {
+    "text": "futuro bug que esse joguinho aqui pode",
+    "duration": 4839,
+    "offset": 1819960,
+    "lang": "pt"
+  },
+  {
+    "text": "ter a que no sprint 1, fit 4 não",
+    "duration": 5480,
+    "offset": 1821919,
+    "lang": "pt"
+  },
+  {
+    "text": "menciona a direção inicial aleatória que",
+    "duration": 5961,
+    "offset": 1824799,
+    "lang": "pt"
+  },
+  {
+    "text": "tá na spec sessão 5, sprint 3, fit 9 não",
+    "duration": 5601,
+    "offset": 1827399,
+    "lang": "pt"
+  },
+  {
+    "text": "menciona o que acontece com e enfim,",
+    "duration": 4240,
+    "offset": 1830760,
+    "lang": "pt"
+  },
+  {
+    "text": "isso aqui é é a parte de física ali da",
+    "duration": 3799,
+    "offset": 1833000,
+    "lang": "pt"
+  },
+  {
+    "text": "bola, é aqueles joguinhos que você e",
+    "duration": 3440,
+    "offset": 1835000,
+    "lang": "pt"
+  },
+  {
+    "text": "fica ali batendo a bolinha, ela vai",
+    "duration": 4401,
+    "offset": 1836799,
+    "lang": "pt"
+  },
+  {
+    "text": "quebrando quadradinhos. Então ele me dá",
+    "duration": 5119,
+    "offset": 1838440,
+    "lang": "pt"
+  },
+  {
+    "text": "aqui diversas críticas aqui da minha",
+    "duration": 4680,
+    "offset": 1841200,
+    "lang": "pt"
+  },
+  {
+    "text": "spec e aí ele me faz perguntas, ó.",
+    "duration": 4441,
+    "offset": 1843559,
+    "lang": "pt"
+  },
+  {
+    "text": "Pergunta um de seis, comportamento no",
+    "duration": 3840,
+    "offset": 1845880,
+    "lang": "pt"
+  },
+  {
+    "text": "lançamento. Quando o jogador lança a",
+    "duration": 3360,
+    "offset": 1848000,
+    "lang": "pt"
+  },
+  {
+    "text": "bola, o estado ready, click pass, como",
+    "duration": 4240,
+    "offset": 1849720,
+    "lang": "pt"
+  },
+  {
+    "text": "ela deve sair? é sempre no mesmo ângulo,",
+    "duration": 4120,
+    "offset": 1851360,
+    "lang": "pt"
+  },
+  {
+    "text": "num outro ângulo aleatório. Então,",
+    "duration": 3160,
+    "offset": 1853960,
+    "lang": "pt"
+  },
+  {
+    "text": "entenda que isso aqui é um jogo eh",
+    "duration": 3960,
+    "offset": 1855480,
+    "lang": "pt"
+  },
+  {
+    "text": "idiota que eu joguei aqui para poder eh",
+    "duration": 4320,
+    "offset": 1857120,
+    "lang": "pt"
+  },
+  {
+    "text": "dar esse exemplo para vocês, mas ele vai",
+    "duration": 4000,
+    "offset": 1859440,
+    "lang": "pt"
+  },
+  {
+    "text": "abrir a cabeça de vocês, vai fazer as",
+    "duration": 3680,
+    "offset": 1861440,
+    "lang": "pt"
+  },
+  {
+    "text": "perguntas finais do que precisa ter",
+    "duration": 3560,
+    "offset": 1863440,
+    "lang": "pt"
+  },
+  {
+    "text": "nessa especificação técnica e depois",
+    "duration": 3399,
+    "offset": 1865120,
+    "lang": "pt"
+  },
+  {
+    "text": "quando vocês mandarem para desenvolver,",
+    "duration": 3000,
+    "offset": 1867000,
+    "lang": "pt"
+  },
+  {
+    "text": "é garanto para vocês que vocês vão",
+    "duration": 3561,
+    "offset": 1868519,
+    "lang": "pt"
+  },
+  {
+    "text": "cobrir muito mais cenários, que são",
+    "duration": 3360,
+    "offset": 1870000,
+    "lang": "pt"
+  },
+  {
+    "text": "aqueles cenários que você fica",
+    "duration": 3360,
+    "offset": 1872080,
+    "lang": "pt"
+  },
+  {
+    "text": "resolvendo depois ali no chat com LLM,",
+    "duration": 4120,
+    "offset": 1873360,
+    "lang": "pt"
+  },
+  {
+    "text": "resolvendo bug, resolvendo problema,",
+    "duration": 3839,
+    "offset": 1875440,
+    "lang": "pt"
+  },
+  {
+    "text": "beleza? deixar esse workflow aqui para",
+    "duration": 4199,
+    "offset": 1877480,
+    "lang": "pt"
+  },
+  {
+    "text": "vocês. E aí, cara, eh, utilizem aí e",
+    "duration": 4280,
+    "offset": 1879279,
+    "lang": "pt"
+  },
+  {
+    "text": "depois vocês me contam aí se realmente",
+    "duration": 4081,
+    "offset": 1881679,
+    "lang": "pt"
+  },
+  {
+    "text": "as specs de vocês têm ficado um pouco",
+    "duration": 4240,
+    "offset": 1883559,
+    "lang": "pt"
+  },
+  {
+    "text": "melhor. Beleza? Então, o Vibe Code ele",
+    "duration": 4200,
+    "offset": 1885760,
+    "lang": "pt"
+  },
+  {
+    "text": "funciona para essas coisas pequenas ali,",
+    "duration": 5000,
+    "offset": 1887799,
+    "lang": "pt"
+  },
+  {
+    "text": "é cara, um script, um componente, uma",
+    "duration": 5360,
+    "offset": 1889960,
+    "lang": "pt"
+  },
+  {
+    "text": "função isolada, é que você realmente só",
+    "duration": 4201,
+    "offset": 1892799,
+    "lang": "pt"
+  },
+  {
+    "text": "tem que dar aquele comando pequeno ali,",
+    "duration": 3239,
+    "offset": 1895320,
+    "lang": "pt"
+  },
+  {
+    "text": "aquele pequeno prompt. E aí, de acordo",
+    "duration": 3320,
+    "offset": 1897000,
+    "lang": "pt"
+  },
+  {
+    "text": "com que seu projeto cresce, eh, esses",
+    "duration": 3720,
+    "offset": 1898559,
+    "lang": "pt"
+  },
+  {
+    "text": "pequenos promptos que você dá, a IA, ela",
+    "duration": 3640,
+    "offset": 1900320,
+    "lang": "pt"
+  },
+  {
+    "text": "não vai validar o código inteiro, ela",
+    "duration": 3841,
+    "offset": 1902279,
+    "lang": "pt"
+  },
+  {
+    "text": "simplesmente vai implementar eh sem",
+    "duration": 4120,
+    "offset": 1903960,
+    "lang": "pt"
+  },
+  {
+    "text": "realmente validar se o que você tá",
+    "duration": 3960,
+    "offset": 1906120,
+    "lang": "pt"
+  },
+  {
+    "text": "pedindo realmente pode ser desenvolvido",
+    "duration": 3520,
+    "offset": 1908080,
+    "lang": "pt"
+  },
+  {
+    "text": "daquela forma. Quando você tem um",
+    "duration": 4360,
+    "offset": 1910080,
+    "lang": "pt"
+  },
+  {
+    "text": "planejamento antes, eh, realmente alguém",
+    "duration": 5079,
+    "offset": 1911600,
+    "lang": "pt"
+  },
+  {
+    "text": "deu uma geral no seu código, viu as",
+    "duration": 4400,
+    "offset": 1914440,
+    "lang": "pt"
+  },
+  {
+    "text": "funções, viu as variáveis, viu o que que",
+    "duration": 4321,
+    "offset": 1916679,
+    "lang": "pt"
+  },
+  {
+    "text": "pode utilizar, você vai ter um resultado",
+    "duration": 3719,
+    "offset": 1918840,
+    "lang": "pt"
+  },
+  {
+    "text": "muito maior, onde você vai realmente",
+    "duration": 3519,
+    "offset": 1921000,
+    "lang": "pt"
+  },
+  {
+    "text": "gerar um documento. E nesse documento,",
+    "duration": 4161,
+    "offset": 1922559,
+    "lang": "pt"
+  },
+  {
+    "text": "se ele for muito bem especificado, você",
+    "duration": 4160,
+    "offset": 1924519,
+    "lang": "pt"
+  },
+  {
+    "text": "pode até rodar um modelo menor, um",
+    "duration": 4799,
+    "offset": 1926720,
+    "lang": "pt"
+  },
+  {
+    "text": "modelo mais burro, vamos dizer assim, é",
+    "duration": 4441,
+    "offset": 1928679,
+    "lang": "pt"
+  },
+  {
+    "text": "que ele vai facilmente conseguir",
+    "duration": 3520,
+    "offset": 1931519,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolver, porque ele não vai precisar",
+    "duration": 3919,
+    "offset": 1933120,
+    "lang": "pt"
+  },
+  {
+    "text": "mais pensar em nada por conta própria,",
+    "duration": 3681,
+    "offset": 1935039,
+    "lang": "pt"
+  },
+  {
+    "text": "não vai inventar nada, ele só tem que",
+    "duration": 3401,
+    "offset": 1937039,
+    "lang": "pt"
+  },
+  {
+    "text": "seguir exatamente o que tá numa",
+    "duration": 4400,
+    "offset": 1938720,
+    "lang": "pt"
+  },
+  {
+    "text": "especificação técnica com todos os casos",
+    "duration": 4520,
+    "offset": 1940440,
+    "lang": "pt"
+  },
+  {
+    "text": "mapeados. Parece chato quando a gente",
+    "duration": 4039,
+    "offset": 1943120,
+    "lang": "pt"
+  },
+  {
+    "text": "fala tanta coisa assim e o que você tem",
+    "duration": 4360,
+    "offset": 1944960,
+    "lang": "pt"
+  },
+  {
+    "text": "que fazer e você conversar por 3 horas",
+    "duration": 4360,
+    "offset": 1947159,
+    "lang": "pt"
+  },
+  {
+    "text": "antes de começar a desenvolver, mas isso",
+    "duration": 4239,
+    "offset": 1949320,
+    "lang": "pt"
+  },
+  {
+    "text": "é a realidade do desenvolvimento",
+    "duration": 4120,
+    "offset": 1951519,
+    "lang": "pt"
+  },
+  {
+    "text": "mundial. Então, se você tá entrando",
+    "duration": 4201,
+    "offset": 1953559,
+    "lang": "pt"
+  },
+  {
+    "text": "nesse mundo, você tem que se adequar a",
+    "duration": 4640,
+    "offset": 1955639,
+    "lang": "pt"
+  },
+  {
+    "text": "isso. E, e os desenvolvedores hoje o que",
+    "duration": 4360,
+    "offset": 1957760,
+    "lang": "pt"
+  },
+  {
+    "text": "eles estão fazendo é se adequando na",
+    "duration": 3921,
+    "offset": 1960279,
+    "lang": "pt"
+  },
+  {
+    "text": "parte de negócio. E aquele desenvolvedor",
+    "duration": 3600,
+    "offset": 1962120,
+    "lang": "pt"
+  },
+  {
+    "text": "que sempre foi o cara que leu a",
+    "duration": 3839,
+    "offset": 1964200,
+    "lang": "pt"
+  },
+  {
+    "text": "especificação técnica, eh, e desenvolveu",
+    "duration": 4959,
+    "offset": 1965720,
+    "lang": "pt"
+  },
+  {
+    "text": "e não se preocupou em se melhorar ali e",
+    "duration": 4401,
+    "offset": 1968039,
+    "lang": "pt"
+  },
+  {
+    "text": "a nível de negócio, agora o",
+    "duration": 3880,
+    "offset": 1970679,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvedor precisa mais do que tudo",
+    "duration": 4040,
+    "offset": 1972440,
+    "lang": "pt"
+  },
+  {
+    "text": "ter essa visão de negócio para poder",
+    "duration": 4161,
+    "offset": 1974559,
+    "lang": "pt"
+  },
+  {
+    "text": "performar nesse mundo aí que a gente tá",
+    "duration": 3919,
+    "offset": 1976480,
+    "lang": "pt"
+  },
+  {
+    "text": "usando e há para poder fazer",
+    "duration": 3880,
+    "offset": 1978720,
+    "lang": "pt"
+  },
+  {
+    "text": "desenvolvimento. Beleza? O link da",
+    "duration": 4081,
+    "offset": 1980399,
+    "lang": "pt"
+  },
+  {
+    "text": "comunidade está disponível na descrição",
+    "duration": 3559,
+    "offset": 1982600,
+    "lang": "pt"
+  },
+  {
+    "text": "desse vídeo. Se você quiser aprender",
+    "duration": 4159,
+    "offset": 1984480,
+    "lang": "pt"
+  },
+  {
+    "text": "mais sobre IA e aplicações e estratégias",
+    "duration": 4801,
+    "offset": 1986159,
+    "lang": "pt"
+  },
+  {
+    "text": "de desenvolvimento, eh, você será muito",
+    "duration": 4040,
+    "offset": 1988639,
+    "lang": "pt"
+  },
+  {
+    "text": "bem-vindo. Venha compartilhar seu",
+    "duration": 3679,
+    "offset": 1990960,
+    "lang": "pt"
+  },
+  {
+    "text": "conhecimento com a gente e nós também",
+    "duration": 4240,
+    "offset": 1992679,
+    "lang": "pt"
+  },
+  {
+    "text": "vamos compartilhar com vocês, beleza? Um",
+    "duration": 6880,
+    "offset": 1994639,
+    "lang": "pt"
+  },
+  {
+    "text": "forte abraço a todos e até mais.",
+    "duration": 4600,
+    "offset": 1996919,
+    "lang": "pt"
+  }
+]

@@ -1,0 +1,897 @@
+- [00:00] Muito tem se falado sobre a SPEC, a
+- [00:02] especificação técnica de um projeto que
+- [00:04] você envia para o seu agente para que
+- [00:06] ele possa te entregar o código. Pronto.
+- [00:08] A spec, que é uma especificação técnica,
+- [00:10] ela não é algo que foi criado há pouco
+- [00:12] tempo atrás. Isso já existe há anos no
+- [00:14] mundo do desenvolvimento e ela sempre
+- [00:16] fez parte do processo de uma empresa de
+- [00:18] desenvolvimento de sistemas. E com a
+- [00:20] chegada dessas ideias agênticas, do
+- [00:22] cloud Code, do Antigravity, muita gente
+- [00:25] se arriscou a desenvolver software, mas
+- [00:27] realmente não quis entender o processo
+- [00:29] por trás de um desenvolvimento de alguma
+- [00:31] aplicação. E o resultado é que pulou
+- [00:33] toda a parte de documentação e foi
+- [00:35] direto pra parte de desenvolvimento,
+- [00:37] direto no desenvolvedor, que é o seu
+- [00:39] agente. Isso nos primeiros 30 segundos
+- [00:42] parece mágico, nos próximos 20 minutos
+- [00:44] ele tá entregando OK. E depois quando a
+- [00:46] janela de contexto dele começa a crescer
+- [00:48] com seus comandos rasos. E mesmo que
+- [00:51] você esteja conversando com outra LLM e
+- [00:52] ela esteja te ajudando com os promptes
+- [00:54] para poder desenvolver, isso não é o
+- [00:57] suficiente para que você consiga
+- [00:58] entregar uma aplicação de qualidade.
+- [01:00] Hoje eu vou te mostrar um processo
+- [01:01] básico que eu uso aqui para poder
+- [01:03] desenvolver. É algo que talvez esteja
+- [01:05] até fora da realidade para quem tá
+- [01:07] utilizando essas ferramentas e quem
+- [01:09] trabalha com vibe coding, mas é a dura
+- [01:11] realidade de como utilizar isso aqui de
+- [01:13] forma profissional, você tendo o melhor
+- [01:16] resultado possível e com muito pouco
+- [01:18] retrabalho. E vou te mostrar isso aqui
+- [01:19] na prática, um processo como eu construo
+- [01:21] aqui uma feature, uma funcionalidade de
+- [01:24] um sistema. É, e talvez isso vai te dar
+- [01:26] um insight legal aí, é, que talvez você
+- [01:28] consiga colocar no seu projeto. Beleza?
+- [01:31] Meu nome é Breno. Eu sou fundador da
+- [01:32] Lion Lab, comunidade de inteligência
+- [01:34] artificial. Sou diretor de uma empresa
+- [01:36] de tecnologia e hoje tô aqui para poder
+- [01:38] passar o conhecimento para vocês. Então,
+- [01:40] deixa o seu like, segue o canal, muito
+- [01:42] importante pra gente continuar o nosso
+- [01:44] trabalho. O link da comunidade tá
+- [01:46] disponível na descrição desse vídeo.
+- [01:47] Venha compartilhar o seu conhecimento
+- [01:49] com a gente e nós também vamos
+- [01:51] compartilhar com vocês. Então, bora pra
+- [01:53] aula. Então, já pra gente não perder o
+- [01:54] costume. Preparei aquela aulinha aqui, a
+- [01:56] gente vai pra teoria e depois eu vou
+- [01:58] mostrar pr vocês aqui o processo que eu
+- [02:00] utilizo e aí vou liberar aqui um
+- [02:02] workflow aqui até para poder melhorar as
+- [02:04] specs de vocês aí, dar aquele tapa e
+- [02:07] depois que você gera aquele documento, é
+- [02:09] para ajudar aí os seus agentes aí ter
+- [02:10] uma assertividade melhor no momento do
+- [02:13] desenvolvimento. Beleza? Então, o spec
+- [02:16] Drive and
+- [02:18] fazer a IA codar projetos inteiros. Isso
+- [02:21] aqui ele sempre existiu, galera, na
+- [02:23] empresas de tecnologia aqui, todas que
+- [02:25] eu trabalhei até hoje. Tudo isso que
+- [02:27] sempre teve é a especificação técnica, é
+- [02:30] um passo antes da implementação. O que
+- [02:32] que é o problema de hoje aqui que esses
+- [02:34] caras do Vibe Code, né, tão tão
+- [02:37] sofrendo? Eh, o cara bota um system
+- [02:39] prompt ali, a Ia vai lá dá uma leitura
+- [02:42] nos arquivos. Aí tem a resposta disso,
+- [02:45] mais o histórico, chama tools ali, mais
+- [02:47] os resultados da tool. Rapidinho ele
+- [02:50] chega no que a gente chama aqui de db
+- [02:52] zone, que é cara é a zona que o agente
+- [02:55] fica bobo, ele já não consegue
+- [02:57] desenrolar nada. Então, 15 minutos de
+- [03:00] trabalho aqui num cloud code, por
+- [03:02] exemplo, que ele recebe o prompt, aí ele
+- [03:05] recebe as skills, as tools, eh, os
+- [03:08] agentes, eh, vai receber ali rules, vai
+- [03:11] receber o cloud MD. Então pensa que esse
+- [03:14] cara aqui ele já chega bombado de prompt
+- [03:17] para tudo que é lado. E se você ficar
+- [03:19] sujando a janela de contexto dele ali,
+- [03:22] se planejando e pedindo para ele
+- [03:24] promptes vagos, rapidamente esse cara
+- [03:26] aqui ele vai para um nível de
+- [03:28] assertividade muito baixa. Beleza? Dito
+- [03:31] isso, eh, nós não podemos deixar esse
+- [03:34] cara aqui em alguma feature que ele
+- [03:36] esteja desenvolvendo, chegar nessa dumb
+- [03:38] zone aqui, ó. Não se engane. Não achea
+- [03:40] que porque existe uma janela de contexto
+- [03:42] de 1 milhão de tokens que quando chegar
+- [03:45] ali nos 800.000 tokens o cara vai est
+- [03:47] performando, ele vai est no 40% de
+- [03:51] performance ou menos quando ele chegar
+- [03:52] nesse nível aqui. Isso não é algo legal.
+- [03:55] O que que é o spec drive development,
+- [03:58] né? Aqui é um processo de TI.
+- [04:00] Normalmente e você começa ali com a
+- [04:03] equipe de produto, tem a ideia ali do
+- [04:05] que que vai ser desenvolvido, aí depois
+- [04:07] disso ele gera ali o PRD, que eu já
+- [04:10] falei alguns vídeos aqui sobre o PRD,
+- [04:12] como se gera. Tem um workflow que ajuda
+- [04:14] muito a idear produto. Eu vou deixar o
+- [04:16] vídeo aqui, se vocês quiserem entender
+- [04:17] como funciona a geração dessas primeiras
+- [04:19] PRDs aqui, principalmente em projetos
+- [04:21] novos, o vídeo vai tá aí acima, beleza?
+- [04:24] Depois gerou esse PRD, ele é um
+- [04:26] documento de negócio, um documento de
+- [04:28] produto. O que que você quer? o que você
+- [04:30] gostaria, tem o user stories, o como eu
+- [04:32] gostaria de utilizar essa funcionalidade
+- [04:35] ou este produto, etc. E depois disso vem
+- [04:38] a spec. Geralmente tem um profissional
+- [04:40] dentro da TI que ele pega esse documento
+- [04:43] aqui e ele transforma numa especificação
+- [04:46] técnica. Esse cara aqui, ele já dá uma
+- [04:48] olhada no código, ele consegue validar
+- [04:50] algumas variáveis, ele consegue validar
+- [04:52] as funções que existem. Então ele
+- [04:54] consegue fazer as conexões entre a ideia
+- [04:57] de negócio com a o que a TI mesmo, o
+- [05:01] desenvolvedor precisa saber. E esse cara
+- [05:03] aqui, ele transforma o todo o contexto
+- [05:06] de produto, é, de uma forma eh muito
+- [05:08] mais técnica, por isso que fala
+- [05:10] especificação técnica, porque esse cara
+- [05:13] aqui ele só precisa implementar, ele não
+- [05:15] precisa saber do do qual é o benefício
+- [05:18] que o usuário está tendo e quanto que
+- [05:20] ele vai ganhar ou o que vai trazer isso
+- [05:22] pra empresa. Esse cara aqui, ele precisa
+- [05:25] saber, o desenvolvedor, ele precisa
+- [05:27] saber do técnico, o que eu vou
+- [05:28] implementar, o que eu tenho que fazer,
+- [05:30] eh, e quais são os casos de uso. Vamos
+- [05:32] para cima. Então, esse cara aqui, ele é
+- [05:35] um cara muito importante, especificação
+- [05:36] técnica. Depois disso, a gente vai pra
+- [05:38] teste e depois disso, cara, deploy, vai
+- [05:41] pra produção. Show. Isso aqui nada de
+- [05:43] novidade. Empresa de TI de 2010 já
+- [05:47] executava exatamente isso aqui. Beleza?
+- [05:49] Agora, depois que chegou essas
+- [05:51] ferramentas aqui, Vibe Code, enfim,
+- [05:54] cloud, Antigravity, a galera se achou no
+- [05:57] direito de chegar e vir direto aqui, ó.
+- [06:00] O cara vem aqui, ele abre o antigravity
+- [06:02] dele aqui, abre aqui a janela do agente
+- [06:05] e aqui ele vai para cima e começa: "Eu
+- [06:07] quero construir aqui e tal, tal, tal,
+- [06:09] tal, tal". cara, não vai dar certo. Vai
+- [06:11] dar certo no início, mas se o seu
+- [06:13] projeto ele tiver mais de 15 arquivos,
+- [06:16] eh, você vai ficar mais debugando os
+- [06:18] problemas que tá sendo gerado, eh, do
+- [06:20] que de fato resolvendo. Então, você vai
+- [06:22] perder muito mais tempo. Eh, tem muita
+- [06:24] gente que acha que não tem que perder
+- [06:26] tempo com essa spec aqui, mas se você
+- [06:28] não faz isso aqui nem a PRD, você, na
+- [06:30] verdade, você perde muito mais tempo
+- [06:32] depois, é, corrigindo as merdas que o
+- [06:35] agente fez. E eu garanto para você que
+- [06:37] ele faz muita merda, porque o, se você
+- [06:39] não falou para ele exatamente o que ele
+- [06:41] tem que fazer, ele vai fazer da cabeça
+- [06:43] dele. E quando eu digo da cabeça dele, é
+- [06:45] um padrão de código que ele viu em algum
+- [06:48] momento no treinamento dele, no GitHub,
+- [06:50] no stack overflow. E ele vai replicar
+- [06:53] aquilo ali e vai falar: "Ah, isso aqui
+- [06:54] tá OK, porque entendo que o padrão é
+- [06:56] esse e na maioria das vezes ele vai est
+- [06:58] errado." Beleza? Então esse cara aqui,
+- [07:00] mesmo que você esteja conversando com a
+- [07:02] sua LLM lá, eh, com o cloud lá, vou tá
+- [07:05] ideando e tá falando: "Beleza, Cláudio,
+- [07:07] então me dá o prompt aqui. Você tá
+- [07:08] mandando o prompt direto para esse cara.
+- [07:10] Se você tiver mandando um prompt muito
+- [07:12] grande, a janela de contexto desse cara
+- [07:14] aqui, ela vai ficar grande. Então,
+- [07:15] imagina que você mandou um propt
+- [07:17] gigantesco ali, ele tem muita coisa para
+- [07:19] implementar. Quando ele começa a
+- [07:21] implementar só as buscas de arquivos que
+- [07:23] ele tem que fazer, eh, sem documentação,
+- [07:25] ele facilmente ele vai querer
+- [07:27] simplesmente te entregar como pronto.
+- [07:29] Inclusive, no vídeo abaixo ali, eu
+- [07:31] comprovei isso, que realmente a Antropic
+- [07:33] gerou um relatório que quando você
+- [07:35] desenvolve um documento muito
+- [07:36] gigantesco, ela pula vários steps porque
+- [07:38] ela está ansiosa para te entregar que tá
+- [07:41] pronto. Beleza? Show. Então, dito isso
+- [07:44] aqui, cara, a gente entendeu o problema.
+- [07:45] Vocês entenderam aqui qual que é o
+- [07:47] processo certo? entender o que que vocês
+- [07:49] podem estar fazendo errado ou não, tá?
+- [07:51] Tenho certeza que muita gente faz certo.
+- [07:54] E agora aqui a gente vai tentar
+- [07:55] entender, destrinchar isso e melhorar
+- [07:58] isso, né? A primeira coisa que eu dou de
+- [08:00] sugestão para vocês aqui é tem que ter
+- [08:03] esses três etapas aqui, que é o wizard,
+- [08:06] que é a pesquisa. Então aqui explora
+- [08:08] code base, faz pergunta e gera anotações
+- [08:11] do PRD. Por que que eu falei faz
+- [08:13] perguntas? Porque hoje é com o cloud
+- [08:15] cowork ou o próprio cloud code e o
+- [08:17] antigravity também, porque tá tudo essas
+- [08:20] ideias aqui que tão tão dentro da sua
+- [08:21] máquina, eles podem executar e buscas
+- [08:24] dentro do seu Phil System, eh, ficou
+- [08:26] mais fácil ele explorar o código dentro
+- [08:28] do seu computador do seu, você não
+- [08:30] precisa mais colocar um repositório e e
+- [08:33] copiar o código e colar no contexto. Ela
+- [08:36] mesmo procura ali o que ela precisa e
+- [08:38] ela consegue te ajudar. Então essa
+- [08:40] pesquisa, quando você eh dá um acesso
+- [08:42] aqui, entra no no cloud cowork aqui, por
+- [08:45] exemplo, se você abrir uma nova tesquec
+- [08:47] e você dá acesso a essa pasta aqui, eh,
+- [08:50] cara, ele já vai ter acesso a todo o seu
+- [08:52] código e ele vai conseguir te ajudar. E
+- [08:54] e aí quando você quer implementar uma
+- [08:55] nova feature, você sempre começa por
+- [08:58] essa research aqui. Você vai perguntar
+- [09:00] para ele, olha, eu quero agora
+- [09:01] implementar isso no meu projeto, é, por
+- [09:03] enquanto estamos só ideando, não faça
+- [09:04] nada, dá uma olhada no código, o que que
+- [09:06] você me sugere, etc e tal. Isso. Você
+- [09:08] começou uma conversa e aí baseado no que
+- [09:11] ele vai te respondendo, você vai pedir
+- [09:13] para ele gerar anotações. Por quê? Dá
+- [09:16] uma olhada no tamanho desse chat aqui,
+- [09:19] por exemplo. Isso aqui, olha, olha o a o
+- [09:21] título do do chat, fix mcp servers e
+- [09:25] memory path issues. Ou seja, eu tô
+- [09:27] corrigindo um problema que teve dentro
+- [09:30] do meu sistema, eh, que tanto na na no
+- [09:33] PEF de memória e o MCP Service, ou seja,
+- [09:35] é um bug que eu tô corrigindo aqui. E
+- [09:37] olha o tanto que eu discuti com esse
+- [09:39] cara, só pra gente poder chegar e numa
+- [09:41] solução. Então essa janela de contexto
+- [09:43] aqui, ela estourou muito mais que 1
+- [09:45] milhão de tokens. E aí dito isso, se
+- [09:48] esse cara ele não for anotando o que foi
+- [09:50] decidido, eh, ele vai se perder
+- [09:53] facilmente quando você chegar no final
+- [09:54] da conversa, falar assim: "Cara,
+- [09:55] realmente agora tô satisfeito". Então,
+- [09:58] gera aí as anotações, gera o PRD aí de
+- [10:00] tudo que a gente conversou. E ele vai
+- [10:02] olhar pro contexto dele, ele vai falar:
+- [10:03] "Hum, já teve duas compactação aqui,
+- [10:06] cara. Eu só lembro até aqui. Você quer
+- [10:08] me lembrar aí o que que a gente falou?"
+- [10:10] É exatamente isso que vai acontecer. Se
+- [10:12] você for daqueles caras que não lê o
+- [10:13] PRD, o documento que ele vai gerar, o
+- [10:15] spec, é pior ainda. Você nem vai
+- [10:17] perguntar isso para ele, vai mandar
+- [10:19] desenvolver, você vai nem percebeu que
+- [10:21] metade do que você falou não foi para
+- [10:23] dentro da documentação. E aí depois
+- [10:25] disso, a gente vai aqui pro plano.
+- [10:27] baseado nesse documento aqui com o
+- [10:29] arquivo em mãos que esse cara do cloud
+- [10:31] cork aqui gera, o seu cloud code, o seu
+- [10:34] antigravity também gera, você vai partir
+- [10:36] pra construção da spec, que aí a spec
+- [10:39] ela vem muito mais no nível de você
+- [10:41] definir e tecnicamente o que vai ser
+- [10:44] construído. Você define ali os goals, o
+- [10:46] escopo, você define regras e define os
+- [10:49] cenários. E aí essa spec, ela vai ser
+- [10:52] gerada numa nova janela. Você não vai
+- [10:55] usar a janela suja desse cara aqui para
+- [10:57] poder gerar essa spec. Você abre o novo
+- [11:00] chat, você, cara, agora beleza, tá aqui,
+- [11:03] eu tenho esse documento, por favor, gere
+- [11:05] a especificação técnica, né, com com
+- [11:07] todos os cenários, enfim, etc., que eu
+- [11:10] vou dar uma lida nela, beleza? E aí esse
+- [11:12] cara vai gerar spec e aí sim, depois que
+- [11:15] você gera esse spec, você vai mandar
+- [11:17] para um outro agente desenvolver de novo
+- [11:20] com a janela limpinha. Então você não
+- [11:22] pode gerar uma specela
+- [11:25] que você vai mandar implementar, sempre
+- [11:27] vai limpando o contexto. E aí eu trouxe
+- [11:29] um gráfico aqui que eu sempre trago
+- [11:31] aqui, já trouxe umas 20 vezes, né, nesse
+- [11:33] canal, que é o gráfico de precisão dos
+- [11:37] tokens. Então, se você tem poking token,
+- [11:40] tá todo mundo aqui na beira dos 100. Mas
+- [11:42] se você for conversando aí com com o seu
+- [11:45] cloud aí, com a sua LLM e esses tokens
+- [11:47] aqui vai estourando, meu amigo, você vai
+- [11:50] vendo aqui, ó, que aqui já bate 80%. Se
+- [11:53] você for 200.000 tokens, 70. E aqui por
+- [11:56] aqui vai. Olha o 1 milhão de contexto
+- [11:58] aqui, o tanto que é legal. Já cai para
+- [11:59] menos de 50% de precisão. Ou seja, aqui
+- [12:03] é a alucinação certa. Você, o cara não
+- [12:06] vai codar nada, ele vai tentar e você
+- [12:09] vai se ferrar com isso aqui. Beleza?
+- [12:11] Então, show. Expliquei para vocês aqui o
+- [12:13] contexto e por que vocês devem separar
+- [12:16] aqui as janelas, beleza? E aí agora vou
+- [12:19] separar para vocês aqui também porque
+- [12:20] muita gente confunde o PRD com a spec e,
+- [12:24] cara, comum e confundir os dois
+- [12:26] documentos. Então, vou definir aqui para
+- [12:28] vocês o que que é um e o que que é
+- [12:29] outro. O PRD, cara, ele você descreve o
+- [12:33] problema, aí faz algumas perguntas ali,
+- [12:35] você refina ali os objetivos e ele
+- [12:37] atualiza ali um PRD.m, MD, ou seja, a
+- [12:41] estrutura dele vem de uma estrutura de
+- [12:43] negócio. O que que você tá resolvendo
+- [12:45] ali? É um problema que você tá
+- [12:46] resolvendo? Eh, a quais que são as metas
+- [12:48] que você eh tá que vai atingir com esse
+- [12:51] desenvolvimento? É o que que não tá no
+- [12:53] escopo, o que que tá fora do escopo por
+- [12:54] enquanto. O user stories, que eu falei
+- [12:57] muito também nesse outro vídeo, né, que
+- [12:58] é como o usuário se enxerga utilizando.
+- [13:01] Eh, isso dá uma visão muito boa paraa
+- [13:02] IA. Eh, e o contexto técnico ali é até
+- [13:05] os padrões ali decisões pode vir aqui
+- [13:08] dentro do PRD. Eh, isso aqui é um
+- [13:10] documento de produto, então pense que
+- [13:12] não tem nada técnico dentro dele, é um
+- [13:14] contexto um pouco mais de negócio,
+- [13:16] beleza? Já a spec, ela já é algo que ela
+- [13:20] vem realmente bem mais técnica. Então,
+- [13:22] eh, algo que eu gosto de utilizar aqui é
+- [13:25] definir sprints, que são nada mais são
+- [13:28] do que etapas do desenvolvimento, ou
+- [13:30] seja, são subtesques dentro da tesque
+- [13:33] principal, eh, que você vai executar o
+- [13:35] desenvolvimento, eh, utilizando
+- [13:37] idealmente até agentes diferentes para
+- [13:40] não poluir o contexto novamente. Uma vez
+- [13:42] que a PRD aqui tá aprovada, eh, uma IA
+- [13:45] mesmo vai gerar esse spec. Cara, eu uso
+- [13:48] uma IA para gerar esse spec. Ninguém vai
+- [13:50] escrever esse documento de fato. Depois
+- [13:52] você valida aqui as sprints e aá executa
+- [13:56] essa feature. Então, baseado nisso, hoje
+- [13:58] eu estou gostando de utilizar é as specs
+- [14:02] com Jason. Eu uso Markdown também, mas
+- [14:04] cara, ultimamente eu tenho testado com
+- [14:06] Jason. Até fiz um vídeo, o vídeo passado
+- [14:08] que eu fiz, era relativo a um paper da
+- [14:11] Antropic, que ele estava usando também
+- [14:12] algumas specs em Jason. É, e eu achei
+- [14:15] interessante e tô testando isso aqui e
+- [14:17] tá tendo um resultado legal. Então, hoje
+- [14:20] tem aqui sprints que são a divisão do
+- [14:22] trabalho, as features, que é o que que
+- [14:24] cada sprint entrega, esse cara aqui que
+- [14:27] é essencial para testes, né? O que que é
+- [14:30] o aceite para que aquele sprint ali e
+- [14:34] seja entregue? O que que aquela sprint
+- [14:36] ali tem que entregar para que você
+- [14:37] aceite aquele desenvolvimento como
+- [14:39] correto, né? Como o definition of, né?
+- [14:42] tipo a definição de pronto. E aí depois
+- [14:44] nós temos aqui o API spec, que aí você
+- [14:47] tem que falar todos os end points, os
+- [14:49] métodos, os payloads, é tudo que por
+- [14:52] integração, mesmo que seja do seu front
+- [14:54] com seu backend, isso vai ser útil, que
+- [14:56] você vai precisar utilizar. Depois
+- [14:58] disso, também temos aqui os data models,
+- [15:00] que são os as migrações, eh, o que é
+- [15:03] relacionado ali com esquemas e as
+- [15:04] relações e no banco de dados, enfim, ou
+- [15:08] outro ou outra aplicação que você
+- [15:10] utilize para guardar os seus dados. a
+- [15:11] gente inclui a stack tecnologias
+- [15:13] dependências. Temos aqui Colder agent
+- [15:16] ID. E aí nesse caso aqui, eh, eu gosto
+- [15:18] de usar agentes diferentes dependendo da
+- [15:21] Sprint. E aí isso tá é para todo lado,
+- [15:24] tem no cloud code, tem no antigravit.
+- [15:27] Você sabe que você pode colocar vários
+- [15:29] agentes aqui. Cada agente ele tem uma
+- [15:32] função específica, um prompt diferente.
+- [15:35] É você, cara, tem um agente aqui que
+- [15:37] coda a parte de banco de dados. Esse
+- [15:40] cara aqui é o cara do electron, esse
+- [15:41] cara é o front, esse cara é o full
+- [15:43] stack. E aí quando você define uma
+- [15:46] sprint, dentro daquela sprint vai ter
+- [15:48] uma stack de tecnologia que você vai
+- [15:50] chamar o melhor agente para poder codar
+- [15:52] em cima daquela sprint. E no final aqui
+- [15:55] também tem a parte de estrutura de
+- [15:56] arquivos. E aí muita gente que já tá se
+- [15:59] arriscando aí no na nas specs, né, gerar
+- [16:02] esses documentos, eh, não sabe como
+- [16:05] validar isso, né? Então assim, o que que
+- [16:07] é uma spec ideal aqui? Já dando um
+- [16:09] exemplo aqui de um arquivo é de Jono. Se
+- [16:12] você vem aqui e quer uma sprint do aqui,
+- [16:15] eu quero um login de e-mail e senha.
+- [16:17] Então quero o que que eu quero
+- [16:18] implementar autenticação com e-mail,
+- [16:20] senha, tela de login e proteção de
+- [16:22] rotas. Legal, você falou exatamente o
+- [16:24] que você queria e o entregável disso
+- [16:26] aqui. E aí eu vou colocar aqui o ID, o
+- [16:29] agente e aí o nome, a tela de login. É,
+- [16:32] e aí aqui o formulário com e-mail, sem a
+- [16:33] validação, cliente. Feedback de erro.
+- [16:36] Beleza, cara? Um spec aqui que em teoria
+- [16:38] quem olha e não tem o conhecimento acha
+- [16:41] que tá tudo OK, mas tá faltando várias
+- [16:43] coisas aqui porque muitas vezes você
+- [16:45] desenvolve principalmente eh a IA quando
+- [16:48] tá te ajudando a fazer isso, ela
+- [16:50] desenvolve sempre pensando no caminho
+- [16:52] feliz. Agora, os caminhos alternativos
+- [16:54] que são o problema e eles são os
+- [16:56] principais que precisam estar dentro da
+- [16:58] spec. Então dando um exemplo um pouco
+- [17:00] mais completo, seria algo desse sentido.
+- [17:03] Você tem aqui o login, autenticação,
+- [17:05] senha. Aqui a gente coloca qual que é a
+- [17:08] steack que vai ser desenvolvida. E aqui
+- [17:10] além do da descrição, a gente tem que
+- [17:12] ter esse cara aqui, ó. O que que eu
+- [17:14] aceito, né? Qual que é o critério de
+- [17:15] aceite? Então, formulário com campos de
+- [17:17] e-mail, senha, renderiza no login.
+- [17:20] Validação, e-mail inválido, mostra a
+- [17:22] mensagem de e-mail inválido. Validação,
+- [17:24] senha vazia, mostra a mensagem de senha
+- [17:26] obrigatória. Botão de submite
+- [17:28] desabilitado durante a request. Erro
+- [17:30] 401, credenciais inválidas. Então, ou
+- [17:32] seja, eu tô dando tantos cenários aqui
+- [17:34] que o agente vai ter que desenvolver que
+- [17:37] se eu não falar isso, ele simplesmente
+- [17:39] vai fazer o básico do básico aqui. Ele
+- [17:41] vai fazer aqui um formulário de e-mail
+- [17:43] sem vai ter uma validação. Na primeira
+- [17:45] vez que tiver o e-mail inválido, vai
+- [17:46] estourar um erro horroroso na sua tela e
+- [17:49] você vai ter que voltar ali no seu
+- [17:50] agente, falar: "Cara, tá estourando esse
+- [17:52] erro aqui. Tem que tratar esse erro". Ou
+- [17:54] seja, uma ação a mais que você teve que
+- [17:56] fazer, porque isso não estava bem
+- [17:58] escrito eh na sua especificação técnica.
+- [18:01] Beleza? Então, eh, o formato que eu uso
+- [18:03] aí, cara, aqui não tem certo ou errado,
+- [18:05] né? De novo, cara, cada um tem a sua
+- [18:07] estratégia. Vou passar a minha aqui para
+- [18:09] vocês. É, eu tô usando muito a em
+- [18:12] formato de Jzon, então, cara, é dividido
+- [18:14] aqui. Essa aqui é a Sprint 001 e aqui
+- [18:17] tem a primeira fit. O que que é a Sprint
+- [18:19] 001, cara? Criar a estrutura base do
+- [18:21] projeto React, Vit, Fash API, configurar
+- [18:24] aqui e rodar um Hello World. Beleza,
+- [18:26] show. Aí a fit número um é a estrutura
+- [18:29] do React. Aqui eu vou criar o appreact
+- [18:31] com ta e fazer um router básico. E aí
+- [18:34] aqui os critérios de aceite, né? Tem que
+- [18:36] rodar exatamente isso aqui. Aí depois
+- [18:38] disso nós vamos aqui pra fit 002 ainda
+- [18:41] da primeira sprint que aqui tudo que eu
+- [18:44] preciso gerar para poder dar essa tesque
+- [18:47] aqui como completa. Beleza? E aqui
+- [18:50] depois do final eu gero uma API spec que
+- [18:53] aí eu vou mapear todas as respostas das
+- [18:55] APIs e e quais são as mensagens que eu
+- [18:58] vou entregar. caso eh essas APIs
+- [19:01] retornem algum erro. Então eu tô
+- [19:03] validando aqui todos os cenários, não só
+- [19:05] o cenário bonitinho ali que eu expliquei
+- [19:07] para vocês de cara, se logou, beleza,
+- [19:09] mas e se não logou? E se digitou uma
+- [19:11] senha errada? E se digitou um e-mail
+- [19:12] errado? E e se o cara tentou se
+- [19:14] autenticar ali de uma outra forma? Como
+- [19:16] que você vai tratar isso? A IA ela não
+- [19:18] sabe. Você precisa falar isso para ela.
+- [19:20] Beleza? E aí também eu coloco aqui uma
+- [19:22] parte de hints, que é eu vou dar um
+- [19:25] hints dos arquivos que ela vai mexer,
+- [19:28] eh, para ela poder desenvolver isso. E
+- [19:30] aí, cara, arquitecture notes, né? Notas
+- [19:33] de arquitetura, mono report com front
+- [19:35] end. Ou seja, isso aqui, putz, Bren, sal
+- [19:37] da sua cabeça? Não, cara, eu criei meio
+- [19:39] que um template aqui e toda vez que eu
+- [19:41] tô conversando com o meu amigo aqui, o
+- [19:44] Cloud Cowork, eu falo para ele: "Cara,
+- [19:46] nós estamos aqui conversando e aí depois
+- [19:48] que essa conversa toda aqui você vai
+- [19:50] anotando todas as decisões que a gente
+- [19:52] vai tomando, é, e no final das contas
+- [19:55] aqui nós vamos gerar aqui um arquivo X,
+- [19:57] não é spec ainda, ele anotou todas as
+- [20:00] decisões, eu abro uma nova janela, eu
+- [20:02] falo: "Cara, eu tenho tudo isso aqui
+- [20:03] decidido e agora você vai me gerar essa
+- [20:07] spec". Neste formato aqui, é, neste
+- [20:09] formato de Jon, nesse template, gera
+- [20:12] essa spec para mim. Também desenvolvi
+- [20:13] isso aqui dentro de um outro projeto, é,
+- [20:15] que é o o Lion Clock, que na verdade ele
+- [20:18] é um eu envelopei o cloud Code num
+- [20:20] front, eh, e aí eu consigo fazer aqui é
+- [20:23] workflows aqui de harness e tal, enfim.
+- [20:26] Eh, então aqui é é o mesmo formato. Eh,
+- [20:29] ele dividiu aqui eh a demanda em quatro
+- [20:32] sprints e aqui cada sprint tem o
+- [20:34] entregável, tem os critérios de aceite
+- [20:36] aqui. Eh, aqui embaixo aqui tem outros
+- [20:38] critérios de aceite na fit 002. E aqui
+- [20:41] cada um, um agente diferente, com
+- [20:43] especialidade diferente executa em uma
+- [20:46] janela de contexto separada. Ou seja, o
+- [20:49] cara vai vir aqui, ele vai rodar aqui,
+- [20:51] eh, vai executar essa sprint. Aí aqui
+- [20:53] vai ter um avaliador que vai validar a
+- [20:56] sprint desse cara e aí depois se deu
+- [20:58] como entregue eu passo paraa próxima
+- [21:00] sprint e aí eu chego aqui, ó,
+- [21:02] complexidade, quantos rounds estimados
+- [21:04] que é o desenvolvedor, ele nunca vai
+- [21:06] acertar de primeira. O o avaliador vai
+- [21:08] ter que validar e aí depois que ele
+- [21:10] validou e volta pro pro coder para ele
+- [21:12] poder corrigir. E aí isso demora bem
+- [21:15] mais a parte de desenvolvimento, mas a
+- [21:17] chance dele entregar a feature quase
+- [21:19] pronta, quase sem erros, é muito alta.
+- [21:21] Beleza? Então assim, olha o tamanho
+- [21:23] dessa spec aqui que foi feita em
+- [21:25] Markdown. Cara, é para gerar uma spec
+- [21:27] que tem aqui eh 800 linhas, eh você não
+- [21:31] pode esperar eh que o agente ele vai
+- [21:34] encodar isso aqui em uma única janela de
+- [21:37] contexto. Então por isso que você tem
+- [21:38] que dividir isso em sprints mesmo dentro
+- [21:41] do mesmo documento, você divide isso em
+- [21:43] sprints e você pode dar o comando. Você
+- [21:45] pode entrar aqui dentro do cloud code
+- [21:46] aqui e falar: "Cara, olha, tenho o
+- [21:48] documento a spec tal e desenvolva essa
+- [21:51] spec para mim. Você vai separar essa
+- [21:53] spec em três sprints. Você vai spawnar o
+- [21:56] primeiro agente, vai desenvolver a
+- [21:57] sprint. Quando ele entregar, você vai
+- [21:59] validar e só depois você vai enviar para
+- [22:02] um novo agente com contexto limpo a
+- [22:05] próxima sprint e ele vai conseguir fazer
+- [22:07] aqui eh o bem bolado para que isso
+- [22:10] aconteça, que é basicamente o que eu
+- [22:12] desenvolvi, um fronte para isso, mas
+- [22:13] justamente porque eu queria ter métricas
+- [22:15] aqui, de quantos rounds teve, eh, de
+- [22:18] quanto que cada um gastou aqui, qual
+- [22:20] agente foi utilizado, eh, enfim, quanto
+- [22:23] em quanto tempo durou cada sprint, o
+- [22:25] desenvolvimento, a validação, etc.,
+- [22:27] enfim. E aí eu quis ter algo um pouco
+- [22:29] mais visual, mas basicamente você
+- [22:31] consegue fazer aqui dentro do cloud
+- [22:33] code, é, você consegue dar um comando
+- [22:35] aqui pro cara do antigravit da mesma
+- [22:37] forma, beleza? Para eu reforçar sobre e
+- [22:40] esse formato de desenvolvimento, uma vez
+- [22:42] que você gera a spec MD, aqui no meu
+- [22:45] caso é eu tô simplesmente gerando e um
+- [22:48] uma nova spec em Jon. Então eu gero uma
+- [22:51] spec MD, eu coloco essa spec aqui. Aqui
+- [22:54] eu vou escolher qual a gente vai ser o
+- [22:55] planner que vai gerar essa spec MD. Aqui
+- [22:58] eu vou escolher aqui o cara que vai ser
+- [22:59] o avaliador. Enfim, posso mexer nos
+- [23:01] promps desses agentes. E aqui eu vou
+- [23:03] gerar, vou colocar spec em MD e ele vai
+- [23:05] me gerar é uma spec em Jon. Mas cara,
+- [23:07] isso aqui sou eu, não tô falando que MD
+- [23:10] tá errado. Então assim, tanto MD quanto
+- [23:12] Jon é, tão certos. É, eu tô usando Jon e
+- [23:14] tá funcionando muito bem para mim. Tô
+- [23:16] conseguindo até visualmente eh eh
+- [23:19] enxergar aquela sprint e cada uma das
+- [23:22] features da Sprint de uma maneira melhor
+- [23:24] do que um arquivo de MD lotado de texto
+- [23:26] ali na tela. Beleza? Então, cara, uma
+- [23:28] vez que gerou esse print jon aqui, é o
+- [23:31] esse é o harness aqui, que é a forma
+- [23:33] como nesse momento eu estou utilizando.
+- [23:35] E aí, como eu tenho métricas, eu posso
+- [23:36] ir melhorando, eu posso adicionar um
+- [23:38] outro agente diferente. Eh, eu posso
+- [23:40] entender se tem que melhorar spec, se
+- [23:41] tem que melhorar o documento. É, mas uma
+- [23:43] vez que eu coloquei esse cara aqui para
+- [23:45] dentro, é, primeira coisa aqui é o
+- [23:47] input, um input da spec MD, que vai
+- [23:49] gerar aqui as sprints, que pode ser Jon
+- [23:52] ou não. E aqui tem um arquivo de
+- [23:54] progress. Então, uma vez aqui que eu
+- [23:56] mandei pro coder com a janela de
+- [23:58] contexto novinha, esse cara aqui vai
+- [24:00] avaliar, que é o evaluator. E aí ele vai
+- [24:03] validar cada critério, se passou, se
+- [24:05] falhou. Se falhou ele vai dar o feedback
+- [24:07] para esse cara aqui. Esse cara vai
+- [24:08] corrigir. Quando passou, ele vai
+- [24:10] atualizar o arquivo de progresso, que é
+- [24:12] aquela sprint ali foi finalizada. E a
+- [24:14] gente volta aqui de novo, entende o
+- [24:17] progresso e passa a próxima sprint pro
+- [24:19] coder. Parece ser simples e é realmente
+- [24:22] simples. É só você sentar e e fazer essa
+- [24:25] estratégia funcionar. A grande maioria
+- [24:28] das pessoas não tem a paciência de
+- [24:30] planejar muito bem cada feature que você
+- [24:33] quer implementar no seu projeto. Então,
+- [24:36] entenda que para eu conseguir ter gerado
+- [24:38] essa spec de 800 linhas aqui, você pode
+- [24:41] ter certeza que só no planejamento, eu
+- [24:44] batendo bola com o cloud ali, eh, eu
+- [24:47] demorei pelo menos 3 horas de discussão
+- [24:50] com ele para ele gerar uma única feature
+- [24:53] no meu sistema. A parte de
+- [24:54] desenvolvimento demorou 30 minutos para
+- [24:57] ele poder eh desenvolver, escrever o
+- [24:59] código eh de todas essas sprints,
+- [25:01] incluindo o validador. Se não tivesse
+- [25:03] validador, teria sido bem menos. Então,
+- [25:05] 3 horas só pensando e ideando e
+- [25:08] definindo todas as regras e, cara, 20,
+- [25:10] 30 minutos de desenvolvimento. De fato,
+- [25:13] maioria das pessoas hoje tá querendo
+- [25:14] conversar eh 10 minutos com o Cloud, eh,
+- [25:17] pede um prompt lá e joga aqui no
+- [25:20] contexto da conversa eh do LLM e espera
+- [25:24] o pro melhor aqui, se vai conseguir
+- [25:26] resolver e não cobriu nem a metade dos
+- [25:28] casos de uso. Então é realmente você ter
+- [25:30] a paciência e pensar bem no que você
+- [25:32] está desenvolvendo e discutir com com
+- [25:34] uma LLM externa com contexto limpo. Esse
+- [25:37] cara aqui, o cloud aqui, ão dentro do
+- [25:41] Lion Claw ou dentro do Antigravity, esse
+- [25:43] cara, esse agente aqui, ele é só
+- [25:46] executa, esse cara. Ele não é para você
+- [25:48] planejar, é até bom para você economizar
+- [25:50] aí seus tokens. você tiver uma
+- [25:52] assinatura do Google, eh, planeja lá no
+- [25:54] Gemini, enfim, eh, você tem que se
+- [25:56] planejar fora e gaste muito tempo e gere
+- [25:59] esse documento aqui com maior nível de
+- [26:01] detalhe e veja que isso aqui eu também
+- [26:03] estou documentando o meu sistema no
+- [26:05] futuro. Quando eu for e implementar
+- [26:07] novas features, eu tenho muita coisa
+- [26:09] documentada, é, que vai bastar o agente
+- [26:12] dar uma lida ali em algum outro arquivo,
+- [26:14] ele já vai entender o contexto, ele já
+- [26:15] vai saber exatamente quais arquivos ele
+- [26:17] procurar e o meu sistema ele fica
+- [26:19] inteiro documentado, que é muito
+- [26:21] importante. Quem mexe com o
+- [26:23] desenvolvimento sabe o quão importante é
+- [26:24] a documentação é de uma solução que é a
+- [26:27] vida do sistema. Beleza? E aí, quando
+- [26:30] que você vai usar aqui a spec, né, cara?
+- [26:32] Se você tem um projeto com mais de cinco
+- [26:34] arquivos, então basicamente, se você não
+- [26:36] tiver um projeto HTML aí que abre uma
+- [26:38] página, você deveria fazer
+- [26:40] especificação, eh, múltiplas sessões
+- [26:42] necessárias, lógica de negócio complexa,
+- [26:45] back end, front end juntos, múltiplas
+- [26:48] pessoas envolvidas. Tudo isso aqui você
+- [26:50] precisa aqui de spec, cara. Não tem
+- [26:51] como. Então, quando você não vai usar
+- [26:53] uma spec, cara, você tá fazendo uma
+- [26:55] correção pontual do de um bug. Se você
+- [26:57] fez a sua spec e aí você utilizou esse
+- [27:00] processo aqui, eh, fez a sprint ali
+- [27:03] bonitinho, eh, a gente desenvolveu,
+- [27:05] cara, se deu algum problema naquela
+- [27:07] sprint, quando você vai validar, você
+- [27:09] realmente pode conversar com aquele
+- [27:11] agente ali para corrigir aquele bug
+- [27:12] pontual. Aí sim, não tem problema você
+- [27:15] ir lá no cloud, falar: "Cara, tá dando
+- [27:16] esse erro aqui". Eh, veu aí no arquivo,
+- [27:18] ele vai te ajudar e vai ele executar um
+- [27:20] prompt único paraa correção pontual
+- [27:23] daquele bug. E aí o agente sim vai
+- [27:25] executar numa janela limpa. Ele vai
+- [27:26] corrigir muito facilmente os seus bugs.
+- [27:28] A bem que se você for gerar um protótipo
+- [27:29] descartável eh ou cara não tem nem
+- [27:32] lógica de negócio ali, você não vai usar
+- [27:34] spec. Então, basicamente em 90% dos
+- [27:36] casos, você tem que usar uma
+- [27:38] especificação técnica e para que você
+- [27:40] tenha uma assertividade maior. Eu vejo
+- [27:42] muito aqui na comunidade a galera, cara,
+- [27:44] o que que é melhor? Qual é a assinatura
+- [27:45] do cloud? e os meus limites estão
+- [27:47] acabando e tal. Eh, isso aqui é algo que
+- [27:50] vai economizar muitos tokens, eh, porque
+- [27:52] depois você vai ter que ficar
+- [27:54] refatorando a sua ferramenta, é, ir
+- [27:56] rodando várias auditorias em cima dela
+- [27:58] de segurança, porque você não
+- [28:00] desenvolveu certo desde o começo e você
+- [28:02] vai pagar o preço por isso, hora mais,
+- [28:04] hora menos, com certeza absoluta esse
+- [28:07] preço vai ter que ser pago e aí vem
+- [28:09] refatoração, sistema quebrado, etc e
+- [28:12] tal. Beleza? Então isso que eu tô
+- [28:13] falando para vocês é parece ser algo
+- [28:15] novo. De novo me repetindo aqui, mas
+- [28:17] quem for de ti que esteja assistindo
+- [28:19] esse vídeo, é isso aqui é básico. O que
+- [28:21] foi substituído foi o cara que escreve o
+- [28:25] código. O cara do produto da ideação,
+- [28:27] ele não foi substituído. O cara da
+- [28:29] especificação técnica, ele não foi
+- [28:31] substituído. Eh, você obviamente pode
+- [28:33] utilizar e esses agentes já para poder
+- [28:35] executar isso, mas tem que fazer parte
+- [28:37] do processo. E se você não fazer parte
+- [28:39] desse processo, você não vai conseguir
+- [28:41] entregar. E aí eu preparei aqui um
+- [28:43] workflow para poder ajudar a vocês a
+- [28:46] desenvolver especificações melhores.
+- [28:48] Então, a partir do momento que você eh
+- [28:50] tá seguindo uma estratégia muito
+- [28:51] parecida com essa aqui, eh eu coloquei
+- [28:54] um cara aqui para poder dar uma avaliada
+- [28:56] na sua spec antes que você mande isso
+- [28:58] para desenvolvimento. Eu vou deixar aqui
+- [29:00] na descrição do vídeo. É, basta você
+- [29:02] baixar ali, executar aqui. pode ser do
+- [29:04] antigraft ou você é utiliza ali o
+- [29:06] comando do cloud code para poder
+- [29:08] executar, mas se você executar ela aqui,
+- [29:10] então aqui eu tenho uma uma
+- [29:12] especificação, ela já está uma
+- [29:13] especificação, OK? É um sistema muito
+- [29:15] simples aqui, é um gamezinho aqui, é, em
+- [29:17] HTML, e eu vou rodar ela aqui só para
+- [29:19] mostrar para vocês rapidamente. Então,
+- [29:22] vou colocar aqui speculi e analise a
+- [29:25] spec.md a sprintsv1.j.
+- [29:29] E aí ele vai analisar essas
+- [29:30] especificações e ele vai me fazer
+- [29:32] diversas perguntas. Eh, se de se eu
+- [29:35] esqueci algo, eh, ele precisa me
+- [29:37] perguntar, porque entenda que eh se eu
+- [29:39] tô falando aqui eh que nós estamos
+- [29:41] falando do que eu tenho que construir
+- [29:43] aqui o caminho feliz e o caminho
+- [29:44] alternativo, eh, muitas vezes eh se não
+- [29:48] tá o caminho alternativo aqui do nosso
+- [29:50] lado, é, ele precisa perguntar para
+- [29:52] você, porque ele não pode sair tirar da
+- [29:53] cabeça dele. Então, ele vai falar:
+- [29:55] "Cara, você col você não colocou aqui um
+- [29:57] cenário onde quando o usuário se loga e
+- [29:59] ele coloca o e-mail errado e aí o que
+- [30:01] que eu faço?" Então ele tem que te
+- [30:03] perguntar e ele vai te perguntar. Então
+- [30:05] aqui ele já me me falou, ó, gaps
+- [30:07] técnicos, nenhum ed case definido nos
+- [30:09] sprints, ó, features nos sprints, não
+- [30:11] tem aqui critério de aceite. É, vou
+- [30:13] adicionar um ed case relevante por
+- [30:15] feature, bola presa delta time, ou seja,
+- [30:17] ele tá tratando aqui algum possível
+- [30:19] futuro bug que esse joguinho aqui pode
+- [30:21] ter a que no sprint 1, fit 4 não
+- [30:24] menciona a direção inicial aleatória que
+- [30:27] tá na spec sessão 5, sprint 3, fit 9 não
+- [30:30] menciona o que acontece com e enfim,
+- [30:33] isso aqui é é a parte de física ali da
+- [30:35] bola, é aqueles joguinhos que você e
+- [30:36] fica ali batendo a bolinha, ela vai
+- [30:38] quebrando quadradinhos. Então ele me dá
+- [30:41] aqui diversas críticas aqui da minha
+- [30:43] spec e aí ele me faz perguntas, ó.
+- [30:45] Pergunta um de seis, comportamento no
+- [30:48] lançamento. Quando o jogador lança a
+- [30:49] bola, o estado ready, click pass, como
+- [30:51] ela deve sair? é sempre no mesmo ângulo,
+- [30:53] num outro ângulo aleatório. Então,
+- [30:55] entenda que isso aqui é um jogo eh
+- [30:57] idiota que eu joguei aqui para poder eh
+- [30:59] dar esse exemplo para vocês, mas ele vai
+- [31:01] abrir a cabeça de vocês, vai fazer as
+- [31:03] perguntas finais do que precisa ter
+- [31:05] nessa especificação técnica e depois
+- [31:07] quando vocês mandarem para desenvolver,
+- [31:08] é garanto para vocês que vocês vão
+- [31:10] cobrir muito mais cenários, que são
+- [31:12] aqueles cenários que você fica
+- [31:13] resolvendo depois ali no chat com LLM,
+- [31:15] resolvendo bug, resolvendo problema,
+- [31:17] beleza? deixar esse workflow aqui para
+- [31:19] vocês. E aí, cara, eh, utilizem aí e
+- [31:21] depois vocês me contam aí se realmente
+- [31:23] as specs de vocês têm ficado um pouco
+- [31:25] melhor. Beleza? Então, o Vibe Code ele
+- [31:27] funciona para essas coisas pequenas ali,
+- [31:29] é cara, um script, um componente, uma
+- [31:32] função isolada, é que você realmente só
+- [31:35] tem que dar aquele comando pequeno ali,
+- [31:37] aquele pequeno prompt. E aí, de acordo
+- [31:38] com que seu projeto cresce, eh, esses
+- [31:40] pequenos promptos que você dá, a IA, ela
+- [31:42] não vai validar o código inteiro, ela
+- [31:43] simplesmente vai implementar eh sem
+- [31:46] realmente validar se o que você tá
+- [31:48] pedindo realmente pode ser desenvolvido
+- [31:50] daquela forma. Quando você tem um
+- [31:51] planejamento antes, eh, realmente alguém
+- [31:54] deu uma geral no seu código, viu as
+- [31:56] funções, viu as variáveis, viu o que que
+- [31:58] pode utilizar, você vai ter um resultado
+- [32:01] muito maior, onde você vai realmente
+- [32:02] gerar um documento. E nesse documento,
+- [32:04] se ele for muito bem especificado, você
+- [32:06] pode até rodar um modelo menor, um
+- [32:08] modelo mais burro, vamos dizer assim, é
+- [32:11] que ele vai facilmente conseguir
+- [32:13] desenvolver, porque ele não vai precisar
+- [32:15] mais pensar em nada por conta própria,
+- [32:17] não vai inventar nada, ele só tem que
+- [32:18] seguir exatamente o que tá numa
+- [32:20] especificação técnica com todos os casos
+- [32:23] mapeados. Parece chato quando a gente
+- [32:24] fala tanta coisa assim e o que você tem
+- [32:27] que fazer e você conversar por 3 horas
+- [32:29] antes de começar a desenvolver, mas isso
+- [32:31] é a realidade do desenvolvimento
+- [32:33] mundial. Então, se você tá entrando
+- [32:35] nesse mundo, você tem que se adequar a
+- [32:37] isso. E, e os desenvolvedores hoje o que
+- [32:40] eles estão fazendo é se adequando na
+- [32:42] parte de negócio. E aquele desenvolvedor
+- [32:44] que sempre foi o cara que leu a
+- [32:45] especificação técnica, eh, e desenvolveu
+- [32:48] e não se preocupou em se melhorar ali e
+- [32:50] a nível de negócio, agora o
+- [32:52] desenvolvedor precisa mais do que tudo
+- [32:54] ter essa visão de negócio para poder
+- [32:56] performar nesse mundo aí que a gente tá
+- [32:58] usando e há para poder fazer
+- [33:00] desenvolvimento. Beleza? O link da
+- [33:02] comunidade está disponível na descrição
+- [33:04] desse vídeo. Se você quiser aprender
+- [33:06] mais sobre IA e aplicações e estratégias
+- [33:08] de desenvolvimento, eh, você será muito
+- [33:10] bem-vindo. Venha compartilhar seu
+- [33:12] conhecimento com a gente e nós também
+- [33:14] vamos compartilhar com vocês, beleza? Um
+- [33:16] forte abraço a todos e até mais.

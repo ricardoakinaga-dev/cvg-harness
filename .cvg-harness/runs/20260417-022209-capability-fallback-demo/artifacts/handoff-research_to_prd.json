@@ -1,0 +1,15 @@
+{
+  "source_artifact": "research-notes.md",
+  "source_version": "v1",
+  "target_agent": "PRD Agent",
+  "objective": "Converter necessidade em defini\u00e7\u00e3o de problema, objetivo, escopo e sucesso",
+  "restrictions": [
+    "N\u00e3o alterar classifica\u00e7\u00e3o",
+    "N\u00e3o assumir que problema j\u00e1 est\u00e1 resolvido"
+  ],
+  "open_questions": [],
+  "required_evidences": [
+    "prd.md"
+  ],
+  "created_at": "2026-04-17T02:22:09.743940+00:00"
+}

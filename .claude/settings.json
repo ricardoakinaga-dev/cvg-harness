@@ -1,0 +1,27 @@
+ {
+    "env": {                                                                                                                                                                      
+      "ANTHROPIC_BASE_URL": "https://api.minimax.io/anthropic",                                                                                                                   
+      "ANTHROPIC_AUTH_TOKEN": "sk-cp-TJKTULIac0oxpmn43MGyhYP9zvn-RUguGVwtCmY01Ap-q_rlJr1YZEWNYFIHX7i0fuvTSS2fZrR-5XQQ_m0I39FONhEg5imsxl1S7i2Uxpj7SsFu6iBsUUM",                    
+      "ANTHROPIC_MODEL": "MiniMax-M2.7"                                                                                                                                           
+    },                                                            
+    "permissions": {                                                                                                                                                              
+      "defaultMode": "bypassPermissions",                         
+      "allow": [
+        "Read(*)",
+        "Glob(*)",
+        "Grep(*)",                                                                                                                                                                
+        "Write(*)",
+        "Edit(*)",                                                                                                                                                                
+        "TaskCreate(*)",                                          
+        "TaskUpdate(*)",
+        "TaskList(*)",
+        "TaskGet(*)",
+        "Bash(npm *, pip *, pip3 *, cargo *, go *, yarn *)",
+        "Bash(git commit, git add, git checkout, git branch, git merge, git pull, git status, git log, git diff, git show, git tag)",                                             
+        "Bash(lsof, ps, grep, find, cat, ls, pwd, whoami, uname, df, du, free, top, head, tail, echo, cut, tr, sort, uniq, wc, awk, sed, curl, wget, mkdir, touch, chmod, chown)" 
+      ],                                                                                                                                                                          
+      "deny": [                                                                                                                                                                   
+        "Bash(rm *, rm -rf *, shred, dd, mkfs, fdisk, sfdisk, parted, wipefs, :|:*, 2>*>, &>, exec *, kill -9 *, pkill *, killall *, reboot, shutdown, halt, poweroff, init *)"   
+      ]                                                                                                                                                                           
+    }
+  }    

@@ -1,0 +1,99 @@
+{
+  "adapters": {
+    "manual-review": {
+      "name": "manual-review",
+      "transport": "manual",
+      "entrypoint": "manual://handoff/{run_id}/{sprint_id}",
+      "capabilities": [
+        "planning",
+        "review"
+      ],
+      "emits_evidence": true,
+      "requires_human_approval": true,
+      "description": "Handoff manual para executor humano ou sistema externo fora da CLI.",
+      "provider": "",
+      "context_hints": [],
+      "required_context": [],
+      "example_contexts": [],
+      "command_examples": []
+    },
+    "local-cli": {
+      "name": "local-cli",
+      "transport": "cli",
+      "entrypoint": "echo dispatch {run_id} {sprint_id}",
+      "capabilities": [
+        "code",
+        "tests"
+      ],
+      "emits_evidence": true,
+      "requires_human_approval": false,
+      "description": "Adapter local de exemplo para dispatch expl\u00edcito via CLI.",
+      "provider": "",
+      "context_hints": [],
+      "required_context": [],
+      "example_contexts": [],
+      "command_examples": []
+    },
+    "github-actions-review": {
+      "name": "github-actions-review",
+      "transport": "cli",
+      "entrypoint": "gh run view {ci_run_id} --repo {repository} --json conclusion,url,workflowName",
+      "capabilities": [
+        "ci",
+        "review",
+        "evidence"
+      ],
+      "emits_evidence": true,
+      "requires_human_approval": false,
+      "description": "Adapter CLI para inspecionar contexto operacional vindo de GitHub Actions.",
+      "provider": "github-actions",
+      "context_hints": [
+        "repository",
+        "ci_run_id",
+        "ci_ref"
+      ],
+      "required_context": [
+        "repository",
+        "ci_run_id"
+      ],
+      "example_contexts": [
+        {
+          "repository": "openai/cvg-harness",
+          "ci_run_id": "77"
+        }
+      ],
+      "command_examples": [
+        "gh run view {ci_run_id} --repo {repository} --json conclusion,url,workflowName"
+      ]
+    },
+    "gitlab-ci-review": {
+      "name": "gitlab-ci-review",
+      "transport": "cli",
+      "entrypoint": "curl -s {ci_api}",
+      "capabilities": [
+        "ci",
+        "review",
+        "evidence"
+      ],
+      "emits_evidence": true,
+      "requires_human_approval": false,
+      "description": "Adapter CLI para inspecionar contexto operacional vindo de GitLab CI.",
+      "provider": "gitlab-ci",
+      "context_hints": [
+        "ci_api",
+        "ci_ref"
+      ],
+      "required_context": [
+        "ci_api"
+      ],
+      "example_contexts": [
+        {
+          "ci_api": "https://gitlab.example/api/v4/projects/123/jobs/456"
+        }
+      ],
+      "command_examples": [
+        "curl -s {ci_api}"
+      ]
+    }
+  }
+}
