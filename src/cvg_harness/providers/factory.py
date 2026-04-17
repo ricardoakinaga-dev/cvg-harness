@@ -55,7 +55,7 @@ PROVIDERS: dict[str, ProviderFactory] = {
 
 
 def build_provider(config: LoadedConfig) -> Provider:
-    cfg = config.provider_cfg()
+    cfg = config.provider_cfg
     provider_id = config.provider
     builder = PROVIDERS.get(provider_id)
     if not builder:
