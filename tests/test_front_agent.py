@@ -247,3 +247,30 @@ def test_front_agent_history_lists_recent_turns(tmp_path: Path, monkeypatch: pyt
 
     assert "Histórico da sessão atual" in output
     assert "status" in output
+
+
+def test_front_agent_summary_command_in_loop(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    _seed_project(workspace)
+
+    inputs = _iter_inputs(
+        [
+            "criar módulo de permissões por setor",
+            "resumo",
+            "sair",
+        ]
+    )
+    monkeypatch.setattr(builtins, "input", lambda _: next(inputs))
+
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.start()
+    output = capsys.readouterr().out
+
+    assert "Demanda recebida e roteada" in output
+    assert "Demanda não concluída ainda" in output
