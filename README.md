@@ -153,6 +153,10 @@ src/cvg_harness/
 - `harness config` → inicia onboarding novamente.
 - `harness debug` → namespace técnico antigo.
 
+Flags úteis para automação:
+
+- `--json` : saída estruturada em `status`, `resume` e `history`.
+
 ## Validação recomendada
 
 ```bash

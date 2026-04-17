@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 
 from cvg_harness.app.agent import FrontAgent, FrontAgentError
@@ -52,10 +53,21 @@ def main(argv: list[str] | None = None) -> None:
         action="store_true",
         help="falhar se configuração estiver incompleta em vez de abrir onboarding",
     )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="compatibilidade: emitir saída em JSON em alguns comandos não interativos",
+    )
+    json_parser = argparse.ArgumentParser(add_help=False)
+    json_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="emitir saída em JSON para o comando atual",
+    )
     sub = parser.add_subparsers(dest="command")
-    sub.add_parser("resume", help="retomar sessão ativa")
-    sub.add_parser("status", help="mostrar status atual")
-    sub.add_parser("history", help="mostrar histórico da sessão atual")
+    sub.add_parser("resume", help="retomar sessão ativa", parents=[json_parser])
+    sub.add_parser("status", help="mostrar status atual", parents=[json_parser])
+    sub.add_parser("history", help="mostrar histórico da sessão atual", parents=[json_parser])
     sub.add_parser("config", help="reconfigurar provider/apikey")
     sub.add_parser("doctor", help="health check do agente")
     sub_debug = sub.add_parser("debug", help="modo técnico; proxy de comandos antigos")
@@ -77,6 +89,12 @@ def main(argv: list[str] | None = None) -> None:
         _run_debug(args.legacy)
         return
     if args.command in {"status", "resume", "doctor", "config", "history"}:
+        def _emit(payload: object) -> None:
+            if args.json:
+                print(json.dumps(payload, ensure_ascii=False, indent=2))
+            else:
+                print(payload)
+
         if args.command == "config":
             print("Modo configuração explícita.")
             agent._run_onboarding(agent.explicit_provider, agent.explicit_model)
@@ -86,18 +104,30 @@ def main(argv: list[str] | None = None) -> None:
             return
         if args.command == "doctor":
             agent.boot()
-            print(agent._doctor())
+            _emit(agent._doctor())
             return
         if args.command == "status":
             agent.boot()
-            print(agent._status())
+            payload = agent._status_payload()
+            if args.json:
+                _emit(payload)
+            else:
+                print(agent._status())
             return
         if args.command == "resume":
             agent.boot(require_provider=False)
-            print(agent._resume())
+            payload = agent._resume_payload()
+            if args.json:
+                _emit(payload)
+            else:
+                print(agent._resume())
             return
         if args.command == "history":
-            print(agent._history())
+            payload = agent._history_payload()
+            if args.json:
+                _emit(payload)
+            else:
+                print(agent._history())
             return
 
     # sem comando: loop conversacional

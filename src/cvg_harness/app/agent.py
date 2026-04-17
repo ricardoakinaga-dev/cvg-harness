@@ -302,6 +302,22 @@ class FrontAgent:
             f"Próximo passo: {payload['next_action']}"
         )
 
+    def _status_payload(self) -> dict[str, Any]:
+        if not self._active_run():
+            return {"status": "no_active_run", "message": "Sem demanda ativa. Inicie uma demanda em linguagem natural."}
+        payload = self.service.status()
+        payload = dict(payload)
+        payload["status"] = "ok"
+        payload["provider"] = self._run_context_summary()
+        payload["request_provider"] = self.config.provider if self.config else "-"
+        payload["request_model"] = self.config.model if self.config else "-"
+        payload["workspace"] = str(self.workspace_mgr.path)
+        if self.last_model:
+            payload["model_used"] = self.last_model
+        if self.session.current().model:
+            payload["session_model"] = self.session.current().model
+        return payload
+
     def _inspect(self) -> str:
         if not self._active_run():
             return "Sem demanda ativa para inspeção."
@@ -330,6 +346,16 @@ class FrontAgent:
             )
         return "\\n".join(lines)
 
+    def _history_payload(self) -> dict[str, Any]:
+        history = self.session.current().history or []
+        return {
+            "status": "ok",
+            "count": len(history),
+            "turns": history,
+            "workspace": str(self.workspace_mgr.path),
+            "run_id": self.session.current().run_id,
+        }
+
     def _resume(self) -> str:
         if not self._active_run():
             return "Sem run ativa para retomar."
@@ -342,6 +368,16 @@ class FrontAgent:
             f"Pendência: {payload['pending_human_action'] or '-'}\\n"
             f"Próximo passo: {payload['next_action']}"
         )
+
+    def _resume_payload(self) -> dict[str, Any]:
+        if not self._active_run():
+            return {"status": "no_active_run", "message": "Sem run ativa para retomar."}
+        payload = self._status_payload()
+        if isinstance(payload, dict):
+            payload["status"] = "ok"
+            payload["action"] = "resume"
+            return payload
+        return {"status": "ok", "action": "resume"}
 
     def _continue(self, text: str) -> str:
         if not self._active_run():

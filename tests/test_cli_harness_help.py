@@ -1,6 +1,7 @@
 """Testes de CLI do comando principal `harness`."""
 
 import subprocess
+import json
 import sys
 import os
 import pytest
@@ -40,6 +41,7 @@ def test_harness_help_exposes_prompt_first_flags() -> None:
     assert "--model" in output
     assert "--api-key" in output
     assert "--non-interactive" in output
+    assert "--json" in output
     assert "modo técnico" in output.lower() or "debug" in output.lower()
     assert "harness" in output.lower()
     assert "status" in output.lower()
@@ -103,3 +105,91 @@ def test_harness_history_subcommand_returns_session_turns(tmp_path: Path, monkey
     )
     assert "Histórico da sessão atual" in out
     assert "adicionar autenticação OAuth2 com Google" in out
+
+
+def test_harness_history_subcommand_json(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    text = "revisar projeto e planejar a modularização da agenda"
+    agent.session.append_turn("user", text, "new_demand", "cli")
+    _ = agent._new_demand(text)
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "history", "--json"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    payload = json.loads(out)
+    assert payload["status"] == "ok"
+    assert payload["count"] >= 1
+
+
+def test_harness_status_subcommand_json(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    text = "adicionar autenticação OAuth2 com Google"
+    agent._new_demand(text)
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "status", "--json"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    payload = json.loads(out)
+    assert payload["status"] == "ok"
+    assert payload["run_id"]
+    assert payload["demand"] == text
+
+
+def test_harness_resume_subcommand_json(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    _ = agent._new_demand("módulo de permissões por perfil")
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "resume", "--json"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    payload = json.loads(out)
+    assert payload["status"] == "ok"
+    assert payload["action"] == "resume"

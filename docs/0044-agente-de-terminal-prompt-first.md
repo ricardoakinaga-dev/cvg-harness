@@ -30,6 +30,9 @@ Exemplos:
 - `> histórico`
 - `> o que você alterou?`
 - `> por que você escolheu enterprise?`
+- `harness status --json`
+- `harness resume --json`
+- `harness history --json`
 
 ## Loop conversacional real
 
