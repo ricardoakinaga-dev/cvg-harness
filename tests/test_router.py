@@ -17,6 +17,12 @@ def test_router_identifies_reason_questions() -> None:
     assert route_request("o porquê da decisão?").route == RouteType.REASON
 
 
+def test_router_identifies_history_intents() -> None:
+    assert route_request("mostrar histórico").route == RouteType.HISTORY
+    assert route_request("ver histórico da conversa").route == RouteType.HISTORY
+    assert route_request("histórico dos turnos").route == RouteType.HISTORY
+
+
 def test_router_routes_continuation_and_replan() -> None:
     assert route_request("aprovar a próxima sprint", has_active_run=True).route == RouteType.CONTINUE
     assert route_request("replaneje com menos risco", has_active_run=True).route == RouteType.REPLAN

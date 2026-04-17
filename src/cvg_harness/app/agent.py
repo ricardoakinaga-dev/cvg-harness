@@ -218,6 +218,8 @@ class FrontAgent:
             return self._resume()
         if request.route == RouteType.SUMMARY:
             return self._summary()
+        if request.route == RouteType.HISTORY:
+            return self._history()
         if request.route == RouteType.CONTINUE:
             return self._continue(request.raw)
         if request.route == RouteType.REPLAN:
@@ -248,6 +250,7 @@ class FrontAgent:
             "  - continue\n"
             "  - inspect / resume\n"
             "  - resumo\n"
+            "  - histórico\n"
             "  - replaneje <motivo>\n"
             "  - por que você escolheu enterprise?\n"
             "\n"
@@ -314,6 +317,18 @@ class FrontAgent:
             f"Pendência: {run['pending_human_action'] or '-'}\\n"
             f"Próximo passo: {run['next_action']}"
         )
+
+    def _history(self) -> str:
+        history = self.session.current().history or []
+        if not history:
+            return "Sem histórico de turnos na sessão atual."
+
+        lines = ["Histórico da sessão atual (mais recentes):"]
+        for idx, turn in enumerate(history[-10:], start=max(1, len(history) - 9)):
+            lines.append(
+                f"{idx}. [{turn['role']}] {turn['actor']} - {turn['intent']} | {turn['text']}"
+            )
+        return "\\n".join(lines)
 
     def _resume(self) -> str:
         if not self._active_run():

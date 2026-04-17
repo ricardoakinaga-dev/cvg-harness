@@ -17,6 +17,7 @@ class RouteType(str, Enum):
     SUMMARY = "summary"
     REPLAN = "replan"
     REASON = "reason"
+    HISTORY = "history"
     DEBUG = "debug"
     CONFIG = "config"
     HELP = "help"
@@ -68,6 +69,18 @@ def route_request(text: str, has_active_run: bool = False) -> RoutedRequest:
         return RoutedRequest(RouteType.DEBUG, "debug", txt, {"command": command.strip()})
     if _contains(txt, "resumo", "conclus", "entrega", "finalização", "encerrar", "encerramento"):
         return RoutedRequest(RouteType.SUMMARY, "summary", txt, {})
+
+    if _contains(
+        txt,
+        "histórico",
+        "historico",
+        "history",
+        "conversa",
+        "turnos",
+        "últimas mensagens",
+        "ultimas mensagens",
+    ):
+        return RoutedRequest(RouteType.HISTORY, "history", txt, {})
 
     if _contains(
         txt,

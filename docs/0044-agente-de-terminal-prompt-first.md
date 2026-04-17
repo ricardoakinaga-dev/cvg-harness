@@ -27,6 +27,7 @@ Exemplos:
 - `> status`
 - `> continue`
 - `> retome`
+- `> histórico`
 - `> o que você alterou?`
 - `> por que você escolheu enterprise?`
 
@@ -46,6 +47,7 @@ O front-agent mantém:
 | status | `status` | consulta `OperatorService.status` |
 | inspect | `inspect`, `o que você alterou?` | resume dados + artefatos |
 | resume | `resume`, `retome` | recarrega run ativa |
+| history | `histórico`, `history`, `conversa` | lista últimos turnos da sessão |
 | continue | `continue`, `aprovar` | chama `continue_run` com evidências/arquivos se houver |
 | replan | `replaneje` | aciona `replan` e retorna ação |
 | reason | `por que` + contexto de decisão | retorna classificação/score |
