@@ -10,13 +10,38 @@ from cvg_harness.cli import cli as legacy_cli
 from cvg_harness.workspace import WorkspaceManager
 
 
+_HELP_EPILOG = """
+Fluxo principal:
+  harness
+      Inicia o agente conversacional no diretório atual.
+      O usuário digita instruções em linguagem natural.
+
+Comandos avançados:
+  harness status      # consulta status da run ativa
+  harness resume      # retoma a demanda ativa
+  harness config      # reexecuta onboarding
+  harness doctor      # health check básico
+  harness debug ...   # executa comandos técnicos antigos
+
+Exemplos:
+  harness
+  harness debug status
+  harness --provider openai --model gpt-4o-mini status
+"""
+
+
 def _run_debug(args: list[str]) -> int:
     legacy_cli.main(args)
     return 0
 
 
 def main(argv: list[str] | None = None) -> None:
-    parser = argparse.ArgumentParser(prog="harness", description="Harness terminal agent")
+    parser = argparse.ArgumentParser(
+        prog="harness",
+        description="harness — agente terminal conversacional para operações com CVG",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=_HELP_EPILOG,
+    )
     parser.add_argument("--provider", default=None, help="provider explícito para a sessão")
     parser.add_argument("--model", default=None, help="modelo explícito para a sessão")
     parser.add_argument("--api-key", default=None, help="api key explícita para esta sessão")
