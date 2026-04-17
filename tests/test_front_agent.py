@@ -117,3 +117,37 @@ def test_front_agent_completion_summary_aggregates_results(tmp_path: Path, monke
     assert "release readiness:" in summary
     assert "evidências coletadas:" in summary
     assert "arquivos alterados: src/auth/login.py" in summary
+
+
+def test_front_agent_full_loop_completes_and_summarizes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    _seed_project(workspace)
+
+    inputs = _iter_inputs(
+        [
+            "status",
+            "criar módulo de permissões por setor",
+            "aprovar",
+            "src/auth/login.py implementação dos arquivos testes unitários logs de execução implementação do módulo auth testes do módulo auth",
+            "resumo",
+            "sair",
+        ]
+    )
+    monkeypatch.setattr(builtins, "input", lambda _: next(inputs))
+
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.start()
+    output = capsys.readouterr().out
+
+    assert "Sem demanda ativa. Inicie uma demanda em linguagem natural." in output
+    assert "Demanda recebida e roteada" in output
+    assert "Sprint aprovada. Envie evidências para continuar." in output
+    assert "Demanda não concluída ainda (active)." in output
+    assert "Pendência: provide_execution_inputs" in output
+    assert "Até mais." in output

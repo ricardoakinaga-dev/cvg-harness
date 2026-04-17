@@ -430,7 +430,7 @@ class FrontAgent:
         return self.config.model
 
     def _summarize_run(self, payload: dict[str, Any], prefix: str) -> str:
-        run = payload["run"]
+        run = payload.get("run") if "run" in payload else payload
         model = self.last_model or (self.session.current().model or "-")
         lines = [
             f"{prefix}",
