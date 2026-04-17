@@ -131,9 +131,10 @@ class OperatorRunRecord:
 
 
 class OperatorService:
-    def __init__(self, base_dir: Path):
+    def __init__(self, base_dir: Path, state_dir_name: str = ".cvg-harness"):
         self.base_dir = Path(base_dir)
-        self.root = self.base_dir / ".cvg-harness"
+        self.state_dir_name = state_dir_name
+        self.root = self.base_dir / state_dir_name
         self.runs_dir = self.root / "runs"
         self.logs_dir = self.root / "logs"
         self.ledgers_dir = self.root / "ledgers"
@@ -768,7 +769,7 @@ class OperatorService:
 
     def get_current_run_id(self) -> str:
         if not self.current_run_file.exists():
-            raise FileNotFoundError("Nenhuma run atual encontrada em .cvg-harness/current-run.txt")
+            raise FileNotFoundError(f"Nenhuma run atual encontrada em {self.state_dir_name}/current-run.txt")
         return self.current_run_file.read_text().strip()
 
     def load_current_run(self) -> OperatorRunRecord:

@@ -1,5 +1,4 @@
-"""Entrada padrão do pacote."""
-
+#!/usr/bin/env python3
 from cvg_harness.cli.harness import main
 
 

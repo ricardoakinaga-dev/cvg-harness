@@ -29,6 +29,7 @@ dev = ["pytest", "pytest-cov"]
 [project.scripts]
 cvg = "cvg_harness.cli.cli:main"
 cvg-repl = "cvg_harness.repl:main"
+harness = "cvg_harness.cli.harness:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
