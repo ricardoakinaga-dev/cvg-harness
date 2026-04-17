@@ -86,6 +86,7 @@ def _select_pipeline(mode: str, high_risk: bool) -> list[str]:
         "spec_builder",
         "spec_linter",
         "sprint_planner",
+        "implement",
     ]
 
     if mode == "ENTERPRISE" or high_risk:
