@@ -12,6 +12,14 @@ A engine de governança existente (classificação, research, PRD, SPEC, lint, s
 pip install -e .
 ```
 
+### Flags explícitas
+
+Você também pode iniciar com override de sessão:
+
+```bash
+harness --provider minimax --model MiniMax-M2.7 --api-key SUA_CHAVE
+```
+
 ## Primeira execução
 
 ```bash
@@ -56,11 +64,14 @@ Digite sua instrução.
 - Arquivo global: `~/.config/harness/config.toml`
 - Projeto: `.harness/project.toml`
 - Variáveis de ambiente:
-  - `ANTHROPIC_API_KEY` (MiniMax)
-  - `OPENAI_API_KEY`
-  - `OPENROUTER_API_KEY`
-  - `HARNESS_PROVIDER`
-  - `HARNESS_MODEL`
+- `ANTHROPIC_API_KEY` (MiniMax)
+- `OPENAI_API_KEY`
+- `OPENROUTER_API_KEY`
+- `HARNESS_PROVIDER`
+- `HARNESS_MODEL`
+- `--provider`
+- `--model`
+- `--api-key`
 
 Prioridade usada pelo agente:
 

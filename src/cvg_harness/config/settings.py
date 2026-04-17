@@ -141,8 +141,13 @@ def validate_model_name(provider: str, candidate: str | None) -> str:
     provider = _normalize_name(provider)
     provider_defaults = normalize_provider_defaults().get(provider, {})
     models: list[str] = list(provider_defaults.get("models", []))
-    if candidate and candidate in models:
-        return candidate
+    if candidate:
+        normalized_candidate = candidate.strip()
+        for model in models:
+            if model == normalized_candidate:
+                return model
+            if model.lower() == normalized_candidate.lower():
+                return model
     if not models:
         raise ConfigValueError(f"provider sem modelos válidos: {provider}")
     # Mantém comportamento previsível sem bloquear customizações.
@@ -334,9 +339,9 @@ def load_config(
 
     default_model = str(merged.get("default_model", "") or all_providers[candidate_provider].default_model)
     explicit_or_env_model = (
-        _normalize_name(explicit_model)
-        or _normalize_name(os.getenv("HARNESS_MODEL"))
-        or _normalize_name(default_model)
+        (explicit_model or "").strip()
+        or (os.getenv("HARNESS_MODEL") or "").strip()
+        or str(default_model or "")
     )
 
     resolved_model = validate_model_name(candidate_provider, explicit_or_env_model)
@@ -348,10 +353,11 @@ def load_config(
         workspace_dir=str(merged.get("workspace_dir", ".harness")),
     )
 
+    loaded_model_override = None if explicit_model is None else resolved_model
     loaded = LoadedConfig(
         config=cfg,
         explicit_provider=_normalize_name(explicit_provider) or None,
-        explicit_model=_normalize_name(explicit_model) or None,
+        explicit_model=loaded_model_override,
         explicit_key=explicit_api_key,
     )
     return loaded.with_resolved_api_key()

@@ -20,7 +20,6 @@ from cvg_harness.config import (
 )
 from cvg_harness.operator.service import OperatorService, infer_dimensions_from_demand
 from cvg_harness.providers import build_provider
-from cvg_harness.providers.base import ProviderError
 from cvg_harness.providers.base import Provider
 from cvg_harness.routing import RouteType, RoutedRequest, route_request
 from cvg_harness.session import SessionManager
@@ -37,31 +36,48 @@ class FrontAgent:
         workspace: Path | None = None,
         state_dir: str = ".harness",
         non_interactive: bool = False,
+        explicit_provider: str | None = None,
+        explicit_model: str | None = None,
+        explicit_api_key: str | None = None,
     ) -> None:
         self.workspace = Path(workspace or Path.cwd())
         self.state_dir = state_dir
         self.workspace_mgr = WorkspaceManager(self.workspace, state_dir=state_dir)
         self.session = SessionManager(self.workspace_mgr.path, state_dir=state_dir)
         self.non_interactive = non_interactive
+        self.explicit_provider = explicit_provider
+        self.explicit_model = explicit_model
+        self.explicit_api_key = explicit_api_key
         self.config: LoadedConfig | None = None
         self.provider: Provider | None = None
         self.service = OperatorService(self.workspace_mgr.path, state_dir_name=state_dir)
+        self.last_model: str | None = None
         self._booted = False
 
-    def boot(self) -> None:
-        self.config = load_config(self.workspace_mgr.path)
+    def boot(self, require_provider: bool = False) -> None:
+        self.config = load_config(
+            self.workspace_mgr.path,
+            explicit_provider=self.explicit_provider,
+            explicit_model=self.explicit_model,
+            explicit_api_key=self.explicit_api_key,
+        )
         self.provider = build_provider(self.config)
-        if not self.config.explicit_key:
+        if require_provider and not self.config.explicit_key:
             if self.non_interactive:
                 raise FrontAgentError(
                     "Configuração incompleta: defina ANTHROPIC_API_KEY/OPENAI_API_KEY/OPENROUTER_API_KEY."
                 )
-            self._run_onboarding()
-            self.config = load_config(self.workspace_mgr.path)
+            self._run_onboarding(preferred_provider=self.explicit_provider, preferred_model=self.explicit_model)
+            self.config = load_config(
+                self.workspace_mgr.path,
+                explicit_provider=self.explicit_provider,
+                explicit_model=self.explicit_model,
+                explicit_api_key=self.explicit_api_key,
+            )
             self.provider = build_provider(self.config)
         self._booted = True
 
-    def _run_onboarding(self) -> None:
+    def _run_onboarding(self, preferred_provider: str | None = None, preferred_model: str | None = None) -> None:
         print("Nenhuma configuração válida encontrada.")
         print("Vamos configurar o Harness.")
         print("Escolha o provider principal:")
@@ -69,7 +85,14 @@ class FrontAgent:
         print("2. OpenAI")
         print("3. OpenRouter")
         provider_map = {"1": "minimax", "2": "openai", "3": "openrouter"}
-        provider = "1"
+        default_provider_choice = "1"
+        if preferred_provider:
+            normalized = preferred_provider.strip().lower()
+            if normalized in provider_map.values():
+                default_provider_choice = {v: k for k, v in provider_map.items()}[normalized]
+            elif normalized in {"1", "2", "3"}:
+                default_provider_choice = normalized
+        provider = default_provider_choice
         while provider not in provider_map:
             provider = (input("> ").strip() or "1")
             if provider not in provider_map:
@@ -78,6 +101,10 @@ class FrontAgent:
 
         defaults = normalize_provider_defaults()
         default_model = validate_model_name(chosen, defaults[chosen]["default_model"])
+        if preferred_model:
+            resolved_preferred_model = validate_model_name(chosen, preferred_model)
+            if resolved_preferred_model:
+                default_model = resolved_preferred_model
         api_key_env = defaults[chosen]["api_key_env"]
         print(f"Informe a variável {api_key_env} com a API key atual (opcional).")
         api_key = input("Ou cole a API key agora: ").strip()
@@ -91,14 +118,30 @@ class FrontAgent:
             self._save_global_config(chosen, default_model)
         else:
             save_project_config(self.workspace_mgr.path, chosen, default_model)
-        self.config = load_config(self.workspace_mgr.path)
-        self.provider = build_provider(self.config)
 
         print("Configuração salva.")
-        if self.provider.test_connection():
+        onboarded = load_config(
+            self.workspace_mgr.path,
+            explicit_provider=chosen,
+            explicit_model=default_model,
+        )
+        onboarded_provider = build_provider(onboarded)
+        if onboarded_provider.test_connection():
             print("Teste de conexão: OK")
         else:
             print("Teste de conexão: sem resposta do endpoint. A execução seguirá com validação de chave.")
+
+    def _provider_label(self) -> str:
+        if not self.config:
+            return "minimax (pendente)"
+        current_model = self.config.model
+        return f"{self.config.provider} | {current_model}"
+
+    def _run_context_summary(self) -> str:
+        session = self.session.current()
+        active_model = session.model or (self.config.model if self.config else "-")
+        active_provider = session.provider or (self.config.provider if self.config else "minimax")
+        return f"{active_provider} ({active_model})"
 
     def _ask_yes_no(self, prompt: str, default: bool = True) -> bool:
         suffix = " [Y/n]" if default else " [y/N]"
@@ -130,14 +173,9 @@ class FrontAgent:
         )
         save_global_config(config)
 
-    def _provider_label(self) -> str:
-        if not self.config:
-            return "minimax (pendente)"
-        return f"{self.config.provider} | {self.config.model}"
-
     def start(self) -> None:
         if not self._booted:
-            self.boot()
+            self.boot(require_provider=True)
         self._announce()
         while True:
             try:
@@ -160,6 +198,9 @@ class FrontAgent:
         print("Harness iniciado.")
         print(f"Workspace detectado: {self.workspace_mgr.path}")
         print(f"Provider: {self._provider_label()}")
+        run_id = self.session.current().run_id
+        if run_id:
+            print(f"Run ativa: {run_id}")
         print("Digite sua instrução.")
 
     def _dispatch(self, request: RoutedRequest) -> str:
@@ -180,7 +221,14 @@ class FrontAgent:
         if request.route == RouteType.REASON:
             return self._reason()
         if request.route == RouteType.CONFIG:
-            self._run_onboarding()
+            self._run_onboarding(self.explicit_provider, self.explicit_model)
+            self.config = load_config(
+                self.workspace_mgr.path,
+                explicit_provider=self.explicit_provider,
+                explicit_model=self.explicit_model,
+                explicit_api_key=self.explicit_api_key,
+            )
+            self.provider = build_provider(self.config)
             return "Configuração atualizada."
         if request.route == RouteType.DOCTOR:
             return self._doctor()
@@ -216,10 +264,13 @@ class FrontAgent:
         if not self._active_run():
             return "Sem demanda ativa. Inicie uma demanda em linguagem natural."
         payload = self.service.status()
+        active = self.session.current()
+        provider_label = self._run_context_summary()
         return (
             f"Run: {payload['run_id']}\\n"
             f"Projeto: {payload['project']}\\n"
             f"Demanda: {payload['demand']}\\n"
+            f"Provider: {provider_label}\\n"
             f"Fase/Gate: {payload['current_phase']} / {payload['current_gate']}\\n"
             f"Status: {payload['operator_status']}\\n"
             f"Pendência humana: {payload['pending_human_action'] or '-'}\\n"
@@ -248,6 +299,7 @@ class FrontAgent:
         payload = self.service.status()
         return (
             f"Retoma da run {payload['run_id']}\\n"
+            f"Demanda: {payload['demand']}\\n"
             f"Fase/Gate: {payload['current_phase']} / {payload['current_gate']}\\n"
             f"Pendência: {payload['pending_human_action'] or '-'}\\n"
             f"Próximo passo: {payload['next_action']}"
@@ -317,11 +369,14 @@ class FrontAgent:
             raise FrontAgentError("Configuração não inicializada.")
         dimensions, rationale = infer_dimensions_from_demand(text)
         mode = calculate_mode(dimensions)
+        self.last_model = self._select_model(mode)
+        model_hint = f"modelo escolhido: {self.last_model}"
         payload = self.service.start_run(demand=text, mode=mode)
         self.session.set_active_run(payload["run_id"])
-        self.session.set_context(self.config.provider, self.config.model)
+        self.session.set_context(self.config.provider, self.last_model)
         return (
             f"Demanda recebida e roteada ({mode}).\\n"
+            f"{model_hint}\\n"
             f"Run: {payload['run_id']}\\n"
             f"Próximo passo: {payload['next_action']}\\n"
             f"Racional inicial: {rationale}"
@@ -331,11 +386,35 @@ class FrontAgent:
             else ""
         )
 
+    def _select_model(self, mode: str) -> str:
+        if not self.config:
+            raise FrontAgentError("Configuração não inicializada.")
+        provider = self.config.provider
+        cfg = self.config.provider_cfg
+        normalized_mode = (mode or "").upper()
+        if cfg.models:
+            if normalized_mode == "FAST":
+                for model in cfg.models:
+                    if "highspeed" in model.lower():
+                        return model
+            if normalized_mode == "ENTERPRISE":
+                for model in cfg.models:
+                    if "highspeed" not in model.lower():
+                        return model
+            if self.config.model in cfg.models:
+                return self.config.model
+            if normalized_mode and cfg.default_model in cfg.models:
+                return cfg.default_model
+            return cfg.models[0]
+        return self.config.model
+
     def _summarize_run(self, payload: dict[str, Any], prefix: str) -> str:
         run = payload["run"]
+        model = self.last_model or (self.session.current().model or "-")
         return (
             f"{prefix}\\n"
             f"Run: {run['run_id']}\\n"
+            f"Modelo: {model}\\n"
             f"Status: {run['operator_status']}\\n"
             f"Fase/Gate: {run['current_phase']} / {run['current_gate']}\\n"
             f"Pendência humana: {run['pending_human_action'] or '-'}\\n"

@@ -32,6 +32,12 @@ Projeto:
 3. configuração local do projeto
 4. configuração global
 
+Exemplo de override com flags:
+
+```bash
+harness --provider openai --model gpt-4o-mini --api-key "$OPENAI_API_KEY"
+```
+
 ## Variáveis de ambiente esperadas
 
 - `ANTHROPIC_API_KEY` (MiniMax)
