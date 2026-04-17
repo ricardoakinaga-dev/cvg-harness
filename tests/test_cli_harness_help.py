@@ -283,6 +283,115 @@ def test_harness_inspect_subcommand_json(tmp_path: Path, monkeypatch: pytest.Mon
     assert isinstance(payload["artifacts"], list)
 
 
+def test_harness_inspect_subcommand_prints_causal_runtime_and_dispatch_summary(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    _ = agent._new_demand("criar módulo de permissões por setor")
+    agent.service.run_runtime_hooks(
+        event="ci_result",
+        profile="github-actions",
+        context={
+            "repository": "openai/cvg-harness",
+            "ci_run_id": "94",
+            "ci_url": "https://ci.example/runs/94",
+        },
+        simulated=True,
+        ci_result_json=json.dumps(
+            {
+                "status": "success",
+                "ci_ref": "https://ci.example/runs/94",
+                "evidence_refs": ["ci://logs/94"],
+            }
+        ),
+    )
+    agent.service.approve()
+    agent.service.plan_external_execution(executor="local-cli", execute=True)
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "inspect"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    assert "Sprints planejadas:" in out
+    assert "Execução externa:" in out
+    assert "runtime_provider=github-actions" in out
+    assert "Resultado externo:" in out
+    assert "CI result: status=success" in out
+    assert "Runtime: event=ci_result" in out
+    assert "Timeline:" in out
+
+
+def test_harness_inspect_subcommand_json_preserves_canonical_operational_payload(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    demand = "criar módulo de permissões por setor"
+    _ = agent._new_demand(demand)
+    agent.service.run_runtime_hooks(
+        event="ci_result",
+        profile="github-actions",
+        context={
+            "repository": "openai/cvg-harness",
+            "ci_run_id": "95",
+            "ci_url": "https://ci.example/runs/95",
+        },
+        simulated=True,
+        ci_result_json=json.dumps(
+            {
+                "status": "success",
+                "ci_ref": "https://ci.example/runs/95",
+                "evidence_refs": ["ci://logs/95"],
+            }
+        ),
+    )
+    agent.service.approve()
+    agent.service.plan_external_execution(executor="local-cli", execute=True)
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "inspect", "--json"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    payload = json.loads(out)
+    assert payload["status"] == "ok"
+    assert payload["demand"] == demand
+    assert payload["runtime_hooks"]["profile"] == "github-actions"
+    assert payload["ci_result"]["ci_ref"] == "https://ci.example/runs/95"
+    assert payload["external_dispatch_plan"]["runtime_provider"] == "github-actions"
+    assert payload["external_dispatch_result"]["runtime_provider"] == "github-actions"
+    assert isinstance(payload["known_adapters"], list)
+    assert isinstance(payload["timeline"], list)
+
+
 def test_harness_status_json_without_active_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     home = tmp_path / "home"
     monkeypatch.setenv("HOME", str(home))

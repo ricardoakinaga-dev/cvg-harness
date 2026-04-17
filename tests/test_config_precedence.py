@@ -91,3 +91,27 @@ def test_invalid_explicit_provider_falls_back_to_minimax(monkeypatch, tmp_path: 
     assert loaded.explicit_provider is None
     assert loaded.config.default_provider == "minimax"
     assert loaded.warnings
+
+
+def test_invalid_explicit_model_falls_back_to_default(monkeypatch, tmp_path: Path) -> None:
+    home = tmp_path / "home-model-invalid"
+    monkeypatch.setenv("HOME", str(home))
+    workspace = _build_workspace(tmp_path / "project-model-invalid")
+    _create_minimal_global_config(home)
+
+    loaded = load_config(workspace, explicit_provider="minimax", explicit_model="fantasy-model")
+    assert loaded.model == "MiniMax-M2.7"
+    assert loaded.explicit_model == "MiniMax-M2.7"
+    assert any("model fornecido" in warning for warning in loaded.warnings)
+
+
+def test_invalid_env_model_falls_back_with_warning(monkeypatch, tmp_path: Path) -> None:
+    home = tmp_path / "home-env-model"
+    monkeypatch.setenv("HOME", str(home))
+    workspace = _build_workspace(tmp_path / "project-env-model")
+    _create_minimal_global_config(home)
+    monkeypatch.setenv("HARNESS_MODEL", "fantasy-model-env")
+
+    loaded = load_config(workspace)
+    assert loaded.model == "MiniMax-M2.7"
+    assert any("variável HARNESS_MODEL" in warning for warning in loaded.warnings)

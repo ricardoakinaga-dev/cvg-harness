@@ -159,6 +159,18 @@ def validate_model_name(provider: str, candidate: str | None) -> str:
     return models[0]
 
 
+def _normalize_model(value: str, available: list[str]) -> str | None:
+    normalized = (value or "").strip()
+    if not normalized:
+        return None
+    for model in available:
+        if model == normalized:
+            return model
+        if model.lower() == normalized.lower():
+            return model
+    return None
+
+
 def _read_toml(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
@@ -359,6 +371,16 @@ def load_config(
     )
 
     resolved_model = validate_model_name(candidate_provider, explicit_or_env_model)
+    requested_model = (explicit_model or "").strip()
+    env_model = (os.getenv("HARNESS_MODEL") or "").strip()
+    requested_from = requested_model or env_model
+    if requested_from:
+        provider_models = all_providers[candidate_provider].models
+        if not _normalize_model(requested_from, provider_models):
+            model_source = "fornecido" if requested_model else "variável HARNESS_MODEL"
+            warnings.append(
+                f"model {model_source} '{requested_from}' inválido para {candidate_provider}; usando '{resolved_model}'"
+            )
 
     cfg = GlobalHarnessConfig(
         default_provider=candidate_provider,

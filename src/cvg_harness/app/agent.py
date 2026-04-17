@@ -104,6 +104,8 @@ class FrontAgent:
             explicit_model=self.explicit_model,
             explicit_api_key=self.explicit_api_key,
         )
+        for warning in self.config.warnings:
+            print(f"Aviso de configuração: {warning}")
         self.provider = build_provider(self.config)
         if require_provider and not self.config.explicit_key:
             if self.non_interactive:
@@ -519,21 +521,132 @@ class FrontAgent:
             payload["session_model"] = self.session.current().model
         return payload
 
+    def _format_sequence(self, values: list[Any] | tuple[Any, ...] | None) -> str:
+        if not values:
+            return "-"
+        normalized = [str(item) for item in values if str(item).strip()]
+        return ", ".join(normalized) if normalized else "-"
+
+    def _inspect_causal_lines(self, payload: dict[str, Any]) -> list[str]:
+        lines: list[str] = []
+        sprints = payload.get("sprints", [])
+        if isinstance(sprints, list) and sprints:
+            lines.append(f"Sprints planejadas: {len(sprints)}")
+            for sprint in sprints[:3]:
+                if not isinstance(sprint, dict):
+                    continue
+                sprint_id = sprint.get("sprint_id", "-")
+                objective = sprint.get("objetivo") or sprint.get("goal") or "sem objetivo"
+                lines.append(f"- {sprint_id}: {objective}")
+
+        causal = payload.get("causal", {})
+        if not isinstance(causal, dict) or not causal:
+            timeline = payload.get("timeline", [])
+            if isinstance(timeline, list):
+                lines.append(f"Timeline: {len(timeline)} eventos relevantes")
+            return lines
+
+        objective = str(causal.get("objective") or "").strip()
+        if objective:
+            lines.append(f"Objetivo da sprint: {objective}")
+
+        lines.append(f"Arquivos alterados: {self._format_sequence(causal.get('changed_files', []))}")
+
+        evidence = causal.get("evidence", {})
+        if isinstance(evidence, dict):
+            lines.append(f"Evidências: {evidence.get('total_items', 0)} itens")
+            lines.append(f"Evidências faltantes: {self._format_sequence(evidence.get('missing', []))}")
+
+        external_execution = causal.get("external_execution", {})
+        if isinstance(external_execution, dict):
+            has_external_execution = any(
+                external_execution.get(key)
+                for key in ("executor", "provider", "runtime_provider", "status", "planned_command")
+            ) or bool(external_execution.get("plan")) or bool(external_execution.get("result"))
+            if has_external_execution:
+                lines.append(
+                    "Execução externa: "
+                    f"executor={external_execution.get('executor', '-')}, "
+                    f"provider={external_execution.get('provider', '-')}, "
+                    f"runtime_provider={external_execution.get('runtime_provider', '-')}, "
+                    f"status={external_execution.get('status', '-')}"
+                )
+                plan = external_execution.get("plan", {})
+                if isinstance(plan, dict) and any(plan.values()):
+                    lines.append(
+                        "Plano externo: "
+                        f"status={plan.get('status', '-')}, "
+                        f"provider={plan.get('provider', '-')}, "
+                        f"runtime_provider={plan.get('runtime_provider', '-')}"
+                    )
+                result = external_execution.get("result", {})
+                if isinstance(result, dict) and any(result.values()):
+                    lines.append(
+                        "Resultado externo: "
+                        f"status={result.get('status', '-')}, "
+                        f"provider={result.get('provider', '-')}, "
+                        f"runtime_provider={result.get('runtime_provider', '-')}"
+                    )
+
+        external_evidence = causal.get("external_evidence", {})
+        if isinstance(external_evidence, dict) and external_evidence.get("present"):
+            lines.append(f"Evidência externa: {external_evidence.get('count', 0)} refs")
+
+        ci_result = causal.get("ci_result", {})
+        if isinstance(ci_result, dict) and ci_result.get("present"):
+            lines.append(
+                f"CI result: status={ci_result.get('status', '-')}, ref={ci_result.get('ci_ref', '-')}"
+            )
+
+        runtime = causal.get("runtime", {})
+        if isinstance(runtime, dict) and runtime.get("executed"):
+            profile_details = runtime.get("profile_details", {})
+            provider = ""
+            if isinstance(profile_details, dict):
+                provider = str(profile_details.get("provider", "") or "")
+            lines.append(
+                "Runtime: "
+                f"event={runtime.get('event', '-')}, "
+                f"profile={runtime.get('profile', 'default')}, "
+                f"provider={provider or '-'}, "
+                f"simulated={runtime.get('simulated')}, "
+                f"results={runtime.get('results', 0)}"
+            )
+
+        decisions = causal.get("decisions", {})
+        if isinstance(decisions, dict) and decisions:
+            lines.append(f"Decisões: {decisions}")
+
+        blockers = causal.get("blockers", [])
+        lines.append(f"Blockers: {blockers if isinstance(blockers, list) else []}")
+
+        timeline = payload.get("timeline", [])
+        if isinstance(timeline, list):
+            lines.append(f"Timeline: {len(timeline)} eventos relevantes")
+
+        return lines
+
     def _inspect(self) -> str:
         if not self._active_run():
             return "Sem demanda ativa para inspeção."
         payload = self.service.inspect()
         run = payload["run"]
-        artifacts = ", ".join(payload.get("artifacts", []))
-        reports = ", ".join(payload.get("reports", []))
-        return (
-            f"Run: {run['run_id']} ({run['operator_status']})\\n"
-            f"Demanda: {run['demand']}\\n"
-            f"Artefatos: {artifacts}\\n"
-            f"Relatórios: {reports}\\n"
-            f"Pendência: {run['pending_human_action'] or '-'}\\n"
-            f"Próximo passo: {run['next_action']}"
+        lines = [
+            f"Run: {run['run_id']} ({run['operator_status']})",
+            f"Projeto: {run.get('project', self.workspace_mgr.path.name)}",
+            f"Demanda: {run['demand']}",
+            f"Fase/Gate: {run.get('current_phase', '-')} / {run.get('current_gate', '-')}",
+            f"Artefatos: {self._format_sequence(payload.get('artifacts', []))}",
+            f"Relatórios: {self._format_sequence(payload.get('reports', []))}",
+        ]
+        lines.extend(self._inspect_causal_lines(payload))
+        lines.extend(
+            [
+                f"Pendência: {run['pending_human_action'] or '-'}",
+                f"Próximo passo: {run['next_action']}",
+            ]
         )
+        return "\\n".join(lines)
 
     def _inspect_payload(self) -> dict[str, object]:
         if not self._active_run():
@@ -543,9 +656,11 @@ class FrontAgent:
             }
         payload = self.service.inspect()
         run = payload["run"]
-        return {
+        response = {
             "status": "ok",
             "workspace": str(self.workspace_mgr.path),
+            "provider": self._run_context_summary(),
+            "permission_profile": self._permission_label(),
             "run_id": run.get("run_id", ""),
             "project": run.get("project", self.workspace_mgr.path.name),
             "demand": run.get("demand", ""),
@@ -553,10 +668,9 @@ class FrontAgent:
             "mode": run.get("mode", ""),
             "pending_human_action": run.get("pending_human_action"),
             "next_action": run.get("next_action", ""),
-            "artifacts": payload.get("artifacts", []),
-            "reports": payload.get("reports", []),
-            "causal": payload.get("causal", {}),
         }
+        response.update(payload)
+        return response
 
     def _history(self) -> str:
         history = self.session.current().history or []
