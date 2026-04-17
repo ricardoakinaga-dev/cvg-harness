@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import subprocess
 import time
+import shlex
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable, Iterable
@@ -56,7 +57,10 @@ class ShellTool:
     def _is_allowed(self, command: str) -> bool:
         if self._allowed is None:
             return True
-        tokens = command.strip().split()
+        try:
+            tokens = shlex.split(command.strip())
+        except ValueError:
+            tokens = command.strip().split()
         if not tokens:
             return False
         executable = tokens[0].lower()

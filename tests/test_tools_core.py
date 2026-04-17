@@ -59,6 +59,13 @@ def test_shell_tool_respects_allow_and_deny_lists(tmp_path: Path) -> None:
         tool.run("rm -rf arquivo_inexistente", timeout=2)
 
 
+def test_shell_tool_parses_quoted_command(tmp_path: Path) -> None:
+    tool = ShellTool(tmp_path, allowed_commands=["python3"])
+    result = tool.run('python3 -c "print(\'ok\')"', timeout=2)
+    assert result.return_code == 0
+    assert "ok" in result.stdout
+
+
 def test_planning_tool_persists_and_updates_steps(tmp_path: Path) -> None:
     tool = PlanningTool(tmp_path)
     tool.create_plan("run-001", ["research", "prd", "spec"])
