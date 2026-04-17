@@ -21,6 +21,7 @@ Comandos de produto:
   harness status      # consulta status da run ativa
   harness resume      # retoma a demanda ativa
   harness inspect     # inspeciona artefatos e pendências da run ativa
+  harness summary     # resumo da entrega ou situação atual
   harness history     # mostra histórico da sessão atual
   harness config      # reexecuta onboarding
   harness doctor      # health check básico
@@ -74,6 +75,7 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("status", help="mostrar status atual", parents=[json_parser])
     sub.add_parser("history", help="mostrar histórico da sessão atual", parents=[json_parser])
     sub.add_parser("inspect", help="inspeção da demanda ativa", parents=[json_parser])
+    sub.add_parser("summary", help="resumo da entrega", parents=[json_parser])
     sub.add_parser("config", help="reconfigurar provider/apikey")
     sub.add_parser("doctor", help="health check do agente")
     sub.add_parser("help", help="exibir ajuda do produto no terminal")
@@ -97,7 +99,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "debug":
         _run_debug(args.legacy)
         return
-    if args.command in {"status", "resume", "doctor", "config", "history", "inspect", "help"}:
+    if args.command in {"status", "resume", "doctor", "config", "history", "inspect", "summary", "help"}:
         def _emit(payload: object) -> None:
             if args.json:
                 print(json.dumps(payload, ensure_ascii=False, indent=2))
@@ -143,6 +145,12 @@ def main(argv: list[str] | None = None) -> None:
                 _emit(agent._inspect_payload())
             else:
                 print(agent._inspect())
+            return
+        if args.command == "summary":
+            if args.json:
+                _emit(agent._summary_payload())
+            else:
+                print(agent._summary())
             return
         if args.command == "help":
             parser.print_help()

@@ -795,6 +795,54 @@ class FrontAgent:
             pass
         return "\\n".join(lines)
 
+    def _summary_payload(self) -> dict[str, Any]:
+        if not self._active_run():
+            return {
+                "status": "no_active_run",
+                "message": "Sem demanda ativa para resumir.",
+            }
+
+        payload = self.service.inspect()
+        run = payload.get("run", {})
+        run_status = run.get("operator_status", "")
+        try:
+            artifacts = [str(item) for item in payload.get("artifacts", [])]
+        except Exception:
+            artifacts = []
+        try:
+            reports = [str(item) for item in payload.get("reports", [])]
+        except Exception:
+            reports = []
+        causal = payload.get("causal", {})
+        evidence = causal.get("evidence", {}) if isinstance(causal, dict) else {}
+        changed_files = causal.get("changed_files", []) if isinstance(causal, dict) else []
+        decisions = causal.get("decisions", {}) if isinstance(causal, dict) else {}
+        return {
+            "status": "ok" if run_status == "completed" else "in_progress",
+            "run": {
+                "run_id": run.get("run_id", ""),
+                "project": run.get("project", self.workspace_mgr.path.name),
+                "demand": run.get("demand", ""),
+                "operator_status": run_status,
+                "current_phase": run.get("current_phase", ""),
+                "current_gate": run.get("current_gate", ""),
+                "mode": run.get("mode", ""),
+                "pending_human_action": run.get("pending_human_action"),
+                "next_action": run.get("next_action", ""),
+            },
+            "artifacts": artifacts,
+            "reports": reports,
+            "decisions": decisions,
+            "evidence": {
+                "total_items": evidence.get("total_items", 0),
+                "missing": evidence.get("missing", []),
+            },
+            "changed_files": changed_files,
+            "workspace": str(self.workspace_mgr.path),
+            "provider": self._run_context_summary(),
+            "last_model": self.last_model or (self.config.model if self.config else None),
+        }
+
     def _looks_like_approval(self, text: str) -> bool:
         lowered = text.lower()
         return any(word in lowered for word in ["aprovar", "aprovo", "approve", "sim", "ok", "confirmo"])

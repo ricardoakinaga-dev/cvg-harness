@@ -48,6 +48,7 @@ def test_harness_help_exposes_prompt_first_flags() -> None:
     assert "resume" in output.lower()
     assert "history" in output.lower()
     assert "config" in output.lower()
+    assert "summary" in output.lower()
 
 
 def test_harness_help_subcommand_prints_usage() -> None:
@@ -116,6 +117,58 @@ def test_harness_history_subcommand_returns_session_turns(tmp_path: Path, monkey
     assert "Histórico da sessão atual" in out
     assert "adicionar autenticação OAuth2 com Google" in out
 
+
+def test_harness_summary_subcommand_without_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "summary"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    assert "Sem demanda ativa para resumir." in out
+
+
+def test_harness_summary_subcommand_json_with_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    demand = "implementação de camada de permissões por setor"
+    agent._new_demand(demand)
+
+    out = subprocess.check_output(
+        [sys.executable, "-m", "cvg_harness.cli.harness", "summary", "--json"],
+        text=True,
+        cwd=str(workspace),
+        env={
+            **os.environ,
+            "HOME": str(home),
+            "ANTHROPIC_API_KEY": "x",
+            "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src"),
+        },
+    )
+    payload = json.loads(out)
+    assert payload["status"] in {"ok", "in_progress"}
+    assert payload["run"]["run_id"]
+    assert payload["run"]["demand"] == demand
 
 def test_harness_history_subcommand_json(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     home = tmp_path / "home"
