@@ -161,6 +161,7 @@ class FrontAgent:
             providers[name] = ProviderConfig(
                 name=name,
                 base_url=payload["base_url"],
+                base_url_env=payload.get("base_url_env", ""),
                 api_key_env=payload["api_key_env"],
                 models=list(payload["models"]),
                 default_model=payload["default_model"],

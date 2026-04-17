@@ -59,6 +59,17 @@ def test_model_name_matching_is_case_insensitive(monkeypatch, tmp_path: Path) ->
     assert loaded.model == "MiniMax-M2.7-highspeed"
 
 
+def test_base_url_env_overrides_default_provider_url(monkeypatch, tmp_path: Path) -> None:
+    home = tmp_path / "home-url"
+    monkeypatch.setenv("HOME", str(home))
+    workspace = _build_workspace(tmp_path / "project4")
+    _create_minimal_global_config(home)
+
+    monkeypatch.setenv("ANTHROPIC_BASE_URL", "https://example.minimax.test/anthropic")
+    loaded = load_config(workspace, explicit_provider="minimax")
+    assert loaded.provider_cfg.base_url == "https://example.minimax.test/anthropic"
+
+
 def test_explicit_api_key_is_kept_in_memory_only(monkeypatch, tmp_path: Path) -> None:
     home = tmp_path / "home-key"
     monkeypatch.setenv("HOME", str(home))

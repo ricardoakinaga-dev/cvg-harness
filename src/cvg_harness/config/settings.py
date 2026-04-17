@@ -27,14 +27,16 @@ class ConfigValueError(ValueError):
 class ProviderConfig:
     name: str
     base_url: str
-    api_key_env: str
-    models: list[str]
-    default_model: str
+    base_url_env: str = ""
+    api_key_env: str = ""
+    models: list[str] = field(default_factory=list)
+    default_model: str = ""
     enabled: bool = True
 
     def as_dict(self) -> dict[str, Any]:
         return {
             "base_url": self.base_url,
+            "base_url_env": self.base_url_env,
             "api_key_env": self.api_key_env,
             "models": list(self.models),
             "default_model": self.default_model,
@@ -96,6 +98,7 @@ def normalize_provider_defaults() -> dict[str, dict[str, Any]]:
         "minimax": {
             "name": "minimax",
             "base_url": "https://api.minimax.io/anthropic",
+            "base_url_env": "ANTHROPIC_BASE_URL",
             "api_key_env": "ANTHROPIC_API_KEY",
             "models": [
                 "MiniMax-M2.7",
@@ -111,6 +114,7 @@ def normalize_provider_defaults() -> dict[str, dict[str, Any]]:
         "openai": {
             "name": "openai",
             "base_url": "https://api.openai.com/v1",
+            "base_url_env": "OPENAI_BASE_URL",
             "api_key_env": "OPENAI_API_KEY",
             "models": [
                 "gpt-4.1",
@@ -122,6 +126,7 @@ def normalize_provider_defaults() -> dict[str, dict[str, Any]]:
         "openrouter": {
             "name": "openrouter",
             "base_url": "https://openrouter.ai/api/v1",
+            "base_url_env": "OPENROUTER_BASE_URL",
             "api_key_env": "OPENROUTER_API_KEY",
             "models": [
                 "openai/gpt-4o-mini",
@@ -215,6 +220,7 @@ def _build_default_config() -> dict[str, Any]:
         "providers": {
             name: {
                 "base_url": payload["base_url"],
+                "base_url_env": payload.get("base_url_env", ""),
                 "api_key_env": payload["api_key_env"],
                 "models": list(payload["models"]),
                 "default_model": payload["default_model"],
@@ -280,9 +286,13 @@ def _normalize_provider_config(name: str, data: Mapping[str, Any]) -> ProviderCo
     models = list(model_list)
     if not models:
         models = list(base["models"])
+    base_url = str(configured.get("base_url", base["base_url"]))
+    base_url_env = str(configured.get("base_url_env", base.get("base_url_env", "")))
+    resolved_base_url = os.getenv(base_url_env, base_url) if base_url_env else base_url
     return ProviderConfig(
         name=name,
-        base_url=str(configured.get("base_url", base["base_url"])),
+        base_url=resolved_base_url,
+        base_url_env=base_url_env,
         api_key_env=str(configured.get("api_key_env", base["api_key_env"])),
         models=models,
         default_model=str(configured.get("default_model", models[0])),

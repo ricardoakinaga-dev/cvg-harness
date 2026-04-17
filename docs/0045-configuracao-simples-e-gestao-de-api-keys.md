@@ -67,6 +67,9 @@ default_model = "MiniMax-M2.7"
 - `ANTHROPIC_API_KEY` (MiniMax)
 - `OPENAI_API_KEY` (OpenAI)
 - `OPENROUTER_API_KEY` (OpenRouter)
+- `ANTHROPIC_BASE_URL` (MiniMax - sobrescreve base_url do provider)
+- `OPENAI_BASE_URL` (OpenAI - sobrescreve base_url do provider)
+- `OPENROUTER_BASE_URL` (OpenRouter - sobrescreve base_url do provider)
 - `HARNESS_PROVIDER`
 - `HARNESS_MODEL`
 
