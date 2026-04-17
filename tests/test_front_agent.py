@@ -119,6 +119,28 @@ def test_front_agent_completion_summary_aggregates_results(tmp_path: Path, monke
     assert "arquivos alterados: src/auth/login.py" in summary
 
 
+def test_front_agent_reason_shows_scoring_and_mode(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    home = tmp_path / "home"
+    monkeypatch.setenv("HOME", str(home))
+    _setup_global_config(home)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+
+    workspace = tmp_path / "project"
+    workspace.mkdir()
+    _seed_project(workspace)
+
+    agent = FrontAgent(workspace=workspace, non_interactive=True)
+    agent.boot(require_provider=True)
+    _ = agent._new_demand("implementar autenticação OAuth2 com Google de forma enterprise")
+
+    response = agent._reason()
+    assert "Decisão de modo desta demanda" in response
+    assert "Score:" in response
+    assert "Racional da decisão" in response
+    assert "Modelo em uso" in response
+    assert "- impacto_arquitetural" in response
+
+
 def test_doctor_reports_provider_base_url_and_override(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     home = tmp_path / "home"
     monkeypatch.setenv("HOME", str(home))

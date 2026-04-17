@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import os
 import re
@@ -354,17 +355,56 @@ class FrontAgent:
         if not self._active_run():
             return "Sem demanda ativa para explicação."
         payload = self.service.inspect()
-        decision = None
-        if payload.get("causal") and payload["causal"].get("classification"):
-            decision = payload["causal"]["classification"]
         run = payload["run"]
-        if isinstance(decision, dict):
-            return (
-                f"Modo decidido: {decision.get('mode', run.get('mode'))}\\n"
-                f"score: {decision.get('total_score')}\\n"
-                f"rationale: {decision.get('rationale')}"
+        run_workspace = Path(run["run_workspace"])
+        classification = {}
+        class_path = run_workspace / "artifacts" / "classification.json"
+        if class_path.exists():
+            try:
+                classification = json.loads(class_path.read_text())
+            except Exception:
+                classification = {}
+
+        mode = run.get("mode", "-")
+        rationale = ""
+        total_score = ""
+        dimensions = {}
+        override = {}
+
+        if isinstance(classification, dict):
+            mode = classification.get("mode", mode)
+            rationale = str(classification.get("rationale", "") or "")
+            total_score = str(classification.get("total_score", ""))
+            dimensions = classification.get("dimensions", {}) or {}
+            override = {
+                "applied": bool(classification.get("override_applied")),
+                "reason": classification.get("override_reason"),
+            }
+
+        summary = [
+            f"Decisão de modo desta demanda: {mode}",
+            f"Score: {total_score or '-'}",
+            f"Modelo em uso: {self.last_model or (self.config.model if self.config else '-')}",
+            f"Próxima ação: {run.get('next_action', '-')}",
+            f"Pendência humana: {run.get('pending_human_action') or '-'}",
+        ]
+
+        if rationale:
+            summary.append(f"Racional da decisão: {rationale}")
+        if dimensions:
+            ordered = sorted(
+                dimensions.items(),
+                key=lambda item: (-item[1], item[0]),
             )
-        return f"Mode atual da run: {run.get('mode', '-')}"
+            top_dimensions = ordered[:3]
+            for key, value in top_dimensions:
+                summary.append(f"- {key}: {value}")
+
+        if override["applied"]:
+            reason = override["reason"] or "ajuste explícito do operador"
+            summary.append(f"Override aplicado: {reason}")
+
+        return "\\n".join(summary)
 
     def _doctor(self) -> str:
         checks = [
