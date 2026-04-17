@@ -26,6 +26,7 @@ def test_operator_run_creates_canonical_workspace(tmp_path: Path):
     assert (root / 'runs').exists()
     assert (root / 'current-run.txt').exists()
     assert run_workspace.exists()
+    assert (run_workspace / 'logs' / 'event-log.jsonl').exists()
     assert (run_workspace / 'artifacts').exists()
     assert (run_workspace / 'reports').exists()
     assert (run_workspace / 'logs').exists()

@@ -161,7 +161,17 @@ class OperatorService:
         return self._run_dir(run_id) / "run.json"
 
     def _event_log_path(self, run_workspace: Path) -> Path:
+        return run_workspace / "logs" / "event-log.jsonl"
+
+    def _legacy_event_log_path(self, run_workspace: Path) -> Path:
         return run_workspace / "event-log.jsonl"
+
+    def _load_events(self, run_workspace: Path, event_type: str | None = None):
+        event_path = self._event_log_path(run_workspace)
+        legacy_path = self._legacy_event_log_path(run_workspace)
+        if not event_path.exists() and legacy_path.exists():
+            return load_events(legacy_path, event_type=event_type)
+        return load_events(event_path, event_type=event_type)
 
     def _load_json_if_exists(self, path: Path) -> Optional[dict]:
         if not path.exists():
@@ -630,7 +640,7 @@ class OperatorService:
             "runtime_hooks_executed",
         }
         timeline = []
-        for event in load_events(self._event_log_path(run_workspace)):
+        for event in self._load_events(run_workspace):
             if event.event_type not in interesting:
                 continue
             timeline.append({
@@ -1366,7 +1376,10 @@ class OperatorService:
 
     def events(self, limit: int = 20, event_type: Optional[str] = None, run_id: Optional[str] = None) -> list[dict]:
         record = self._load_run_record(run_id) if run_id else self.load_current_run()
-        return [event.to_dict() for event in load_events(Path(record.run_workspace) / "event-log.jsonl", event_type=event_type)[-limit:]]
+        event_path = self._event_log_path(Path(record.run_workspace))
+        legacy_path = self._legacy_event_log_path(Path(record.run_workspace))
+        events = load_events(event_path, event_type=event_type) if event_path.exists() else load_events(legacy_path, event_type=event_type)
+        return [event.to_dict() for event in events[-limit:]]
 
     def metrics(self, run_id: Optional[str] = None) -> dict:
         record = self._load_run_record(run_id) if run_id else self.load_current_run()
@@ -1378,7 +1391,7 @@ class OperatorService:
             feature=record.demand,
             mode=record.mode,
             output_path=output_path,
-            event_log_path=run_workspace / "event-log.jsonl",
             progress_path=run_workspace / "progress.json" if (run_workspace / "progress.json").exists() else None,
+            event_log_path=self._event_log_path(run_workspace),
         )
         return metrics.to_dict()
