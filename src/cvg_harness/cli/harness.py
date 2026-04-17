@@ -20,6 +20,7 @@ Fluxo principal:
 Comandos de produto:
   harness status      # consulta status da run ativa
   harness resume      # retoma a demanda ativa
+  harness inspect     # inspeciona artefatos e pendências da run ativa
   harness history     # mostra histórico da sessão atual
   harness config      # reexecuta onboarding
   harness doctor      # health check básico
