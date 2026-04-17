@@ -59,6 +59,35 @@ Digite sua instrução.
 > sair
 ```
 
+## Perfis de permissão (shell)
+
+O front-agent usa um arquivo de perfis para limitar os comandos de shell disponíveis para os tools (`ShellTool`).
+
+- Local padrão: `permissions-profiles.jsonc` na raiz do workspace
+- Perfil padrão: `balanced`
+- Perfis disponíveis: `safe`, `balanced`, `aggressive`
+
+Exemplo:
+
+```json
+{
+  "activeProfile": "balanced",
+  "profiles": {
+    "safe": {
+      "permissions": { "allow": ["Bash(python *)", "..."], "deny": ["Bash(rm -rf *)"] }
+    },
+    "balanced": {
+      "permissions": { "allow": ["Bash(git *)", "..."], "deny": ["Bash(rm -rf *)"] }
+    },
+    "aggressive": {
+      "permissions": { "allow": ["Bash(git *)", "Bash(curl *)", "..."], "deny": ["Bash(rm -rf *)"] }
+    }
+  }
+}
+```
+
+Para trocar o perfil ativo, altere apenas `activeProfile` no arquivo.
+
 ## Configuração e chaves de API
 
 - Arquivo global: `~/.config/harness/config.toml`
@@ -149,6 +178,7 @@ src/cvg_harness/
 - `harness status` → status da run ativa.
 - `harness resume` → retoma a run atual.
 - `harness history` → histórico dos últimos turnos da sessão.
+- `harness adapters` → lista adaptadores disponíveis para execução externa.
 - `harness doctor` → health básico do agente.
 - `harness config` → inicia onboarding novamente.
 - `harness debug` → namespace técnico antigo.
