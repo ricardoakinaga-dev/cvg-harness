@@ -269,7 +269,7 @@ class FrontAgent:
         if "research" in normalized:
             return "Pesquisando"
         if normalized.startswith("prd"):
-            return "Escrevendo PRD"
+            return "Escrevendo"
         if "spec" in normalized or "linter" in normalized:
             return "Escrevendo"
         if normalized in {"sprint_planner"}:
@@ -342,8 +342,8 @@ class FrontAgent:
             self.session.append_turn("user", prompt, request.route.value, "cli")
             if request.route == RouteType.EXIT:
                 self._activity.start("Finalizando")
-                print("Até mais.")
                 self._activity.success("Sessão encerrada")
+                print("Até mais.")
                 break
             output = self._dispatch(request)
             if output:
